@@ -2,39 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Chace&#39;s Blog</title>
-    <link>https://zhaohuabing.com/categories/</link>
+    <link>https://shichushi.com/categories/</link>
     <description>Recent content in Categories on Chace&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 04 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 30 Nov 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://zhaohuabing.com/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://shichushi.com/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Project</title>
+      <link>https://shichushi.com/categories/project/</link>
+      <pubDate>Sat, 30 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/categories/project/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Tech</title>
-      <link>https://zhaohuabing.com/categories/tech/</link>
-      <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
+      <link>https://shichushi.com/categories/tech/</link>
+      <pubDate>Sat, 01 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/categories/tech/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tips</title>
-      <link>https://zhaohuabing.com/categories/tips/</link>
-      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhaohuabing.com/categories/tips/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Life</title>
-      <link>https://zhaohuabing.com/categories/life/</link>
-      <pubDate>Tue, 01 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://zhaohuabing.com/categories/life/</guid>
+      <guid>https://shichushi.com/categories/tech/</guid>
       <description></description>
     </item>
     

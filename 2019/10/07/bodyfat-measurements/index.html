@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Chace&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://shichushi.com/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://shichushi.com/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Bodyfat Measurements" />
+    <meta property="og:title" content="Bodyfat Measurements" />
+    <meta property="twitter:title" content="Bodyfat Measurements" />
+    
+
+    
+    <meta name="description" content="precise “rule-of-thumb” method to estimate percentage of body fat">
+    <meta property="og:description" content="precise “rule-of-thumb” method to estimate percentage of body fat" />
+    <meta property="twitter:description" content="precise “rule-of-thumb” method to estimate percentage of body fat" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="史楚石, Chushi Shi, ShiChuShi, Chace Shi, 史楚石的网络日志, 史楚石的博客, shichushi Blog, chushi shi blog, 博客, 个人网站">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Bodyfat Measurements-Chushi | Chushi Shi</title>
+
+    <link rel="canonical" href="/2019/10/07/bodyfat-measurements/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Chace&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/project">project</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-06-04-introducing-the-istio-v1alpha3-routing-api/background.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/model-selection" title="Model Selection">
+                            Model Selection
+                        </a>
+                        
+                        <a class="tag" href="/tags/statistics-inference" title="Statistics Inference">
+                            Statistics Inference
+                        </a>
+                        
+                        <a class="tag" href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                    </div>
+                    <h1>Bodyfat Measurements</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                                Chushi Shi
+                         
+                        on 
+                        Monday, October 7, 2019
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#data-preprocessing">Data Preprocessing</a></li>
+    <li><a href="#multicollinearity">Multicollinearity</a></li>
+    <li><a href="#model-selection">Model Selection</a></li>
+    <li><a href="#diagnostics">Diagnostics</a></li>
+    <li><a href="#relationship-between-bodyfat-and-bmi">Relationship Between Bodyfat and BMI</a></li>
+    <li><a href="#diagnostics-1">Diagnostics</a></li>
+    <li><a href="#model-evaluation">Model Evaluation</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+                
+                <h2 id="introduction">Introduction</h2>
+<p>The body fat percentage (BFP) of a human or other living being is the total mass of fat divided by total body mass, multiplied by 100. It is a measure of fitness level. While the body fat percentage plays an important role in various health outcomes such as life expectancy, healthcare costs and the so on, it is quite difficult and costly to calculate. So it is practical to come up with a simple and accurate method to estimate body fat percentage.</p>
+<p>We can use multiple regression to determine the prediction equations for the determination of body fat percentage. The data set we used to analyze contains age, weight, height and 10 circumference measurements on 252 men. Each man's percentage of body fat was accurately estimated by Siri’s equation.</p>
+<h2 id="data-preprocessing">Data Preprocessing</h2>
+<p>According to the Siri's equation, $$ 100B= \frac{495}{D}-450 $$
+there should be a linear relationship between the two variables body fat and density. Since we are interested in body fat, we select it as the response variable.</p>
+<p><img src="/post_img/body-measurements/figure1.jpg" alt="Figure1"></p>
+<p>Firstly, we look through the summary statistics of all variables. We found that there are some abnormal observations. The body fat of observation 182 is 0 which must be an error and this could be handled by computing from the Siri's formula, which should be -3.6. Since there may exist an record error, we decide to delete it. The density of observation 216 is 0.995 smaller than the density of water. Since we do not use density and the other features are normal, we just keep this observation. The height of observation 42 is 29.50 which is so small, but the other features seem quite normal. We consider to impute it by BMI calculation, which should be 69.50.</p>
+<p>Secondly, we fit the linear regression with all observations and then use Cook’s distance to find the influential points of the model. From the Cook's distance plot, we identify observation 39 is obvious influential point. The subject weights 363 pounds which is very abnormal and all the other features are also quite big, for instance the hip, chest, abdomen circumstances. Then, we consider to delete it.</p>
+<p>After the data cleaning, we draw an influence plot. According to the influence plot, the studentized residuals are in the range $[-3,3]$ and the hat values are small. There are no obvious outliers and influential points. Hence we could do next step to construct the linear regression model.</p>
+<h2 id="multicollinearity">Multicollinearity</h2>
+<p>To determine which explanatory variables I need to construct the regression model, first I calculate the
+variance inflation factors of each $𝑋_k$, k=1,2,3,&hellip;14. A rule of thumb is that if the mean variance inflation
+factor is greater than 1, then there might exist multicollinearity. For each inflation factor VIF , if it’s
+greater than 10, the multicollinearity might have a significant influence. In this dataset, by using the VIF function in R’s “car” package.We may gain VIF shown below.</p>
+<p>Because mean VIF is 22.18 greater than 1. Hence, there might be the multicollinearity problem. From the table of VIF s shown above, we could identify the individual factor VIF of WEIGHT, HEIGHT and ADIPOSITY are much greater than 10, which indicates that multicollinearity may have a large impact on the inference.</p>
+<h2 id="model-selection">Model Selection</h2>
+<p>Next, in order to reduce multicollinearity, we need to reduce the model parameters. There are four famous criteron to select the predictor variables. The $R^2$ criterion, adjusted $R^2$ criterion, Mallow’s $C_p$ criterion, BIC/AIC criterion. The smaller Cp,BIC/AIC and the bigger adjusted $R^2$ criterion and $R^2$, the better the performance of the model fitting.
+I first use the &ldquo;regsubset&rdquo; function in R's &ldquo;leaps&rdquo; package to gain the best selection model with each best selection size 1 and selection among maximum size 14 of subsets to be examined.</p>
+<p><img src="/post_img/body-measurements/figure2.jpg" alt="Figure2"></p>
+<p>From the table shown above (Figure 2 Criterion table), we could identify that when 2 variables are selected based on the exhaustive search, the change of $R^2$, adjusted $R^2$, $C_p$ and BIC is the largest, indicating that select two variables would be enough to construct a suitable model. Based on the &ldquo;regsubset&rdquo; function, the model is $$ BODYFAT \sim WEIGHT+ABDOMEN$$</p>
+<p>Next we would use t test to check the significance of the coefficients (Figure 2 Model ouput). Because the p value of both the 2 variables amuch smaller than 0.05 and therefore the coefficients are significant. The model is effective.</p>
+<p>Then I use the &ldquo;step&rdquo; function in R and BIC criterion.The reason that I choose BIC criterion is that AIC will tend to overfitting. The direction of this process is “both” instead of exhaustive search we implemented before, which means we either add or delete the explanatory variable and compare BIC among them and choose the smallest BIC to gain the best model fitting explanatory variables. The result after a number of steps of choosing is $$BODYFAT \sim AGE + ADIPOSITY + CHEST + ABDOMEN + WRIST$$</p>
+<h2 id="diagnostics">Diagnostics</h2>
+<p><img src="/post_img/body-measurements/figure3.jpg" alt="Figure3"></p>
+<p>From the plot shown above, for Resudals vs Index plot both of them are patternless and therefore satisfy the independence. For Residuals vs Fitted plot, the vertical distance from the points to x axis are both nearly constant and patternless and therefore satisfying the homoscedasticity. For the Normal Q-Q plot the residual points of both models are almost in a line and thus the normality assumption should not be violated.</p>
+<h2 id="relationship-between-bodyfat-and-bmi">Relationship Between Bodyfat and BMI</h2>
+<p>Many papers talk about the relation between bodyfat and bmi and then they use bmi to assess bodyfat. Compared with the method mentioned above, the method on bmi is eaiser to measure and it is more convenient in daily life. Thus, next we compare the result of two models.</p>
+<p><img src="/post_img/body-measurements/figure4.jpg" alt="Figure4"></p>
+<p>From the scatter plot of BMI and lnBMI, we can find linear relation between BODYFAT and lnBMI is much better. Then, we need to test whether lnBMI can explain ABDOMEN well.</p>
+<p><img src="/post_img/body-measurements/figure5.jpg" alt="Figure5"></p>
+<p>We can see $R^2$ statistics is 0.8355, which means lnBMI can explain most information of ABDOMEN. So we can use lnBMI. And for reducing approximation error, we use WEIGHT and HEIGHT to construct a linear model.</p>
+<p><img src="/post_img/body-measurements/figure6.jpg" alt="Figure6"></p>
+<p>The $R^2$ is 0.5558, which is not bad under only one variable. So we get the model $$BODYFAT \sim ln(WEIGHT) + ln(HEIGHT^2)$$ Next, we check the model assumption.</p>
+<h2 id="diagnostics-1">Diagnostics</h2>
+<p><img src="/post_img/body-measurements/figure7.jpg" alt="Figure7"></p>
+<p>From the plot shown above, for Resudals vs Index plot both of them are patternless and therefore satisfy the independence. For Residuals vs Fitted plot, the vertical distance from the points to x axis are both nearly constant and patternless and therefore satisfying the homoscedasticity. For the Normal Q-Q plot the residual points of both models are almost in a line and thus the normality assumption should not be violated.</p>
+<h2 id="model-evaluation">Model Evaluation</h2>
+<p>Here, we get two models, the one is $$A：BODYFAT \sim WEIGHT + ABDOMEN$$ and the other is $$B：BODYFAT \sim ln(BMI) + AgeLevel$$ We split the dataset to train dataset and test dataset to test the robustness of the two model.</p>
+<p><img src="/post_img/body-measurements/figure8.jpg" alt="Figure8"></p>
+<p>We use Mean absolute error to test three models. From the result, we can find that these two model perform better than Onmi Model in the dataset. For our two model,  Model A is more accurate and Model B is much easier to measure. So we provide these two model for doctor.</p>
+<h2 id="summary">Summary</h2>
+<p>From the analysis above, we decide these three variables: WEIGHT, HEIGHT and ABDOMEN. Under the consideration of convenience, we will use model $$Model B: BODYFAT=347.72+44.44ln(WEIGHT) -50.49ln(HEIGHT^2)$$ And if we want a more accruate result, we will use $$Model A: BODYFAT= -42.5-0.12WEIGHT+0.90ABDOMEN$$</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li>
+<p>Shalabh, IIT Kanpur.Regression Analysis. 2002</p>
+</li>
+<li>
+<p>AceFitness, <a href="https://www.acefitness.org/education-and-resources/lifestyle/blog/112/what-are-the-guidelines-for-percentage-of-body-fat-loss">https://www.acefitness.org/education-and-resources/lifestyle/blog/112/what-are-the-guidelines-for-percentage-of-body-fat-loss</a></p>
+</li>
+<li>
+<p>Terence C. Mills, Predicting Body Fat Using Data on the BMI. 2005</p>
+</li>
+<li>
+<p>Army Regulation 600–9, Army Regulation 600–9. 2013</p>
+</li>
+</ul>
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://shichushi.com"><img src="/img/favicon.png" />Chace&#39;s Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/06/01/hello-world/" data-toggle="tooltip" data-placement="top" title="Welcome to Chace&#39;s Blog">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/11/30/yelp-data-analysis-and-visualization-on-web/" data-toggle="tooltip" data-placement="top" title="Yelp Data analysis and Visualization on Web">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="r-shiny">
+                            r-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+                <section>
+                    <hr>
+                    <h5>FRIENDS</h5>
+                    <ul class="list-inline">
+                        
+                        <li><a target="_blank" href=""></a></li>
+                        
+                    </ul>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Chace&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:cshi46@wisc.edu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Chauncey315">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/chushishi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Chace&#39;s Blog 2020. All rights reserved.
+                    <br>
+                    采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处
+                    <br>
+                    Powered by <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+    </script>
+    
+
+</body>
+</html>
