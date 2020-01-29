@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tops on Chace&#39;s Blog</title>
+    <link>https://zhaohuabing.com/top/</link>
+    <description>Recent content in Tops on Chace&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://zhaohuabing.com/top/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://zhaohuabing.com/top/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/top/about/</guid>
+      <description>Chushi(Chace) Shi, is a Master student in the Department of Statistics at the University of Wisconsin-Madison, and research on Causal Inference under the supervision of Prof. Hyunseung Kang.
+My father gives me the name, Chushi, because &amp;ldquo;Chu&amp;rdquo; in Chinese means Hubei Province, and &amp;ldquo;Shi&amp;rdquo; is my Chinese nick name &amp;ldquo;Shitou&amp;rdquo;(as Stone in English). By the way, my father&#39;s pseudonym was also &amp;ldquo;Chushi&amp;rdquo; when he was young. It is so meaningful and interesting!</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://zhaohuabing.com/top/books/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/top/books/</guid>
+      <description>Machine learning学习笔记 Coursera 在线课程 Machine learning 笔记讲师: 吴恩达(Andrew Ng) 课程地址：https://www.</description>
+    </item>
+    
+  </channel>
+</rss>
