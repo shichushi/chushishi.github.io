@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Chace&#39;s Blog</title>
@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Chace&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://shichushi.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bigdata Analysis</title>
+      <link>https://shichushi.com/tags/bigdata-analysis/</link>
+      <pubDate>Mon, 01 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/bigdata-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Model Selection</title>
+      <link>https://shichushi.com/tags/model-selection/</link>
+      <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/model-selection/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>NLP</title>
@@ -17,6 +35,15 @@
       <pubDate>Sat, 30 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/tags/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Networkx</title>
+      <link>https://shichushi.com/tags/networkx/</link>
+      <pubDate>Mon, 01 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/networkx/</guid>
       <description></description>
     </item>
     
@@ -39,11 +66,11 @@
     </item>
     
     <item>
-      <title>Model Selection</title>
-      <link>https://shichushi.com/tags/model-selection/</link>
-      <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
+      <title>Spark</title>
+      <link>https://shichushi.com/tags/spark/</link>
+      <pubDate>Mon, 01 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shichushi.com/tags/model-selection/</guid>
+      <guid>https://shichushi.com/tags/spark/</guid>
       <description></description>
     </item>
     
@@ -53,6 +80,15 @@
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/tags/statistics-inference/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Time Series</title>
+      <link>https://shichushi.com/tags/time-series/</link>
+      <pubDate>Mon, 01 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/time-series/</guid>
       <description></description>
     </item>
     

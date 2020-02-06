@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tech on Chace&#39;s Blog</title>
@@ -17,7 +17,7 @@
       <pubDate>Sat, 01 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/2019/06/01/hello-world/</guid>
-      <description> “Yeah It&#39;s on. ”
+      <description>  “Yeah It&amp;rsquo;s on. ”
  Hello World! </description>
     </item>
     

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Chace&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://shichushi.com/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://shichushi.com/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Urban Vibrancy and Safety Analysis in Philadelphia-EDA" />
+    <meta property="og:title" content="Urban Vibrancy and Safety Analysis in Philadelphia-EDA" />
+    <meta property="twitter:title" content="Urban Vibrancy and Safety Analysis in Philadelphia-EDA" />
+    
+
+    
+    <meta name="description" content="Analyzed 2.6 million crime data in Philadelphiain 2006-2019, found and visualized the pattern of crimes, and gave guidance to the government or individuals">
+    <meta property="og:description" content="Analyzed 2.6 million crime data in Philadelphiain 2006-2019, found and visualized the pattern of crimes, and gave guidance to the government or individuals" />
+    <meta property="twitter:description" content="Analyzed 2.6 million crime data in Philadelphiain 2006-2019, found and visualized the pattern of crimes, and gave guidance to the government or individuals" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="史楚石, Chushi Shi, ShiChuShi, Chace Shi, 史楚石的网络日志, 史楚石的博客, shichushi Blog, chushi shi blog, 博客, 个人网站">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Urban Vibrancy and Safety Analysis in Philadelphia-EDA-Chushi | Chushi Shi</title>
+
+    <link rel="canonical" href="/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Chace&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/project">Project</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">Tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/istio-install_and_example/post-bg.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/spark" title="Spark">
+                            Spark
+                        </a>
+                        
+                        <a class="tag" href="/tags/networkx" title="Networkx">
+                            Networkx
+                        </a>
+                        
+                        <a class="tag" href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
+                        
+                    </div>
+                    <h1>Urban Vibrancy and Safety Analysis in Philadelphia-EDA</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                                Chushi Shi
+                         
+                        on 
+                        Monday, July 1, 2019
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#glance-on-data">Glance on Data</a></li>
+</ul></li>
+<li><a href="#data-analysis-and-visualization">Data Analysis and Visualization</a>
+<ul>
+<li><a href="#quantities-of-crimes-by-category">Quantities of Crimes by Category</a></li>
+<li><a href="#quantities-crimes-by-district">Quantities Crimes by District</a></li>
+<li><a href="#visualize-on-heatmap">Visualize on HeatMap</a></li>
+<li><a href="#quantities-of-crimes-on-each-weekend-at-center-city">Quantities of Crimes on each Weekend at Center City</a></li>
+<li><a href="#quantities-of-crime-in-each-month-of-2016-2017-2018-2019">Quantities of Crime in each Month of 2016, 2017, 2018, 2019</a></li>
+<li><a href="#quantitis-of-crime-by-hour-in-2016-2017-2018">Quantitis of Crime by Hour in 2016, 2017, 2018</a></li>
+</ul></li>
+<li><a href="#deep-into-the-top-3-danger-disricts">Deep into the Top-3 Danger Disricts</a>
+<ul>
+<li><a href="#the-quantities-of-top-3-danger-district">The Quantities of Top 3 Danger District</a></li>
+<li><a href="#the-most-category-and-most-dangerous-time">The Most Category and Most Dangerous Time</a></li>
+<li><a href="#visualization-of-top-danger-district-on-heatmap">Visualization of Top-danger District on HeatMap</a></li>
+</ul></li>
+<li><a href="#dynamic-presentation-changes-of-crimes-over-time">Dynamic Presentation Changes of Crimes Over Time</a></li>
+<li><a href="#summary-on-eda">Summary on EDA</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                <p></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Philadelphia Crime Dataset comes from the Philadelphia Police Department. Crime incidents include two parts. Part I crimes(&lsquo;ucr_general&rsquo; &lt; 800) include violent offenses such as aggravated assault, rape, arson, among others. Part II crimes(&lsquo;ucr_general&rsquo; &gt; 800) include simple assault, prostitution, gambling, fraud, and other non-violent offenses.</p>
+
+<p>I want to use this dataset the analyze the structure of crimes and predict the occurence of crimes to give the advice to tourists for trips and to police for a more safe city.</p>
+
+<p>Firstly, I will use Spark SQL for big data EDA, and then do time series analysis.</p>
+
+<p>If you are interested in the full code, please feel free to contact me.</p>
+
+<p>Some notice:</p>
+
+<ol>
+<li><p>Dataset can be downloaded on <a href="https://www.opendataphilly.org/dataset/crime-incidents">Philadelphia Crime Data (From 2006 to Present)</a>, and it is real-time updated. In my work, the dataset have 2.6 million records from 2006-01-01~2019-12-15.</p></li>
+
+<li><p>This dataset previously had separate endpoints for various years and types of incidents. These have since been consolidated into a single dataset.</p></li>
+
+<li><p>There are something changes on police districts from 2011. Specifically, the 4th district was merged into the 3rd district; the 23rd was absored by the 22nd district; the 77th was absorbed by the 12th district; the 92nd district is now part of the 14th district. So some merges may be needed. Reference: <a href="https://wiki.radioreference.com/index.php/Philadelphia_County_(PA)">Philadelphia County (PA)</a></p></li>
+</ol>
+
+<h3 id="glance-on-data">Glance on Data</h3>
+
+<p>The columns and counts:
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure1.png" alt="Figure1" /></p>
+
+<p>Shoots on table:
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table1.png" alt="Table1" /></p>
+
+<h2 id="data-analysis-and-visualization">Data Analysis and Visualization</h2>
+
+<h3 id="quantities-of-crimes-by-category">Quantities of Crimes by Category</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table2.png" alt="Table2" /></p>
+
+<p>Barplot:
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure2.png" alt="Figure2" /></p>
+
+<p>From the result, we can find that non-violent crimes are dominated in Philly, and the quantities are decreased fast by category. In other word, there is significant difference between different catgories.</p>
+
+<h3 id="quantities-crimes-by-district">Quantities Crimes by District</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table3.png" alt="Table3" /></p>
+
+<p>Barplot:
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure3.png" alt="Figure3" /></p>
+
+<p>From the result, we can find that the Top3 danger districts are 15, 24 and 22. But actually, between different districts, the difference of quantities is litte.</p>
+
+<h3 id="visualize-on-heatmap">Visualize on HeatMap</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure4.png" alt="Figure4" /></p>
+
+<p>The heatmap confirms our analysis. The colors in districe 15, 24 and 22 are darker than other districts. But the colors of different districts are slightly different.</p>
+
+<h3 id="quantities-of-crimes-on-each-weekend-at-center-city">Quantities of Crimes on each Weekend at Center City</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table5.png" alt="Table5" /></p>
+
+<p>Heatmap:
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure5.png" alt="Figure5" /></p>
+
+<p>From the heatmap, we can find that the numbers of crimes are increased over the year, especially in 2018 and 2019. And January, Feberuary, Apirl and December are more safe than other months. So for a tourist, if s/he wants to go the center city, 4 four months mentioned above are recommended.</p>
+
+<h3 id="quantities-of-crime-in-each-month-of-2016-2017-2018-2019">Quantities of Crime in each Month of 2016, 2017, 2018, 2019</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table6.png" alt="Table6" /></p>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure6.png" alt="Figure6" /></p>
+
+<p>From the line plot, we can find that the quantities of crimes is increased over the month. In the frist six month(the end of year(December) to the middle of year June) are more safe than the later six month and it is consistant to our previous analysis. So, for a person who wants to travel to Philly, we recommend s/he comes here in first six month.</p>
+
+<h3 id="quantitis-of-crime-by-hour-in-2016-2017-2018">Quantitis of Crime by Hour in 2016, 2017, 2018</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table7.png" alt="Table7" /></p>
+
+<p>StackBarplot:
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure7.png" alt="Figure7" />
+From the barplot, we can find that the most danger duration is around 4pm, and from midnight to early morning, it is more safe. Actually, it is counterintuitive. I think the reason is that in the midnight, people think the outside is not safe, and they will be more vigilant and might not go outside. So there are fewer opportunities on crimes. However, in the day, especially in the afernoon, more people, less vigilant. It will induce more crimes incidents.</p>
+
+<h2 id="deep-into-the-top-3-danger-disricts">Deep into the Top-3 Danger Disricts</h2>
+
+<h3 id="the-quantities-of-top-3-danger-district">The Quantities of Top 3 Danger District</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table8.png" alt="Table8" /></p>
+
+<h3 id="the-most-category-and-most-dangerous-time">The Most Category and Most Dangerous Time</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/table9.png" alt="Table9" /></p>
+
+<h3 id="visualization-of-top-danger-district-on-heatmap">Visualization of Top-danger District on HeatMap</h3>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure8.png" alt="Figure8" />
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure9.png" alt="Figure9" />
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure10.png" alt="Figure10" /></p>
+
+<p>From the heatmap, we can get some insights as followed.<br />
+1. The main category of crimes, non-violent offenses, assualts and thefts, are same in three districts.<br />
+2. For most categories of crimes, after 8am, the quantities of crimes are increased over time and get the peak around 4pm which is consistant to our previous analysis, besides non-violent offense.<br />
+3. For non-violent offense, most frequently time period is midnight.<br />
+4. In the night, there are more crimes about drugs.</p>
+
+<h2 id="dynamic-presentation-changes-of-crimes-over-time">Dynamic Presentation Changes of Crimes Over Time</h2>
+
+<p><img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure11.png" alt="Figure11" />
+<img src="/post_img/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/figure12.png" alt="Figure12" /></p>
+
+<h2 id="summary-on-eda">Summary on EDA</h2>
+
+<p>From our analysis results, there are some advice for tourists and police.<br />
+1. The crimes in Philly is some light crimes, like non-violent offense, light assualts and thefts. It should be got more attentions from tourists and police.<br />
+2. Day does not mean safety! For most kinds of crimes, the quantities of crimes occuring in the day is more than that in the night. Tourists and policeman do not take it lightly in the day.<br />
+3. Night is still not safe, so please careful! In the night, tourist and police need to pay more attention on some offenses and drug crimes.<br />
+4. Districts 15, 24, 22 are three top-danger districts. Tourists need to pay more attention here and police should put more force here.<br />
+5. The first six months are more safe than later six month. Tourists can choose these duration to travel, and the police can arrange the force more better.</p>
+
+<p>Next, I will mainly focus on the trend of crimes and prediction.</p>
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://shichushi.com"><img src="/img/favicon.png" />Chace&#39;s Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-ts/" data-toggle="tooltip" data-placement="top" title="Urban Vibrancy and Safety Analysis in Philadelphia-TimeSeries">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/10/07/bodyfat-measurements/" data-toggle="tooltip" data-placement="top" title="Bodyfat Measurements">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/spark" title="Spark">
+                            Spark
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Chace&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:cshi46@wisc.edu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Chauncey315">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/chushishi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://stackoverflow.com/users/yourstackoverflowid">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Chace&#39;s Blog 2020. All rights reserved.
+                    <br>
+                    采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处
+                    <br>
+                    Powered by <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+    </script>
+    
+
+</body>
+</html>

@@ -106,11 +106,11 @@
                     
                         
                         <li>
-                            <a href="/categories/project">project</a>
+                            <a href="/categories/project">Project</a>
                         </li>
                         
                         <li>
-                            <a href="/categories/tech">tech</a>
+                            <a href="/categories/tech">Tech</a>
                         </li>
                         
                     
@@ -167,7 +167,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('https://img.zhaohuabing.com/in-post/2018-06-04-introducing-the-istio-v1alpha3-routing-api/background.jpg')
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-04-16-using-helm-to-deploy-to-kubernetes/buffalo.jpg')
     }
 </style>
 <header class="intro-header">
@@ -227,104 +227,149 @@
                     <h2>TOC</h2>
                 </header>
                 <nav id="TableOfContents">
-  <ul>
-    <li><a href="#background">Background</a></li>
-    <li><a href="#social-network-analysis">Social Network Analysis</a>
-      <ul>
-        <li><a href="#popularity-computation">Popularity Computation</a></li>
-        <li><a href="#insights-from-pr">Insights from PR</a></li>
-        <li><a href="#top-100-influencers-label">Top 100 Influencers Label</a></li>
-      </ul>
-    </li>
-    <li><a href="#nlp-sentiment-analysis">NLP: Sentiment Analysis</a>
-      <ul>
-        <li><a href="#preprocessing-the-review-texts">Preprocessing the review texts</a></li>
-        <li><a href="#calculating-the-weights-of-each-word">Calculating the weights of each word</a></li>
-        <li><a href="#calculating-the-polarity-of-each-word">Calculating the polarity of each word</a></li>
-        <li><a href="#result-top-words-in-each-category">Result: Top words in each category</a></li>
-        <li><a href="#example-thai">Example: Thai</a></li>
-      </ul>
-    </li>
-    <li><a href="#nlp-prediction">NLP: Prediction</a>
-      <ul>
-        <li><a href="#data-preparation">Data Preparation</a></li>
-        <li><a href="#model-naive-bayes-classifier">Model: Naive Bayes Classifier</a></li>
-      </ul>
-    </li>
-    <li><a href="#strength-and-weakness">Strength and Weakness</a>
-      <ul>
-        <li><a href="#pros">Pros.</a></li>
-        <li><a href="#cons">Cons.</a></li>
-      </ul>
-    </li>
-    <li><a href="#reference">Reference</a></li>
-  </ul>
+<ul>
+<li>
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#social-network-analysis">Social Network Analysis</a>
+<ul>
+<li><a href="#popularity-computation">Popularity Computation</a></li>
+<li><a href="#insights-from-pr">Insights from PR</a></li>
+<li><a href="#top-100-influencers-label">Top 100 Influencers Label</a></li>
+</ul></li>
+<li><a href="#nlp-sentiment-analysis">NLP: Sentiment Analysis</a>
+<ul>
+<li><a href="#preprocessing-the-review-texts">Preprocessing the review texts</a></li>
+<li><a href="#calculating-the-weights-of-each-word">Calculating the weights of each word</a></li>
+<li><a href="#calculating-the-polarity-of-each-word">Calculating the polarity of each word</a></li>
+<li><a href="#result-top-words-in-each-category">Result: Top words in each category</a></li>
+<li><a href="#example-thai">Example: Thai</a></li>
+</ul></li>
+<li><a href="#nlp-prediction">NLP: Prediction</a>
+<ul>
+<li><a href="#data-preparation">Data Preparation</a></li>
+<li><a href="#model-naive-bayes-classifier">Model: Naive Bayes Classifier</a></li>
+</ul></li>
+<li><a href="#strength-and-weakness">Strength and Weakness</a>
+<ul>
+<li><a href="#pros">Pros.</a></li>
+<li><a href="#cons">Cons.</a></li>
+</ul></li>
+<li><a href="#reference">Reference</a></li>
+</ul></li>
+</ul>
 </nav>
                 
-                <h2 id="background">Background</h2>
-<p>The Yelp dataset has both user and business data. There are 3172 Asian restaurants of five categories, Chinese, Japanese, Korean, Thai and Vietnamnese, in the Greater Toronto Area. Our goal is to provide the business insights from both the perspectives of business owners and users, so that business owners are able to improve their business from data-driven decisions. Our analysis will focus on three parts: social network, sentiment analysis and yelp rating prediction.</p>
+                <p></p>
+
+<h2 id="background">Background</h2>
+
+<p>The Yelp dataset has both user and business data. There are 3172 Asian restaurants of five categories, Chinese, Japanese, Korean, Thai and Vietnamnese, in the Greater Toronto Area. Our goal is to provide the business insights from both the perspectives of business owners and users, so that business owners are able to improve their business from data-driven decisions. Our analysis will focus on three parts: social network, sentiment analysis and yelp rating prediction. And the final result will publish on the <a href="https://yezoli.shinyapps.io/Yelp-Business-Analysis/">web</a>.</p>
+
 <p>Nowadays, social media becomes a trend. Instagram, Facebook, Snapchat, the social media impact is ubiquitous. By reconstructing and analyzing the social network of Yelp, we aim to search for target influencers for business in distinct categories. Moreover, connecting with customers is about knowing what they’re thinking and what they want. The first step to improve the business is to fully understand customers&rsquo; behaviours by social network.</p>
-<p>Moreover, the most valuable information is hidden in the review texts. By breaking down people's comments, people's sentiments will be naturally disclosed, enabling us to learn their preference and disfavour.</p>
+
+<p>Moreover, the most valuable information is hidden in the review texts. By breaking down people&rsquo;s comments, people&rsquo;s sentiments will be naturally disclosed, enabling us to learn their preference and disfavour.</p>
+
 <h2 id="social-network-analysis">Social Network Analysis</h2>
+
 <p>In order to effectively and effciently expand influence of each asian restaurant, we goal to build a user-to-user and user-to-business social network to find their top target customers for each business. Specifically, we see each user and business as a node in the network. And for the edge, we build user-to-user network with friend relationships between users, and user-to-business network with relations that a user had a review or gave a tip to a business.</p>
+
 <h3 id="popularity-computation">Popularity Computation</h3>
-<p>PageRank$^{[1]}$ is a very classic and accurate rank algorithm used by Larry Page to rank web pages and it works by counting the number and quality of links to a page to determine a rough estimate of how important the website is$^{[2]}$. Here is a key formula below: $$P R\left(p_{i}\right)=\frac{1-d}{N}+d \sum_{p_{j} \in M\left(p_{i}\right)} \frac{P R\left(p_{j}\right)}{L\left(p_{j}\right)}$$
-where $p_1,~p_2,~&hellip;,~p_N$ are the pages under consideration, $M(p_i)$ is the set of pages that link to $p_i$, $L(p_j)$ is the number of outbound links on page $p_j$, and $N$ is the total number of pages.<br>
+
+<p>PageRank$^{[1]}$ is a very classic and accurate rank algorithm used by Larry Page to rank web pages and it works by counting the number and quality of links to a page to determine a rough estimate of how important the website is$^{[2]}$. Here is a key formula below: $$P R\left(p<em>{i}\right)=\frac{1-d}{N}+d \sum</em>{p<em>{j} \in M\left(p</em>{i}\right)} \frac{P R\left(p<em>{j}\right)}{L\left(p</em>{j}\right)}$$
+where $p_1,~p_2,~&hellip;,~p_N$ are the pages under consideration, $M(p_i)$ is the set of pages that link to $p_i$, $L(p_j)$ is the number of outbound links on page $p_j$, and $N$ is the total number of pages.<br />
 In our situation, we treat each user and business as a &ldquo;web page&rdquo; to calculate the $P R$ and rank them. And the followed $Table 1$ and $Table 2$ show results.</p>
-<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/table1.png" alt="Table1">
-<img src="/post_img/yelp-data-analysis-and-visualization-on-web/table2.png" alt="Table2"></p>
+
+<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/table1.png" alt="Table1" />
+<img src="/post_img/yelp-data-analysis-and-visualization-on-web/table2.png" alt="Table2" /></p>
+
 <h3 id="insights-from-pr">Insights from PR</h3>
+
 <p>In the PR graph of user-to-user($Figure1$), it indicates that in the social network there are a little few powerful users can affect a large number of people. We define these users as $Influencer^{[3]}$ and main foucs on $Top~100~Influencer$.</p>
-<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/u2upr.png" alt="Figure1"></p>
-<p>We visualize the social network($Figure2$) of these influencer at a density of $2%$. Most edges(relations) point to a few nodes(users) which are influencer. In other words, if the business advertises these influencers specifically, it can increase the exposure and impact area of the advertisement, which will be more efficient.</p>
-<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/u2u_network.png" alt="Figure2"></p>
+
+<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/u2upr.png" alt="Figure1" /></p>
+
+<p>We visualize the social network($Figure2$) of these influencer at a density of $2\%$. Most edges(relations) point to a few nodes(users) which are influencer. In other words, if the business advertises these influencers specifically, it can increase the exposure and impact area of the advertisement, which will be more efficient.</p>
+
+<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/u2u_network.png" alt="Figure2" /></p>
+
 <h3 id="top-100-influencers-label">Top 100 Influencers Label</h3>
+
 <p>After we have selected the top 100 users, we can assign labels to each of them based on their preference toward various category. We are curious about their taste perference. Thus, we draw a plot of the number of reviews of each user in each category of asian restaurant. The $Figure3$ is as below.</p>
-<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/top100.png" alt="Figure2"></p>
+
+<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/top100.png" alt="Figure2" /></p>
+
 <p>In order to help business owners find their target influencers, we label each of the top users($Table3$), which represents the category of their favorite asian restaurants. By doing so, a business owner can find the most influential users by searching for its restaurant category. These users may do some help if business owners want to do some advertisements to stimulate consumption.</p>
-<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/table3.png" alt="Table2"></p>
+
+<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/table3.png" alt="Table2" /></p>
+
 <h2 id="nlp-sentiment-analysis">NLP: Sentiment Analysis</h2>
-<p>In order to gain insights of various types of restaurants, we aim to learn the characteristics of each category from the positive words and negative words in the user's reviews based on each words&rsquo; polarity score.</p>
+
+<p>In order to gain insights of various types of restaurants, we aim to learn the characteristics of each category from the positive words and negative words in the user&rsquo;s reviews based on each words&rsquo; polarity score.</p>
+
 <h3 id="preprocessing-the-review-texts">Preprocessing the review texts</h3>
+
 <p>We remove all the reviews written in foreign language. First, we labeled each review text. If the user rating stars are larger than 4 (including 4 stars), we labeled it as &lsquo;positive&rsquo;; else if the user rating stars are below 3 (including 3 stars), we labeled it as &lsquo;negative&rsquo;. Since the number of reviews above 4 stars and the number of review below 3 stars are balanced. Second, we calculate the number of words in each review, and use this as a feature to train our model. Third, we convert all the letters to lower case and remove all the punctuations. Also, we lemmatize each word. Fourth, I used NLTK stopwords dictionary. Also, I created a stop word list specifically for restaurants reviews, including &lsquo;restaurants&rsquo;, &lsquo;toronto&rsquo;, &lsquo;korean&rsquo;, &lsquo;chinese&rsquo;. By removing all the stop words, we wish increase the accuracy of our model.</p>
+
 <h3 id="calculating-the-weights-of-each-word">Calculating the weights of each word</h3>
-<p>We used bag of words approach to tokenize our review texts. It simply calculated the number of apperance of each word in the review texts. Since each word was treated as an individual feature, our feature matrix would be a high dimensional sparse matrix. By using Linear SVM, it will calculate the weights of each word in the review text in affecting the positivity/negativity of each review. The formula is as below: $$min_{w\in r^{N}}\frac{\lambda}{2}|w|^{2}+\frac{1}{m}\sum_{i=1}^{m}max{0,1-y_{i}w^{T}x_{i}}$$
-$w$ represents the weight of each words, and $x_{i}$ are feature, $y_{i}$ is the labeled class.</p>
+
+<p>We used bag of words approach to tokenize our review texts. It simply calculated the number of apperance of each word in the review texts. Since each word was treated as an individual feature, our feature matrix would be a high dimensional sparse matrix. By using Linear SVM, it will calculate the weights of each word in the review text in affecting the positivity/negativity of each review. The formula is as below: $$min<em>{w\in r^{N}}\frac{\lambda}{2}|w|^{2}+\frac{1}{m}\sum</em>{i=1}^{m}max{0,1-y<em>{i}w^{T}x</em>{i}}$$
+$w$ represents the weight of each words, and $x<em>{i}$ are feature, $y</em>{i}$ is the labeled class.</p>
+
 <h3 id="calculating-the-polarity-of-each-word">Calculating the polarity of each word</h3>
-<p>To explore insights of each category of restaurants, we calculate the polarity of sentiments of each word. The range of polarity is between 0 and 1. Closer to 1 means that the positive sentiment is stronger. Closer to -1 means that the negative sentiments is stronger. The formula is as below: $$Polarity(t,c)=score(t)*\frac{totalfrequency(t,c)}{numberofreviews(c)}$$
-where t refers to word, and c refers to category. Total Frequency(t,c) means the number of word t in the reviews of type c restaurants; number of reviews(c) refers to total number of reviews in category c; score t refers to the weight of each word t.</p>
+
+<p>To explore insights of each category of restaurants, we calculate the polarity of sentiments of each word. The range of polarity is between 0 and 1. Closer to 1 means that the positive sentiment is stronger. Closer to -1 means that the negative sentiments is stronger. The formula is as below: $$Polarity(t,c)=score(t)*\frac{totalfrequency(t,c)}{numberofreviews&copy;}$$
+where t refers to word, and c refers to category. Total Frequency(t,c) means the number of word t in the reviews of type c restaurants; number of reviews&copy; refers to total number of reviews in category c; score t refers to the weight of each word t.</p>
+
 <h3 id="result-top-words-in-each-category">Result: Top words in each category</h3>
-<p>The top positive($Figure3$) and negative($Figure4$) words are as below. People explicitly concern more about the taste of food than service. The taste of food directly impact the star ratings of restaurants, since &lsquo;delicious&rsquo;,&lsquo;taste&rsquo; and &lsquo;food&rsquo; are of high rank in both top positive and negative words. The polarity score of word &lsquo;delicious&rsquo; is way higher than the polarity score of word &lsquo;friendly&rsquo; though they are both in the top positive words in each category. In addition, we can tell people's preference and disfavour toward specific dishes and taste in each category. The detailed analysis result is in our Shiny App.</p>
-<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/positive.png" alt="Figure3">
-<img src="/post_img/yelp-data-analysis-and-visualization-on-web/negative.png" alt="Figure4"></p>
+
+<p>The top positive($Figure3$) and negative($Figure4$) words are as below. People explicitly concern more about the taste of food than service. The taste of food directly impact the star ratings of restaurants, since &lsquo;delicious&rsquo;,&lsquo;taste&rsquo; and &lsquo;food&rsquo; are of high rank in both top positive and negative words. The polarity score of word &lsquo;delicious&rsquo; is way higher than the polarity score of word &lsquo;friendly&rsquo; though they are both in the top positive words in each category. In addition, we can tell people&rsquo;s preference and disfavour toward specific dishes and taste in each category. The detailed analysis result is in our Shiny App.</p>
+
+<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/positive.png" alt="Figure3" />
+<img src="/post_img/yelp-data-analysis-and-visualization-on-web/negative.png" alt="Figure4" /></p>
+
 <h3 id="example-thai">Example: Thai</h3>
+
 <p>The chart of top ten positive($Figure5$) and negative($Figure6$) words are shown as below. Top positive words are &lsquo;delicious&rsquo;,&lsquo;friendly&rsquo;,&lsquo;curry&rsquo;, &lsquo;fresh&rsquo;, &lsquo;salad&rsquo;. From their polarity score, the taste of food always come to the first place and is clearly more important than the service. Some popular dishes are curry and salad. Since there are a lot of fresh fruit and vegetables used in Thai cuisine, the word &lsquo;fresh&rsquo; is not surprising($Figure7$).</p>
-<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/table3.png" alt="Table3">
-<img src="/post_img/yelp-data-analysis-and-visualization-on-web/table4.png" alt="Table4">
-<img src="/post_img/yelp-data-analysis-and-visualization-on-web/pn.png" alt="Figure5"></p>
+
+<p><img src="/post_img/yelp-data-analysis-and-visualization-on-web/table3.png" alt="Table3" />
+<img src="/post_img/yelp-data-analysis-and-visualization-on-web/table4.png" alt="Table4" />
+<img src="/post_img/yelp-data-analysis-and-visualization-on-web/pn.png" alt="Figure5" /></p>
+
 <h2 id="nlp-prediction">NLP: Prediction</h2>
+
 <h3 id="data-preparation">Data Preparation</h3>
+
 <p>We first clean the review text by the same tricks used in sentiment analysis. However, instead of bag of words, we use tf-idf to reflect the importance of each words in the review texts. Tf-idf will automatically filter the stop words because of their high frequencies in the review texts. We labeled all the reviews above 4 stars as &lsquo;positve&rsquo;, otherwise, we labled them as &lsquo;negative&rsquo;.</p>
+
 <h3 id="model-naive-bayes-classifier">Model: Naive Bayes Classifier</h3>
-<p>The accuracy of Naive Bayes is $81%$. The accuracy score calculate the proportion of number of correctly predicted positive reviews in total reviews. The precision and recall are $74%$ and $85%$.</p>
+
+<p>The accuracy of Naive Bayes is $81\%$. The accuracy score calculate the proportion of number of correctly predicted positive reviews in total reviews. The precision and recall are $74\%$ and $85\%$.</p>
+
 <h2 id="strength-and-weakness">Strength and Weakness</h2>
+
 <h3 id="pros">Pros.</h3>
+
 <ul>
 <li>We analyze the dataset from the perspectives of business owners. We spent efforts in reconstructing the social network to analyze the users&rsquo; behaviours.</li>
 <li>Our approach is easy to follow and intuitive.</li>
 </ul>
+
 <h3 id="cons">Cons.</h3>
+
 <ul>
 <li>In processing the texts, we remove all the reviews in foreign characters. In our analysis, we only focus on five categories of Asian restaurants, indicating that exclusion of foreign language comments may cause strong bias in the result. Based on our personal experience as Asians, we inclined to use our native language to write the reviews. Our analysis is based on the assumption that sentiments of reviews in English are the same as the sentiments of reviews in other language.</li>
 <li>The model and text preprocessing in the prediction are very weak. We should try more models to compare their perfomrances, or improve the accuracy of models by tuning the parametres.</li>
 <li>There are a lot of fake users in Yelp and it is very difficult to filter all the fake users.</li>
 </ul>
+
 <h2 id="reference">Reference</h2>
+
 <ul>
-<li>Page, Larry, &ldquo;PageRank: Bringing Order to the Web&rdquo;. Archived from the original on May 6, 2002. Retrieved 2016-09-11., Stanford Digital Library Project, talk. August 18, 1997 (archived 2002)</li>
+<li>Page, Larry, &ldquo;PageRank: Bringing Order to the Web&rdquo;. Archived from the original on May 6, 2002. Retrieved 2016-09-11., Stanford Digital Library Project, talk. August 18, 1997 (archived 2002)<br /></li>
 <li>PageRank. (n.d.). In Wikipedia. Retrieved 2002, from <a href="https://en.wikipedia.org/wiki/PageRank">https://en.wikipedia.org/wiki/PageRank</a></li>
-<li>KATONA, ZSOLT, et al. “Network Effects and Personal Influences: The Diffusion of an Online Social Network.” Journal of Marketing Research, vol. 48, no. 3, 2011, pp. 425–443. JSTOR, <a href="http://www.jstor.org/stable/23033849">www.jstor.org/stable/23033849</a>.</li>
-<li>Yu bo, Jiaxu Zhou, Yi Zhang, Yunong Cao,(2017) Identifying Restaurant Features via Sentiment Analysis on Yelp Reviews</li>
+<li>KATONA, ZSOLT, et al. “Network Effects and Personal Influences: The Diffusion of an Online Social Network.” Journal of Marketing Research, vol. 48, no. 3, 2011, pp. 425–443. JSTOR, www.jstor.org/stable/23033849.</li>
+<li>Yu bo, Jiaxu Zhou, Yi Zhang, Yunong Cao,(2017) Identifying Restaurant Features via Sentiment Analysis on Yelp Reviews<br /></li>
 </ul>
 
                 
@@ -401,12 +446,28 @@ where t refers to word, and c refers to category. Total Frequency(t,c) means the
                         
                         
                         
+                        <a href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
                         
                         
                         
                         
-                        <a href="/tags/r-shiny" title="r-shiny">
-                            r-shiny
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/spark" title="Spark">
+                            Spark
                         </a>
                         
                         
@@ -419,16 +480,6 @@ where t refers to word, and c refers to category. Total Frequency(t,c) means the
                 
 
                 
-                
-                <section>
-                    <hr>
-                    <h5>FRIENDS</h5>
-                    <ul class="list-inline">
-                        
-                        <li><a target="_blank" href=""></a></li>
-                        
-                    </ul>
-                </section>
                 
             </div>
         </div>
@@ -496,6 +547,15 @@ where t refers to word, and c refers to category. Total Frequency(t,c) means the
 		    
                     
                     
+                    <li>
+                        <a target="_blank" href="https://stackoverflow.com/users/yourstackoverflowid">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
                     
                     
                     

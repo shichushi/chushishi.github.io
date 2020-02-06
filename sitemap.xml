@@ -1,46 +1,6 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <url>
-    <loc>https://shichushi.com/categories/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/tags/nlp/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/post/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/categories/project/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/tags/r-shiny/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/tags/social-network/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/tags/</loc>
-    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
-  </url>
   
   <url>
     <loc>https://shichushi.com/2019/11/30/yelp-data-analysis-and-visualization-on-web/</loc>
@@ -53,18 +13,13 @@
   </url>
   
   <url>
-    <loc>https://shichushi.com/tags/model-selection/</loc>
-    <lastmod>2019-10-07T00:00:00+00:00</lastmod>
+    <loc>https://shichushi.com/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/</loc>
+    <lastmod>2019-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://shichushi.com/tags/statistics-inference/</loc>
-    <lastmod>2019-10-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shichushi.com/categories/tech/</loc>
-    <lastmod>2019-06-01T00:00:00+00:00</lastmod>
+    <loc>https://shichushi.com/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-ts/</loc>
+    <lastmod>2019-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -74,25 +29,113 @@
   
   <url>
     <loc>https://shichushi.com/search/placeholder/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shichushi.com/top/about/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shichushi.com/top/books/</loc>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/bigdata-analysis/</loc>
+    <lastmod>2019-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/</loc>
+    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/model-selection/</loc>
+    <lastmod>2019-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/nlp/</loc>
+    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/networkx/</loc>
+    <lastmod>2019-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/post/</loc>
+    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/categories/project/</loc>
+    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/r-shiny/</loc>
+    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shichushi.com/search/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/social-network/</loc>
+    <lastmod>2019-11-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/spark/</loc>
+    <lastmod>2019-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/statistics-inference/</loc>
+    <lastmod>2019-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/</loc>
+    <lastmod>2019-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/categories/tech/</loc>
+    <lastmod>2019-06-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/time-series/</loc>
+    <lastmod>2019-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shichushi.com/top/</loc>
+    <priority>0</priority>
   </url>
   
 </urlset>

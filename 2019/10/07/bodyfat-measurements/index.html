@@ -106,11 +106,11 @@
                     
                         
                         <li>
-                            <a href="/categories/project">project</a>
+                            <a href="/categories/project">Project</a>
                         </li>
                         
                         <li>
-                            <a href="/categories/tech">tech</a>
+                            <a href="/categories/tech">Tech</a>
                         </li>
                         
                     
@@ -227,77 +227,116 @@
                     <h2>TOC</h2>
                 </header>
                 <nav id="TableOfContents">
-  <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#data-preprocessing">Data Preprocessing</a></li>
-    <li><a href="#multicollinearity">Multicollinearity</a></li>
-    <li><a href="#model-selection">Model Selection</a></li>
-    <li><a href="#diagnostics">Diagnostics</a></li>
-    <li><a href="#relationship-between-bodyfat-and-bmi">Relationship Between Bodyfat and BMI</a></li>
-    <li><a href="#diagnostics-1">Diagnostics</a></li>
-    <li><a href="#model-evaluation">Model Evaluation</a></li>
-    <li><a href="#summary">Summary</a></li>
-    <li><a href="#reference">Reference</a></li>
-  </ul>
+<ul>
+<li>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#data-preprocessing">Data Preprocessing</a></li>
+<li><a href="#multicollinearity">Multicollinearity</a></li>
+<li><a href="#model-selection">Model Selection</a></li>
+<li><a href="#diagnostics">Diagnostics</a></li>
+<li><a href="#relationship-between-bodyfat-and-bmi">Relationship Between Bodyfat and BMI</a></li>
+<li><a href="#diagnostics-1">Diagnostics</a></li>
+<li><a href="#model-evaluation">Model Evaluation</a></li>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#reference">Reference</a></li>
+</ul></li>
+</ul>
 </nav>
                 
-                <h2 id="introduction">Introduction</h2>
+                <p></p>
+
+<h2 id="introduction">Introduction</h2>
+
 <p>The body fat percentage (BFP) of a human or other living being is the total mass of fat divided by total body mass, multiplied by 100. It is a measure of fitness level. While the body fat percentage plays an important role in various health outcomes such as life expectancy, healthcare costs and the so on, it is quite difficult and costly to calculate. So it is practical to come up with a simple and accurate method to estimate body fat percentage.</p>
-<p>We can use multiple regression to determine the prediction equations for the determination of body fat percentage. The data set we used to analyze contains age, weight, height and 10 circumference measurements on 252 men. Each man's percentage of body fat was accurately estimated by Siri’s equation.</p>
+
+<p>We can use multiple regression to determine the prediction equations for the determination of body fat percentage. The data set we used to analyze contains age, weight, height and 10 circumference measurements on 252 men. Each man&rsquo;s percentage of body fat was accurately estimated by Siri’s equation.</p>
+
 <h2 id="data-preprocessing">Data Preprocessing</h2>
-<p>According to the Siri's equation, $$ 100B= \frac{495}{D}-450 $$
+
+<p>According to the Siri&rsquo;s equation, $$ 100B= \frac{495}{D}-450 $$
 there should be a linear relationship between the two variables body fat and density. Since we are interested in body fat, we select it as the response variable.</p>
-<p><img src="/post_img/body-measurements/figure1.jpg" alt="Figure1"></p>
-<p>Firstly, we look through the summary statistics of all variables. We found that there are some abnormal observations. The body fat of observation 182 is 0 which must be an error and this could be handled by computing from the Siri's formula, which should be -3.6. Since there may exist an record error, we decide to delete it. The density of observation 216 is 0.995 smaller than the density of water. Since we do not use density and the other features are normal, we just keep this observation. The height of observation 42 is 29.50 which is so small, but the other features seem quite normal. We consider to impute it by BMI calculation, which should be 69.50.</p>
-<p>Secondly, we fit the linear regression with all observations and then use Cook’s distance to find the influential points of the model. From the Cook's distance plot, we identify observation 39 is obvious influential point. The subject weights 363 pounds which is very abnormal and all the other features are also quite big, for instance the hip, chest, abdomen circumstances. Then, we consider to delete it.</p>
+
+<p><img src="/post_img/body-measurements/figure1.jpg" alt="Figure1" /></p>
+
+<p>Firstly, we look through the summary statistics of all variables. We found that there are some abnormal observations. The body fat of observation 182 is 0 which must be an error and this could be handled by computing from the Siri&rsquo;s formula, which should be -3.6. Since there may exist an record error, we decide to delete it. The density of observation 216 is 0.995 smaller than the density of water. Since we do not use density and the other features are normal, we just keep this observation. The height of observation 42 is 29.50 which is so small, but the other features seem quite normal. We consider to impute it by BMI calculation, which should be 69.50.</p>
+
+<p>Secondly, we fit the linear regression with all observations and then use Cook’s distance to find the influential points of the model. From the Cook&rsquo;s distance plot, we identify observation 39 is obvious influential point. The subject weights 363 pounds which is very abnormal and all the other features are also quite big, for instance the hip, chest, abdomen circumstances. Then, we consider to delete it.</p>
+
 <p>After the data cleaning, we draw an influence plot. According to the influence plot, the studentized residuals are in the range $[-3,3]$ and the hat values are small. There are no obvious outliers and influential points. Hence we could do next step to construct the linear regression model.</p>
+
 <h2 id="multicollinearity">Multicollinearity</h2>
+
 <p>To determine which explanatory variables I need to construct the regression model, first I calculate the
 variance inflation factors of each $𝑋_k$, k=1,2,3,&hellip;14. A rule of thumb is that if the mean variance inflation
 factor is greater than 1, then there might exist multicollinearity. For each inflation factor VIF , if it’s
 greater than 10, the multicollinearity might have a significant influence. In this dataset, by using the VIF function in R’s “car” package.We may gain VIF shown below.</p>
+
 <p>Because mean VIF is 22.18 greater than 1. Hence, there might be the multicollinearity problem. From the table of VIF s shown above, we could identify the individual factor VIF of WEIGHT, HEIGHT and ADIPOSITY are much greater than 10, which indicates that multicollinearity may have a large impact on the inference.</p>
+
 <h2 id="model-selection">Model Selection</h2>
+
 <p>Next, in order to reduce multicollinearity, we need to reduce the model parameters. There are four famous criteron to select the predictor variables. The $R^2$ criterion, adjusted $R^2$ criterion, Mallow’s $C_p$ criterion, BIC/AIC criterion. The smaller Cp,BIC/AIC and the bigger adjusted $R^2$ criterion and $R^2$, the better the performance of the model fitting.
-I first use the &ldquo;regsubset&rdquo; function in R's &ldquo;leaps&rdquo; package to gain the best selection model with each best selection size 1 and selection among maximum size 14 of subsets to be examined.</p>
-<p><img src="/post_img/body-measurements/figure2.jpg" alt="Figure2"></p>
+I first use the &ldquo;regsubset&rdquo; function in R&rsquo;s &ldquo;leaps&rdquo; package to gain the best selection model with each best selection size 1 and selection among maximum size 14 of subsets to be examined.</p>
+
+<p><img src="/post_img/body-measurements/figure2.jpg" alt="Figure2" /></p>
+
 <p>From the table shown above (Figure 2 Criterion table), we could identify that when 2 variables are selected based on the exhaustive search, the change of $R^2$, adjusted $R^2$, $C_p$ and BIC is the largest, indicating that select two variables would be enough to construct a suitable model. Based on the &ldquo;regsubset&rdquo; function, the model is $$ BODYFAT \sim WEIGHT+ABDOMEN$$</p>
+
 <p>Next we would use t test to check the significance of the coefficients (Figure 2 Model ouput). Because the p value of both the 2 variables amuch smaller than 0.05 and therefore the coefficients are significant. The model is effective.</p>
+
 <p>Then I use the &ldquo;step&rdquo; function in R and BIC criterion.The reason that I choose BIC criterion is that AIC will tend to overfitting. The direction of this process is “both” instead of exhaustive search we implemented before, which means we either add or delete the explanatory variable and compare BIC among them and choose the smallest BIC to gain the best model fitting explanatory variables. The result after a number of steps of choosing is $$BODYFAT \sim AGE + ADIPOSITY + CHEST + ABDOMEN + WRIST$$</p>
+
 <h2 id="diagnostics">Diagnostics</h2>
-<p><img src="/post_img/body-measurements/figure3.jpg" alt="Figure3"></p>
+
+<p><img src="/post_img/body-measurements/figure3.jpg" alt="Figure3" /></p>
+
 <p>From the plot shown above, for Resudals vs Index plot both of them are patternless and therefore satisfy the independence. For Residuals vs Fitted plot, the vertical distance from the points to x axis are both nearly constant and patternless and therefore satisfying the homoscedasticity. For the Normal Q-Q plot the residual points of both models are almost in a line and thus the normality assumption should not be violated.</p>
+
 <h2 id="relationship-between-bodyfat-and-bmi">Relationship Between Bodyfat and BMI</h2>
+
 <p>Many papers talk about the relation between bodyfat and bmi and then they use bmi to assess bodyfat. Compared with the method mentioned above, the method on bmi is eaiser to measure and it is more convenient in daily life. Thus, next we compare the result of two models.</p>
-<p><img src="/post_img/body-measurements/figure4.jpg" alt="Figure4"></p>
+
+<p><img src="/post_img/body-measurements/figure4.jpg" alt="Figure4" /></p>
+
 <p>From the scatter plot of BMI and lnBMI, we can find linear relation between BODYFAT and lnBMI is much better. Then, we need to test whether lnBMI can explain ABDOMEN well.</p>
-<p><img src="/post_img/body-measurements/figure5.jpg" alt="Figure5"></p>
+
+<p><img src="/post_img/body-measurements/figure5.jpg" alt="Figure5" /></p>
+
 <p>We can see $R^2$ statistics is 0.8355, which means lnBMI can explain most information of ABDOMEN. So we can use lnBMI. And for reducing approximation error, we use WEIGHT and HEIGHT to construct a linear model.</p>
-<p><img src="/post_img/body-measurements/figure6.jpg" alt="Figure6"></p>
+
+<p><img src="/post_img/body-measurements/figure6.jpg" alt="Figure6" /></p>
+
 <p>The $R^2$ is 0.5558, which is not bad under only one variable. So we get the model $$BODYFAT \sim ln(WEIGHT) + ln(HEIGHT^2)$$ Next, we check the model assumption.</p>
+
 <h2 id="diagnostics-1">Diagnostics</h2>
-<p><img src="/post_img/body-measurements/figure7.jpg" alt="Figure7"></p>
+
+<p><img src="/post_img/body-measurements/figure7.jpg" alt="Figure7" /></p>
+
 <p>From the plot shown above, for Resudals vs Index plot both of them are patternless and therefore satisfy the independence. For Residuals vs Fitted plot, the vertical distance from the points to x axis are both nearly constant and patternless and therefore satisfying the homoscedasticity. For the Normal Q-Q plot the residual points of both models are almost in a line and thus the normality assumption should not be violated.</p>
+
 <h2 id="model-evaluation">Model Evaluation</h2>
+
 <p>Here, we get two models, the one is $$A：BODYFAT \sim WEIGHT + ABDOMEN$$ and the other is $$B：BODYFAT \sim ln(BMI) + AgeLevel$$ We split the dataset to train dataset and test dataset to test the robustness of the two model.</p>
-<p><img src="/post_img/body-measurements/figure8.jpg" alt="Figure8"></p>
+
+<p><img src="/post_img/body-measurements/figure8.jpg" alt="Figure8" /></p>
+
 <p>We use Mean absolute error to test three models. From the result, we can find that these two model perform better than Onmi Model in the dataset. For our two model,  Model A is more accurate and Model B is much easier to measure. So we provide these two model for doctor.</p>
+
 <h2 id="summary">Summary</h2>
+
 <p>From the analysis above, we decide these three variables: WEIGHT, HEIGHT and ABDOMEN. Under the consideration of convenience, we will use model $$Model B: BODYFAT=347.72+44.44ln(WEIGHT) -50.49ln(HEIGHT^2)$$ And if we want a more accruate result, we will use $$Model A: BODYFAT= -42.5-0.12WEIGHT+0.90ABDOMEN$$</p>
+
 <h2 id="reference">Reference</h2>
+
 <ul>
-<li>
-<p>Shalabh, IIT Kanpur.Regression Analysis. 2002</p>
-</li>
-<li>
-<p>AceFitness, <a href="https://www.acefitness.org/education-and-resources/lifestyle/blog/112/what-are-the-guidelines-for-percentage-of-body-fat-loss">https://www.acefitness.org/education-and-resources/lifestyle/blog/112/what-are-the-guidelines-for-percentage-of-body-fat-loss</a></p>
-</li>
-<li>
-<p>Terence C. Mills, Predicting Body Fat Using Data on the BMI. 2005</p>
-</li>
-<li>
-<p>Army Regulation 600–9, Army Regulation 600–9. 2013</p>
-</li>
+<li><p>Shalabh, IIT Kanpur.Regression Analysis. 2002</p></li>
+
+<li><p>AceFitness, <a href="https://www.acefitness.org/education-and-resources/lifestyle/blog/112/what-are-the-guidelines-for-percentage-of-body-fat-loss">https://www.acefitness.org/education-and-resources/lifestyle/blog/112/what-are-the-guidelines-for-percentage-of-body-fat-loss</a></p></li>
+
+<li><p>Terence C. Mills, Predicting Body Fat Using Data on the BMI. 2005</p></li>
+
+<li><p>Army Regulation 600–9, Army Regulation 600–9. 2013</p></li>
 </ul>
 
                 
@@ -346,7 +385,7 @@ I first use the &ldquo;regsubset&rdquo; function in R's &ldquo;leaps&rdquo; pack
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2019/06/01/hello-world/" data-toggle="tooltip" data-placement="top" title="Welcome to Chace&#39;s Blog">&larr;
+                        <a href="/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-eda/" data-toggle="tooltip" data-placement="top" title="Urban Vibrancy and Safety Analysis in Philadelphia-EDA">&larr;
                             Previous Post</a>
                     </li>
                     
@@ -379,12 +418,28 @@ I first use the &ldquo;regsubset&rdquo; function in R's &ldquo;leaps&rdquo; pack
                         
                         
                         
+                        <a href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
                         
                         
                         
                         
-                        <a href="/tags/r-shiny" title="r-shiny">
-                            r-shiny
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/spark" title="Spark">
+                            Spark
                         </a>
                         
                         
@@ -397,16 +452,6 @@ I first use the &ldquo;regsubset&rdquo; function in R's &ldquo;leaps&rdquo; pack
                 
 
                 
-                
-                <section>
-                    <hr>
-                    <h5>FRIENDS</h5>
-                    <ul class="list-inline">
-                        
-                        <li><a target="_blank" href=""></a></li>
-                        
-                    </ul>
-                </section>
                 
             </div>
         </div>
@@ -474,6 +519,15 @@ I first use the &ldquo;regsubset&rdquo; function in R's &ldquo;leaps&rdquo; pack
 		    
                     
                     
+                    <li>
+                        <a target="_blank" href="https://stackoverflow.com/users/yourstackoverflowid">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
                     
                     
                     
