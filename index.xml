@@ -21,6 +21,16 @@
     </item>
     
     <item>
+      <title>Moive Recommendation based on Collaborative Filter</title>
+      <link>https://shichushi.com/2019/10/20/moive-recommendation-based-on-collaborative-filter/</link>
+      <pubDate>Sun, 20 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/2019/10/20/moive-recommendation-based-on-collaborative-filter/</guid>
+      <description>Moive Recommendation based Collaborative Filter In this project, I will use an Alternating Least Squares (ALS) algorithm with Spark APIs to predict the ratings for the movies in MovieLens small dataset. And ALS in Spark APIs is based on Funk SVD, although the followed difference exists.
+ Its objective function is slightly different than Funk SVD: ALS uses L2 regularization while Funk uses L1 regularization Its training routine is different: ALS minimizes two loss functions alternatively; It first holds user matrix fixed and runs gradient descent with item matrix; then it holds item matrix fixed and runs gradient descent with user matrix Its scalability: ALS runs its gradient descent in parallel across multiple partitions of the underlying training data from a cluster of machines  About the dataset, explicit rating data, without additional user or item metadata or other information related to the user-item interactions.</description>
+    </item>
+    
+    <item>
       <title>Bodyfat Measurements</title>
       <link>https://shichushi.com/2019/10/07/bodyfat-measurements/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>

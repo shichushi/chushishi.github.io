@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Chace&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://shichushi.com/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://shichushi.com/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Moive Recommendation based on Collaborative Filter" />
+    <meta property="og:title" content="Moive Recommendation based on Collaborative Filter" />
+    <meta property="twitter:title" content="Moive Recommendation based on Collaborative Filter" />
+    
+
+    
+    <meta name="description" content="content and similarity recommended">
+    <meta property="og:description" content="content and similarity recommended" />
+    <meta property="twitter:description" content="content and similarity recommended" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="史楚石, Chushi Shi, ShiChuShi, Chace Shi, 史楚石的网络日志, 史楚石的博客, shichushi Blog, chushi shi blog, 博客, 个人网站">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Moive Recommendation based on Collaborative Filter-Chushi | Chushi Shi</title>
+
+    <link rel="canonical" href="/2019/10/20/moive-recommendation-based-on-collaborative-filter/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Chace&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/project">Project</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">Tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/istio-install_and_example/post-bg.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/recommender-system" title="Recommender System">
+                            Recommender System
+                        </a>
+                        
+                        <a class="tag" href="/tags/als" title="ALS">
+                            ALS
+                        </a>
+                        
+                        <a class="tag" href="/tags/spark" title="Spark">
+                            Spark
+                        </a>
+                        
+                    </div>
+                    <h1>Moive Recommendation based on Collaborative Filter</h1>
+                    <h2 class="subheading">A small exercise on recommendation system by ALS</h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                            Chushi Shi
+                         
+                        on 
+                        Sunday, October 20, 2019
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#moive-recommendation-based-collaborative-filter">Moive Recommendation based Collaborative Filter</a>
+<ul>
+<li><a href="#part1-data-etl-and-data-exploration">Part1: Data ETL and Data Exploration</a></li>
+</ul></li>
+<li><a href="#part-2-spark-sql-and-olap">Part 2: Spark SQL and OLAP</a>
+<ul>
+<li><a href="#2-1-the-number-of-users">2.1 The number of Users</a></li>
+<li><a href="#2-2-the-number-of-movies">2.2 The number of Movies</a></li>
+<li><a href="#2-3-the-number-of-movies-are-rated-by-users">2.3 The number of movies are rated by users</a></li>
+<li><a href="#2-4-the-number-of-movies-are-unrated-by-users-and-list">2.4 The number of movies are unrated by users and List</a></li>
+<li><a href="#2-5-list-movie-genres">2.5 List Movie Genres</a></li>
+<li><a href="#2-6-movie-for-each-category">2.6 Movie for Each Category</a></li>
+</ul></li>
+<li><a href="#part3-spark-als-based-approach-for-training-model">Part3: Spark ALS based approach for training model</a>
+<ul>
+<li><a href="#3-1-als-model-selection-and-evaluation">3.1 ALS Model Selection and Evaluation</a></li>
+</ul></li>
+<li><a href="#part4-model-testing">Part4: Model Testing</a></li>
+<li><a href="#part5-model-application-and-performance">Part5: Model Application and Performance</a>
+<ul>
+<li><a href="#5-1-recommend-moive-to-specific-users">5.1 Recommend moive to specific users</a></li>
+<li><a href="#5-2-similarity-moives-recommendation">5.2 Similarity Moives Recommendation</a></li>
+</ul></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                
+
+<h2 id="moive-recommendation-based-collaborative-filter">Moive Recommendation based Collaborative Filter</h2>
+
+<p>In this project, I will use an Alternating Least Squares (ALS) algorithm with Spark APIs to predict the ratings for the movies in <a href="https://grouplens.org/datasets/movielens/latest/">MovieLens small dataset</a>. And ALS in Spark APIs is based on Funk SVD, although the followed difference exists.</p>
+
+<ul>
+<li>Its objective function is slightly different than Funk SVD: ALS uses L2 regularization while Funk uses L1 regularization</li>
+<li>Its training routine is different: ALS minimizes two loss functions alternatively; It first holds user matrix fixed and runs gradient descent with item matrix; then it holds item matrix fixed and runs gradient descent with user matrix</li>
+<li>Its scalability: ALS runs its gradient descent in parallel across multiple partitions of the underlying training data from a cluster of machines</li>
+</ul>
+
+<p>About the dataset, explicit rating data, without additional user or item metadata or other information related to the user-item interactions. Hence, the features that we need as inputs are simply the user IDs, movie IDs, and the ratings assigned to each user and movie pair.</p>
+
+<pre><code class="language-python">import os
+os.environ[&quot;PYSPARK_PYTHON&quot;] = &quot;python3&quot;
+</code></pre>
+
+<p><style scoped>
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: &ldquo;Source Code Pro&rdquo;, &ldquo;Menlo&rdquo;, monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div></p>
+
+<h3 id="part1-data-etl-and-data-exploration">Part1: Data ETL and Data Exploration</h3>
+
+<pre><code class="language-python">movies_df = spark.read.load(&quot;/FileStore/tables/movies.csv&quot;, format='csv', header = True)
+ratings_df = spark.read.load(&quot;/FileStore/tables/ratings.csv&quot;, format='csv', header = True)
+links_df = spark.read.load(&quot;/FileStore/tables/links.csv&quot;, format='csv', header = True)
+tags_df = spark.read.load(&quot;/FileStore/tables/tags.csv&quot;, format='csv', header = True)
+</code></pre>
+
+<pre><code class="language-python">movies_df.show(5)
+</code></pre>
+
+<div class="ansiout">+-------+--------------------+--------------------+
+movieId|               title|              genres|
++-------+--------------------+--------------------+
+      1|    Toy Story (1995)|Adventure|Animati...|
+      2|      Jumanji (1995)|Adventure|Childre...|
+      3|Grumpier Old Men ...|      Comedy|Romance|
+      4|Waiting to Exhale...|Comedy|Drama|Romance|
+      5|Father of the Bri...|              Comedy|
++-------+--------------------+--------------------+
+only showing top 5 rows
+
+</div>
+
+<pre><code class="language-python">ratings_df.show(5)
+</code></pre>
+
+<div class="ansiout">+------+-------+------+---------+
+userId|movieId|rating|timestamp|
++------+-------+------+---------+
+     1|      1|   4.0|964982703|
+     1|      3|   4.0|964981247|
+     1|      6|   4.0|964982224|
+     1|     47|   5.0|964983815|
+     1|     50|   5.0|964982931|
++------+-------+------+---------+
+only showing top 5 rows
+
+</div>
+
+<pre><code class="language-python">links_df.show(5)
+</code></pre>
+
+<div class="ansiout">+-------+-------+------+
+movieId| imdbId|tmdbId|
++-------+-------+------+
+      1|0114709|   862|
+      2|0113497|  8844|
+      3|0113228| 15602|
+      4|0114885| 31357|
+      5|0113041| 11862|
++-------+-------+------+
+only showing top 5 rows
+
+</div>
+
+<pre><code class="language-python">tags_df.show(5)
+</code></pre>
+
+<div class="ansiout">+------+-------+---------------+----------+
+userId|movieId|            tag| timestamp|
++------+-------+---------------+----------+
+     2|  60756|          funny|1445714994|
+     2|  60756|Highly quotable|1445714996|
+     2|  60756|   will ferrell|1445714992|
+     2|  89774|   Boxing story|1445715207|
+     2|  89774|            MMA|1445715200|
++------+-------+---------------+----------+
+only showing top 5 rows
+
+</div>
+
+<pre><code class="language-python">tmp1 = ratings_df.groupBy(&quot;userID&quot;).count().toPandas()['count'].min()
+tmp2 = ratings_df.groupBy(&quot;movieId&quot;).count().toPandas()['count'].min()
+</code></pre>
+
+<div class="ansiout">
+For the users that rated movies and the movies that were rated:
+Minimum number of ratings per user is 20
+Minimum number of ratings per movie is 1
+</div>  
+
+<pre><code class="language-python">tmp1 = sum(ratings_df.groupBy(&quot;movieId&quot;).count().toPandas()['count'] == 1)
+tmp2 = ratings_df.select('movieId').distinct().count()
+</code></pre>
+
+<div class="ansiout">
+3446 out of 9724 movies are rated by only one user
+</div>
+
+<h2 id="part-2-spark-sql-and-olap">Part 2: Spark SQL and OLAP</h2>
+
+<pre><code class="language-python">movies_df.registerTempTable(&quot;movies&quot;)
+ratings_df.registerTempTable(&quot;ratings&quot;)
+links_df.registerTempTable(&quot;links&quot;)
+tags_df.registerTempTable(&quot;tags&quot;)
+</code></pre>
+
+<h3 id="2-1-the-number-of-users">2.1 The number of Users</h3>
+
+<pre><code class="language-python">count_user = spark.sql(&quot;SELECT COUNT(DISTINCT userId) AS number_of_users FROM ratings&quot;)
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>number_of_users</th></tr></thead><tbody><tr><td>610</td></tr></tbody></table></div>
+
+<h3 id="2-2-the-number-of-movies">2.2 The number of Movies</h3>
+
+<pre><code class="language-python">count_movie = spark.sql(&quot;SELECT COUNT(DISTINCT movieId) AS number_of_movies FROM movies&quot;)
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>number_of_movies</th></tr></thead><tbody><tr><td>9742</td></tr></tbody></table></div>
+
+<h3 id="2-3-the-number-of-movies-are-rated-by-users">2.3 The number of movies are rated by users</h3>
+
+<pre><code class="language-python">rated_movie = spark.sql(&quot;SELECT COUNT(DISTINCT movieId) as number_of_rated_movies FROM ratings&quot;)
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>number_of_rated_movies</th></tr></thead><tbody><tr><td>9724</td></tr></tbody></table></div>
+
+<h3 id="2-4-the-number-of-movies-are-unrated-by-users-and-list">2.4 The number of movies are unrated by users and List</h3>
+
+<pre><code class="language-python">count_unrated_movie =spark.sql(&quot;SELECT COUNT(DISTINCT m.movieId) AS numbers_of_unrated_movies\
+                                FROM movies m LEFT JOIN ratings r ON m.movieId = r.movieId\
+                                WHERE r.rating IS NULL&quot;) 
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>numbers_of_unrated_movies</th></tr></thead><tbody><tr><td>18</td></tr></tbody></table></div>
+
+<pre><code class="language-python">unrated_movie = spark.sql(&quot;SELECT m.movieId, m.title, m.genres\
+                          FROM movies m LEFT JOIN ratings r ON m.movieId = r.movieId\
+                          WHERE r.rating IS NULL&quot;)
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>movieId</th><th>title</th><th>genres</th></tr></thead><tbody><tr><td>1076</td><td>Innocents, The (1961)</td><td>Drama|Horror|Thriller</td></tr><tr><td>2939</td><td>Niagara (1953)</td><td>Drama|Thriller</td></tr><tr><td>3338</td><td>For All Mankind (1989)</td><td>Documentary</td></tr><tr><td>3456</td><td>Color of Paradise, The (Rang-e khoda) (1999)</td><td>Drama</td></tr><tr><td>4194</td><td>I Know Where I'm Going! (1945)</td><td>Drama|Romance|War</td></tr><tr><td>5721</td><td>Chosen, The (1981)</td><td>Drama</td></tr><tr><td>6668</td><td>Road Home, The (Wo de fu qin mu qin) (1999)</td><td>Drama|Romance</td></tr><tr><td>6849</td><td>Scrooge (1970)</td><td>Drama|Fantasy|Musical</td></tr><tr><td>7020</td><td>Proof (1991)</td><td>Comedy|Drama|Romance</td></tr><tr><td>7792</td><td>Parallax View, The (1974)</td><td>Thriller</td></tr><tr><td>...</td><td>...</td><td>...</td></tr></tbody></table></div>
+
+<h3 id="2-5-list-movie-genres">2.5 List Movie Genres</h3>
+
+<pre><code class="language-python">genres_movie = spark.sql(&quot;SELECT DISTINCT genres FROM movies&quot;)
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>genres</th></tr></thead><tbody><tr><td>Comedy|Horror|Thriller</td></tr><tr><td>Adventure|Sci-Fi|Thriller</td></tr><tr><td>Action|Adventure|Drama|Fantasy</td></tr><tr><td>Action|Drama|Horror</td></tr><tr><td>Action|Animation|Comedy|Sci-Fi</td></tr><tr><td>Animation|Children|Drama|Musical|Romance</td></tr><tr><td>Action|Adventure|Drama</td></tr><tr><td>Adventure|Sci-Fi</td></tr><tr><td>Documentary|Musical|IMAX</td></tr><tr><td>Adventure|Children|Fantasy|Sci-Fi|Thriller</td></tr><tr><td>...</td></tr></tbody></table></div>
+
+<pre><code class="language-python">genres_split = spark.sql(&quot;SELECT DISTINCT explode(split(genres,'[\\|]')) as genres FROM movies&quot;) # \\| need add []
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>genres</th></tr></thead><tbody><tr><td>Crime</td></tr><tr><td>Romance</td></tr><tr><td>Thriller</td></tr><tr><td>Adventure</td></tr><tr><td>Drama</td></tr><tr><td>War</td></tr><tr><td>Documentary</td></tr><tr><td>...</td></tr></tbody></table></div>
+
+<h3 id="2-6-movie-for-each-category">2.6 Movie for Each Category</h3>
+
+<pre><code class="language-python">count_genres = spark.sql(&quot;SELECT genres, COUNT(*) as counts\
+                         FROM (SELECT explode(split(genres,'[\\|]')) as genres FROM movies)\
+                         GROUP BY genres&quot;)
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>genres</th><th>counts</th></tr></thead><tbody><tr><td>Crime</td><td>1199</td></tr><tr><td>Romance</td><td>1596</td></tr><tr><td>Thriller</td><td>1894</td></tr><tr><td>Adventure</td><td>1263</td></tr><tr><td>Drama</td><td>4361</td></tr><tr><td>War</td><td>382</td></tr><tr><td>Documentary</td><td>440</td></tr><tr><td>Fantasy</td><td>779</td></tr><tr><td>Mystery</td><td>573</td></tr><tr><td>Musical</td><td>334</td></tr><td>...</td><td>...</td></tr></tbody></table></div>
+
+<pre><code class="language-python">list_genres = spark.sql(&quot;SELECT genres, collect_list(title)\
+                         FROM (SELECT title, explode(split(genres,'[\\|]')) as genres FROM movies)\
+                         GROUP BY genres&quot;) # collect_list in Spark, group_concat in mysql
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>genres</th><th>collect_list(title)</th></tr></thead><tbody><tr><td>Crime</td><td>List(Heat (1995), Casino (1995), Money Train (1995), Get Shorty (1995), Copycat (1995), Assassins (1995), Shanghai Triad (Yao a yao yao dao waipo qiao) (1995), Dead Man Walking (1995), Dead Presidents (1995), Usual Suspects, The (1995), Don't Be a Menace to South Central While Drinking Your Juice in the Hood (1996), Crossing Guard, The (1995),...</td></tr></tbody></table></div>
+
+<h2 id="part3-spark-als-based-approach-for-training-model">Part3: Spark ALS based approach for training model</h2>
+
+<p>We will use an Spark ML to predict the ratings, so let&rsquo;s reload &ldquo;ratings.csv&rdquo; using <code>sc.textFile</code> and then convert it to the form of (user, item, rating) tuples.</p>
+
+<pre><code class="language-python">ratings_df.show()
+</code></pre>
+
+<div class="ansiout">+------+-------+------+---------+
+userId|movieId|rating|timestamp|
++------+-------+------+---------+
+     1|      1|   4.0|964982703|
+     1|      3|   4.0|964981247|
+     1|      6|   4.0|964982224|
+     1|     47|   5.0|964983815|
+     1|     50|   5.0|964982931|
+     1|     70|   3.0|964982400|
+     1|    101|   5.0|964980868|
+     1|    110|   4.0|964982176|
+     1|    151|   5.0|964984041|
+     1|    157|   5.0|964984100|
+     1|    163|   5.0|964983650|
+     1|    216|   5.0|964981208|
+     1|    223|   3.0|964980985|
+     1|    231|   5.0|964981179|
+     1|    235|   4.0|964980908|
+     1|    260|   5.0|964981680|
+     1|    296|   3.0|964982967|
+     1|    316|   3.0|964982310|
+     1|    333|   5.0|964981179|
+     1|    349|   4.0|964982563|
++------+-------+------+---------+
+only showing top 20 rows
+
+</div>
+
+<pre><code class="language-python">movie_ratings.show()
+</code></pre>
+
+<div class="ansiout">+------+-------+------+
+userId|movieId|rating|
++------+-------+------+
+     1|      1|   4.0|
+     1|      3|   4.0|
+     1|      6|   4.0|
+     1|     47|   5.0|
+     1|     50|   5.0|
+     1|     70|   3.0|
+     1|    101|   5.0|
+     1|    110|   4.0|
+     1|    151|   5.0|
+     1|    157|   5.0|
+     1|    163|   5.0|
+     1|    216|   5.0|
+     1|    223|   3.0|
+     1|    231|   5.0|
+     1|    235|   4.0|
+     1|    260|   5.0|
+     1|    296|   3.0|
+     1|    316|   3.0|
+     1|    333|   5.0|
+     1|    349|   4.0|
++------+-------+------+
+only showing top 20 rows
+
+</div>
+
+<h3 id="3-1-als-model-selection-and-evaluation">3.1 ALS Model Selection and Evaluation</h3>
+
+<p>With the ALS model, we can use a grid search to find the optimal hyperparameters and Cross-Validation to determine the best model.</p>
+
+<pre><code class="language-python"># import package
+from pyspark.ml.evaluation import RegressionEvaluator
+from pyspark.ml.recommendation import ALS
+from pyspark.ml.tuning import CrossValidator,ParamGridBuilder
+from pyspark.ml import Pipeline
+</code></pre>
+
+<pre><code class="language-python">#Create test and train set
+(training,test)=movie_ratings.randomSplit([0.8,0.2], seed=1)
+</code></pre>
+
+<p>Now we split the data into training/testing sets using a <sup>8</sup>&frasl;<sub>2</sub> ratio. Next, we construct a pipeline to train the model.</p>
+
+<pre><code class="language-python">#Create ALS model
+als = ALS(maxIter=20, implicitPrefs=False, userCol=&quot;userId&quot;, itemCol=&quot;movieId&quot;, ratingCol=&quot;rating&quot;, coldStartStrategy=&quot;drop&quot;, seed=1)
+pipeline = Pipeline(stages=[als])
+</code></pre>
+
+<pre><code class="language-python">#Tune model using ParamGridBuilder
+# Penalties = [0.1, 1, 10]
+# Ranks = [5, 10, 15]
+Penalties = [0.05, 0.1, 0.3]
+Ranks = [4, 5, 6]
+params = ParamGridBuilder() \
+			.addGrid(als.regParam, Penalties) \
+			.addGrid(als.rank, Ranks) \
+			.build()
+</code></pre>
+
+<p>Here, we construct grid-search spaces seperately so as to find a best set of hyperparameter.</p>
+
+<pre><code class="language-python"># Define evaluator as RMSE
+evaluator = RegressionEvaluator(metricName=&quot;rmse&quot;, labelCol=&quot;rating&quot;, predictionCol=&quot;prediction&quot;)
+</code></pre>
+
+<pre><code class="language-python"># Build Cross validation 
+validator = CrossValidator(estimator=pipeline,
+			estimatorParamMaps=params,
+			evaluator=evaluator,
+			numFolds=5)
+</code></pre>
+
+<pre><code class="language-python">#Fit ALS model to training data
+model = validator.fit(training)
+</code></pre>
+
+<pre><code class="language-python">#Extract best model from the tuning exercise using ParamGridBuilder
+bestPipeline = model.bestModel
+best_model = bestPipeline.stages[0]
+print(best_model)
+</code></pre>
+
+<div class="ansiout">ALS_c9416d4421ec
+</div>
+
+<p>Finally, we have got the best ALS model by the pipeline.</p>
+
+<h2 id="part4-model-testing">Part4: Model Testing</h2>
+
+<p>And finally, make a prediction and check the testing error.</p>
+
+<pre><code class="language-python">#Generate predictions and evaluate using RMSE
+predictions=best_model.transform(test)
+rmse = evaluator.evaluate(predictions)
+</code></pre>
+
+<div class="ansiout">RMSE = 0.8788435024869931
+**Best Model**
+ Rank:5
+ MaxIter:10
+ RegParam:0.1
+</div>
+
+<div class="ansiout">+------+-------+------+----------+
+userId|movieId|rating|prediction|
++------+-------+------+----------+
+   409|    471|   3.0| 3.9552522|
+   462|    471|   2.5|  2.851897|
+   171|    471|   3.0|  4.805005|
+   273|    471|   5.0|  3.852094|
+   608|    471|   1.5|  2.774652|
+   426|    471|   5.0| 2.6703415|
+   104|    471|   4.5| 3.4566317|
+   599|    833|   1.5| 1.5119727|
+   132|   1088|   4.0| 2.8785248|
+   583|   1088|   3.5| 3.0125678|
+    51|   1088|   4.0| 2.9268432|
+   221|   1088|   3.0| 2.8753495|
+   200|   1088|   4.0| 3.4683278|
+   600|   1088|   3.5| 2.3653853|
+   104|   1088|   3.0| 3.6031222|
+   599|   1342|   2.5| 1.8450999|
+   425|   1342|   3.5| 2.1674368|
+   312|   1342|   4.0|  2.741263|
+   600|   1342|   2.5| 2.3474672|
+   597|   1580|   3.0| 3.7714267|
++------+-------+------+----------+
+only showing top 20 rows
+
+</div>
+
+<h2 id="part5-model-application-and-performance">Part5: Model Application and Performance</h2>
+
+<pre><code class="language-python">alldata=best_model.transform(movie_ratings)
+rmse = evaluator.evaluate(alldata)
+</code></pre>
+
+<div class="ansiout">RMSE = 0.691072537580831
+</div>
+
+<pre><code class="language-python">%sql select * from alldata
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>userId</th><th>movieId</th><th>rating</th><th>prediction</th></tr></thead><tbody><tr><td>133</td><td>471</td><td>4.0</td><td>2.902818</td></tr><tr><td>597</td><td>471</td><td>2.0</td><td>3.7455812</td></tr><tr><td>385</td><td>471</td><td>4.0</td><td>3.1741712</td></tr><tr><td>436</td><td>471</td><td>3.0</td><td>2.9779127</td></tr><tr><td>602</td><td>471</td><td>4.0</td><td>3.6290941</td></tr><tr><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody></table></div>
+
+<pre><code class="language-python">%sql select * from movies join alldata on movies.movieId=alldata.movieId
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>movieId</th><th>title</th><th>genres</th><th>userId</th><th>movieId</th><th>rating</th><th>prediction</th></tr></thead><tbody><tr><td>471</td><td>Hudsucker Proxy, The (1994)</td><td>Comedy</td><td>133</td><td>471</td><td>4.0</td><td>2.902818</td></tr><tr><td>471</td><td>Hudsucker Proxy, The (1994)</td><td>Comedy</td><td>597</td><td>471</td><td>2.0</td><td>3.7455812</td></tr><tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody></table></div>
+
+<h3 id="5-1-recommend-moive-to-specific-users">5.1 Recommend moive to specific users</h3>
+
+<p>Here, we use the model to recommend movies to user with id: 232, 575.</p>
+
+<pre><code class="language-python">users = spark.sql(&quot;SELECT userId FROM alldata WHERE userId in (575, 232)&quot;)
+userSubsetRecs = best_model.recommendForUserSubset(users, 10)
+</code></pre>
+
+<div class='table-result-container'><table class='table-result'><thead style='background-color: white'><tr><th>userId</th><th>recommendations</th></tr></thead><tbody><tr><td>232</td><td>List(List(5075, 5.0965967), List(945, 4.849269), List(33649, 4.8410416), List(7841, 4.8211684), List(59018, 4.8211684), List(7481, 4.8211684), List(3200, 4.8078384), List(68945, 4.7229285), List(84847, 4.6526866), List(67618, 4.642557))</td></tr><tr><td>575</td><td>List(List(86377, 6.342738), List(86345, 6.003742), List(306, 5.8049293), List(158872, 5.7835503), List(123, 5.7686925), List(3200, 5.702606), List(68945, 5.649667), List(1172, 5.644409), List(82, 5.586439), List(100714, 5.5348926))</td></tr></tbody></table></div>
+
+<h3 id="5-2-similarity-moives-recommendation">5.2 Similarity Moives Recommendation</h3>
+
+<p>Here, we want to find the movies similar to movie with id: 463, 471.</p>
+
+<pre><code class="language-python">item_matrix = best_model.itemFactors
+</code></pre>
+
+<p>For convenience, I use koalas to transfer and process the spark dataframe.</p>
+
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+import databricks.koalas as ks
+from pyspark.sql import SparkSession
+kdf_item = item_matrix.to_koalas()
+kdf_alldata = alldata.to_koalas()
+</code></pre>
+
+<pre><code class="language-python"># Measure similarity by cosine
+def cosineSimilarity(v1, v2):
+  v1_norm = np.linalg.norm(v1) # default norm2
+  v2_norm = np.linalg.norm(v2)
+  return v1.dot(v2)/(v1_norm * v2_norm)
+
+v1 = kdf_item.features.to_numpy()
+cosineSimilarity(v1, v1)
+</code></pre>
+
+<div class="ansiout"></div>
+
+<h2 id="summary">Summary</h2>
+
+<ol>
+<li>Built a recommender system based on alternate least squares (ALS) algorithm for a dataset with 100,000 ratings and 3,600 million tag applications applied to 9,000 movies by 600 users.<br /></li>
+<li>step 1. Built EDA to analyze movie ratings and conducted OLAP with Spark SQL.</li>
+<li>step 2. Construct User and movie feature matrixs.</li>
+<li>step 3. Train model based grid search and cross-validation and implemented ALS model by spark pipeline.<br /></li>
+<li>result: RMSE of predication is 0.89, and achieve movie, user and similarity recommendation based cosine similarity measurement.</li>
+</ol>
+
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://shichushi.com"><img src="/img/favicon.png" />Chace&#39;s Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/10/07/bodyfat-measurements/" data-toggle="tooltip" data-placement="top" title="Bodyfat Measurements">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/11/30/yelp-data-analysis-and-visualization-on-web/" data-toggle="tooltip" data-placement="top" title="Yelp Data analysis and Visualization on Web">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/spark" title="Spark">
+                            Spark
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Chace&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:cshi46@wisc.edu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Chauncey315">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/chushishi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://stackoverflow.com/users/yourstackoverflowid">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Chace&#39;s Blog 2020. All rights reserved.
+                    <br>
+                    采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处
+                    <br>
+                    Powered by <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+    </script>
+    
+
+</body>
+</html>

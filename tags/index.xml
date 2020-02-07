@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Chace&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 20 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://shichushi.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ALS</title>
+      <link>https://shichushi.com/tags/als/</link>
+      <pubDate>Sun, 20 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/als/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Bigdata Analysis</title>
@@ -57,6 +66,15 @@
     </item>
     
     <item>
+      <title>Recommender System</title>
+      <link>https://shichushi.com/tags/recommender-system/</link>
+      <pubDate>Sun, 20 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/recommender-system/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Social Network</title>
       <link>https://shichushi.com/tags/social-network/</link>
       <pubDate>Sat, 30 Nov 2019 00:00:00 +0000</pubDate>
@@ -68,7 +86,7 @@
     <item>
       <title>Spark</title>
       <link>https://shichushi.com/tags/spark/</link>
-      <pubDate>Mon, 01 Jul 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 20 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/tags/spark/</guid>
       <description></description>
