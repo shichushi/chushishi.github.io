@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Chace&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://shichushi.com/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://shichushi.com/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Customer Churn Prediction in Telecommunications Industry" />
+    <meta property="og:title" content="Customer Churn Prediction in Telecommunications Industry" />
+    <meta property="twitter:title" content="Customer Churn Prediction in Telecommunications Industry" />
+    
+
+    
+    <meta name="description" content="Developed algorithms for telecommunications service vendors to predict customer churn probability">
+    <meta property="og:description" content="Developed algorithms for telecommunications service vendors to predict customer churn probability" />
+    <meta property="twitter:description" content="Developed algorithms for telecommunications service vendors to predict customer churn probability" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="史楚石, Chushi Shi, ShiChuShi, Chace Shi, 史楚石的网络日志, 史楚石的博客, shichushi Blog, chushi shi blog, 博客, 个人网站">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Customer Churn Prediction in Telecommunications Industry-Chushi | Chushi Shi</title>
+
+    <link rel="canonical" href="/2018/10/07/churn-prediction/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Chace&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/project">Project</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">Tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/istio-traffic-shifting/crossroads.png')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/churn-prediction" title="Churn Prediction">
+                            Churn Prediction
+                        </a>
+                        
+                        <a class="tag" href="/tags/machine-learning" title="Machine Learning">
+                            Machine Learning
+                        </a>
+                        
+                        <a class="tag" href="/tags/data-analysis" title="Data Analysis">
+                            Data Analysis
+                        </a>
+                        
+                    </div>
+                    <h1>Customer Churn Prediction in Telecommunications Industry</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                                Chushi Shi
+                         
+                        on 
+                        Sunday, October 7, 2018
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#part-1-data-exploration">Part 1: Data Exploration</a>
+<ul>
+<li><a href="#part-1-1-load-data">Part 1.1: Load data</a></li>
+<li><a href="#part-1-2-data-cleaning">Part 1.2: Data cleaning</a></li>
+<li><a href="#part-1-3-features-exploration">Part 1.3: Features Exploration</a></li>
+</ul></li>
+<li><a href="#part-2-feature-preprocessing">Part 2: Feature Preprocessing</a>
+<ul>
+<li><a href="#part-2-1-processing-categorical-features">Part 2.1 Processing categorical features</a></li>
+</ul></li>
+<li><a href="#part-3-model-training-and-result-evaluation">Part 3: Model Training and Result Evaluation</a>
+<ul>
+<li><a href="#part-3-1-split-dataset-and-scale-the-data">Part 3.1: Split dataset and scale the data</a></li>
+<li><a href="#part-3-2-model-training-and-selection">Part 3.2: Model Training and Selection</a>
+<ul>
+<li><a href="#3-2-1-build-models">3.2.1 Build models</a></li>
+<li><a href="#3-2-2-training-and-model-selection">3.2.2 Training and Model selection</a></li>
+</ul></li>
+<li><a href="#part-3-3-use-grid-search-to-find-optimal-hyperparameters">Part 3.3: Use Grid Search to Find Optimal Hyperparameters</a>
+<ul>
+<li><a href="#part-3-3-1-logisticregression">Part 3.3.1: LogisticRegression</a></li>
+<li><a href="#part-3-3-2-knn">Part 3.3.2: KNN</a></li>
+<li><a href="#part-3-3-3-random-forest">Part 3.3.3: Random Forest</a></li>
+</ul></li>
+<li><a href="#part-3-4-model-evaluation">Part 3.4: Model Evaluation</a>
+<ul>
+<li><a href="#part-3-4-1-precision-recall-accuracy">Part 3.4.1 Precision, Recall, Accuracy</a></li>
+<li><a href="#part-3-4-2-roc-auc">Part 3.4.2: ROC &amp; AUC</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#part-4-deep-into-features">Part 4: Deep into Features</a>
+<ul>
+<li><a href="#part-4-1-logistic-regression-model-feature-selection">Part 4.1:  Logistic Regression Model - Feature Selection</a></li>
+<li><a href="#part-4-2-random-forest-model-feature-importance">Part 4.2:  Random Forest Model - Feature Importance</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                
+                <p></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In this project, I will use machine learning models to help telecommunication service vendors to identify customers who are likely to stop using service in the future. Furthermore, I will analyze top factors that influence user retention.</p>
+
+<h2 id="part-1-data-exploration">Part 1: Data Exploration</h2>
+
+<h3 id="part-1-1-load-data">Part 1.1: Load data</h3>
+
+<table><thead style='background-color: white'>
+    <tr>
+      <th></th>
+      <th>state</th>
+      <th>account_length</th>
+      <th>area_code</th>
+      <th>phone_number</th>
+      <th>intl_plan</th>
+      <th>voice_mail_plan</th>
+      <th>number_vmail_messages</th>
+      <th>total_day_minutes</th>
+      <th>total_day_calls</th>
+      <th>total_day_charge</th>
+      <th>total_eve_minutes</th>
+      <th>total_eve_calls</th>
+      <th>total_eve_charge</th>
+      <th>total_night_minutes</th>
+      <th>total_night_calls</th>
+      <th>total_night_charge</th>
+      <th>total_intl_minutes</th>
+      <th>total_intl_calls</th>
+      <th>total_intl_charge</th>
+      <th>number_customer_service_calls</th>
+      <th>churned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>KS</td>
+      <td>128</td>
+      <td>415</td>
+      <td>382-4657</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>25</td>
+      <td>265.1</td>
+      <td>110</td>
+      <td>45.07</td>
+      <td>197.4</td>
+      <td>99</td>
+      <td>16.78</td>
+      <td>244.7</td>
+      <td>91</td>
+      <td>11.01</td>
+      <td>10.0</td>
+      <td>3</td>
+      <td>2.70</td>
+      <td>1</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>OH</td>
+      <td>107</td>
+      <td>415</td>
+      <td>371-7191</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>26</td>
+      <td>161.6</td>
+      <td>123</td>
+      <td>27.47</td>
+      <td>195.5</td>
+      <td>103</td>
+      <td>16.62</td>
+      <td>254.4</td>
+      <td>103</td>
+      <td>11.45</td>
+      <td>13.7</td>
+      <td>3</td>
+      <td>3.70</td>
+      <td>1</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NJ</td>
+      <td>137</td>
+      <td>415</td>
+      <td>358-1921</td>
+      <td>no</td>
+      <td>no</td>
+      <td>0</td>
+      <td>243.4</td>
+      <td>114</td>
+      <td>41.38</td>
+      <td>121.2</td>
+      <td>110</td>
+      <td>10.30</td>
+      <td>162.6</td>
+      <td>104</td>
+      <td>7.32</td>
+      <td>12.2</td>
+      <td>5</td>
+      <td>3.29</td>
+      <td>0</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>OH</td>
+      <td>84</td>
+      <td>408</td>
+      <td>375-9999</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>0</td>
+      <td>299.4</td>
+      <td>71</td>
+      <td>50.90</td>
+      <td>61.9</td>
+      <td>88</td>
+      <td>5.26</td>
+      <td>196.9</td>
+      <td>89</td>
+      <td>8.86</td>
+      <td>6.6</td>
+      <td>7</td>
+      <td>1.78</td>
+      <td>2</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>OK</td>
+      <td>75</td>
+      <td>415</td>
+      <td>330-6626</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>0</td>
+      <td>166.7</td>
+      <td>113</td>
+      <td>28.34</td>
+      <td>148.3</td>
+      <td>122</td>
+      <td>12.61</td>
+      <td>186.9</td>
+      <td>121</td>
+      <td>8.41</td>
+      <td>10.1</td>
+      <td>3</td>
+      <td>2.73</td>
+      <td>3</td>
+      <td>False.</td>
+    </tr>
+  </tbody>
+</table>
+  
+
+<ul>
+<li>Dimension of Data<br />
+Num of rows: 5000<br />
+Num of columns: 21</li>
+</ul>
+
+<h3 id="part-1-2-data-cleaning">Part 1.2: Data cleaning</h3>
+
+<ul>
+<li>remove the heading and trailing whitespaces for categorical features</li>
+</ul>
+
+<h3 id="part-1-3-features-exploration">Part 1.3: Features Exploration</h3>
+
+<ol>
+<li>Feature Distribution</li>
+</ol>
+
+<p><img src="/post_img/churn-prediction/output_13_1.png" alt="png" /></p>
+
+<ol>
+<li>correlations between all the features</li>
+</ol>
+
+<ul>
+<li><p>Heatmap
+<img src="/post_img/churn-prediction/output_14_1.png" alt="png" /></p></li>
+
+<li><p>Actual value</p></li>
+</ul>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>account_length</th>
+      <th>number_vmail_messages</th>
+      <th>total_day_minutes</th>
+      <th>total_day_calls</th>
+      <th>total_day_charge</th>
+      <th>total_eve_minutes</th>
+      <th>total_eve_calls</th>
+      <th>total_eve_charge</th>
+      <th>total_night_minutes</th>
+      <th>total_night_calls</th>
+      <th>total_intl_minutes</th>
+      <th>total_intl_calls</th>
+      <th>total_intl_charge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>account_length</th>
+      <td>1.000000</td>
+      <td>-0.014575</td>
+      <td>-0.001017</td>
+      <td>0.028240</td>
+      <td>-0.001019</td>
+      <td>-0.009591</td>
+      <td>0.009143</td>
+      <td>-0.009587</td>
+      <td>0.000668</td>
+      <td>-0.007825</td>
+      <td>0.001291</td>
+      <td>0.014277</td>
+      <td>0.001292</td>
+    </tr>
+    <tr>
+      <th>number_vmail_messages</th>
+      <td>-0.014575</td>
+      <td>1.000000</td>
+      <td>0.005381</td>
+      <td>0.000883</td>
+      <td>0.005377</td>
+      <td>0.019490</td>
+      <td>-0.003954</td>
+      <td>0.019496</td>
+      <td>0.005541</td>
+      <td>0.002676</td>
+      <td>0.002463</td>
+      <td>0.000124</td>
+      <td>0.002505</td>
+    </tr>
+    <tr>
+      <th>total_day_minutes</th>
+      <td>-0.001017</td>
+      <td>0.005381</td>
+      <td>1.000000</td>
+      <td>0.001935</td>
+      <td>1.000000</td>
+      <td>-0.010750</td>
+      <td>0.008128</td>
+      <td>-0.010760</td>
+      <td>0.011799</td>
+      <td>0.004236</td>
+      <td>-0.019486</td>
+      <td>-0.001303</td>
+      <td>-0.019415</td>
+    </tr>
+    <tr>
+      <th>total_day_calls</th>
+      <td>0.028240</td>
+      <td>0.000883</td>
+      <td>0.001935</td>
+      <td>1.000000</td>
+      <td>0.001936</td>
+      <td>-0.000699</td>
+      <td>0.003754</td>
+      <td>-0.000695</td>
+      <td>0.002804</td>
+      <td>-0.008308</td>
+      <td>0.013097</td>
+      <td>0.010893</td>
+      <td>0.013161</td>
+    </tr>
+    <tr>
+      <th>total_day_charge</th>
+      <td>-0.001019</td>
+      <td>0.005377</td>
+      <td>1.000000</td>
+      <td>0.001936</td>
+      <td>1.000000</td>
+      <td>-0.010747</td>
+      <td>0.008129</td>
+      <td>-0.010757</td>
+      <td>0.011801</td>
+      <td>0.004235</td>
+      <td>-0.019490</td>
+      <td>-0.001307</td>
+      <td>-0.019419</td>
+    </tr>
+    <tr>
+      <th>total_eve_minutes</th>
+      <td>-0.009591</td>
+      <td>0.019490</td>
+      <td>-0.010750</td>
+      <td>-0.000699</td>
+      <td>-0.010747</td>
+      <td>1.000000</td>
+      <td>0.002763</td>
+      <td>1.000000</td>
+      <td>-0.016639</td>
+      <td>0.013420</td>
+      <td>0.000137</td>
+      <td>0.008388</td>
+      <td>0.000159</td>
+    </tr>
+    <tr>
+      <th>total_eve_calls</th>
+      <td>0.009143</td>
+      <td>-0.003954</td>
+      <td>0.008128</td>
+      <td>0.003754</td>
+      <td>0.008129</td>
+      <td>0.002763</td>
+      <td>1.000000</td>
+      <td>0.002778</td>
+      <td>0.001781</td>
+      <td>-0.013682</td>
+      <td>-0.007458</td>
+      <td>0.005574</td>
+      <td>-0.007507</td>
+    </tr>
+    <tr>
+      <th>total_eve_charge</th>
+      <td>-0.009587</td>
+      <td>0.019496</td>
+      <td>-0.010760</td>
+      <td>-0.000695</td>
+      <td>-0.010757</td>
+      <td>1.000000</td>
+      <td>0.002778</td>
+      <td>1.000000</td>
+      <td>-0.016649</td>
+      <td>0.013422</td>
+      <td>0.000132</td>
+      <td>0.008393</td>
+      <td>0.000155</td>
+    </tr>
+    <tr>
+      <th>total_night_minutes</th>
+      <td>0.000668</td>
+      <td>0.005541</td>
+      <td>0.011799</td>
+      <td>0.002804</td>
+      <td>0.011801</td>
+      <td>-0.016639</td>
+      <td>0.001781</td>
+      <td>-0.016649</td>
+      <td>1.000000</td>
+      <td>0.026972</td>
+      <td>-0.006721</td>
+      <td>-0.017214</td>
+      <td>-0.006655</td>
+    </tr>
+    <tr>
+      <th>total_night_calls</th>
+      <td>-0.007825</td>
+      <td>0.002676</td>
+      <td>0.004236</td>
+      <td>-0.008308</td>
+      <td>0.004235</td>
+      <td>0.013420</td>
+      <td>-0.013682</td>
+      <td>0.013422</td>
+      <td>0.026972</td>
+      <td>1.000000</td>
+      <td>0.000391</td>
+      <td>-0.000156</td>
+      <td>0.000368</td>
+    </tr>
+    <tr>
+      <th>total_intl_minutes</th>
+      <td>0.001291</td>
+      <td>0.002463</td>
+      <td>-0.019486</td>
+      <td>0.013097</td>
+      <td>-0.019490</td>
+      <td>0.000137</td>
+      <td>-0.007458</td>
+      <td>0.000132</td>
+      <td>-0.006721</td>
+      <td>0.000391</td>
+      <td>1.000000</td>
+      <td>0.016791</td>
+      <td>0.999993</td>
+    </tr>
+    <tr>
+      <th>total_intl_calls</th>
+      <td>0.014277</td>
+      <td>0.000124</td>
+      <td>-0.001303</td>
+      <td>0.010893</td>
+      <td>-0.001307</td>
+      <td>0.008388</td>
+      <td>0.005574</td>
+      <td>0.008393</td>
+      <td>-0.017214</td>
+      <td>-0.000156</td>
+      <td>0.016791</td>
+      <td>1.000000</td>
+      <td>0.016900</td>
+    </tr>
+    <tr>
+      <th>total_intl_charge</th>
+      <td>0.001292</td>
+      <td>0.002505</td>
+      <td>-0.019415</td>
+      <td>0.013161</td>
+      <td>-0.019419</td>
+      <td>0.000159</td>
+      <td>-0.007507</td>
+      <td>0.000155</td>
+      <td>-0.006655</td>
+      <td>0.000368</td>
+      <td>0.999993</td>
+      <td>0.016900</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="part-2-feature-preprocessing">Part 2: Feature Preprocessing</h2>
+
+<h3 id="part-2-1-processing-categorical-features">Part 2.1 Processing categorical features</h3>
+
+<ol>
+<li>drop some useless columns</li>
+<li>process categorical features, like state into one-hot encoding and &lsquo;yes&rsquo; or &lsquo;no&rsquo; to boolean values</li>
+</ol>
+
+<p><style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }</p>
+
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+
+<p></style>
+<div class ="scoped">
+<table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>account_length</th>
+      <th>intl_plan</th>
+      <th>voice_mail_plan</th>
+      <th>number_vmail_messages</th>
+      <th>total_day_minutes</th>
+      <th>total_day_calls</th>
+      <th>total_day_charge</th>
+      <th>total_eve_minutes</th>
+      <th>total_eve_calls</th>
+      <th>total_eve_charge</th>
+      <th>total_night_minutes</th>
+      <th>total_night_calls</th>
+      <th>total_night_charge</th>
+      <th>total_intl_minutes</th>
+      <th>total_intl_calls</th>
+      <th>total_intl_charge</th>
+      <th>number_customer_service_calls</th>
+      <th>state_AK</th>
+      <th>state_AL</th>
+      <th>state_AR</th>
+      <th>state_AZ</th>
+      <th>state_CA</th>
+      <th>state_CO</th>
+      <th>state_CT</th>
+      <th>state_DC</th>
+      <th>state_DE</th>
+      <th>state_FL</th>
+      <th>state_GA</th>
+      <th>state_HI</th>
+      <th>state_IA</th>
+      <th>state_ID</th>
+      <th>state_IL</th>
+      <th>state_IN</th>
+      <th>state_KS</th>
+      <th>state_KY</th>
+      <th>state_LA</th>
+      <th>state_MA</th>
+      <th>state_MD</th>
+      <th>state_ME</th>
+      <th>state_MI</th>
+      <th>state_MN</th>
+      <th>state_MO</th>
+      <th>state_MS</th>
+      <th>state_MT</th>
+      <th>state_NC</th>
+      <th>state_ND</th>
+      <th>state_NE</th>
+      <th>state_NH</th>
+      <th>state_NJ</th>
+      <th>state_NM</th>
+      <th>state_NV</th>
+      <th>state_NY</th>
+      <th>state_OH</th>
+      <th>state_OK</th>
+      <th>state_OR</th>
+      <th>state_PA</th>
+      <th>state_RI</th>
+      <th>state_SC</th>
+      <th>state_SD</th>
+      <th>state_TN</th>
+      <th>state_TX</th>
+      <th>state_UT</th>
+      <th>state_VA</th>
+      <th>state_VT</th>
+      <th>state_WA</th>
+      <th>state_WI</th>
+      <th>state_WV</th>
+      <th>state_WY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>128</td>
+      <td>False</td>
+      <td>True</td>
+      <td>25</td>
+      <td>265.1</td>
+      <td>110</td>
+      <td>45.07</td>
+      <td>197.4</td>
+      <td>99</td>
+      <td>16.78</td>
+      <td>244.7</td>
+      <td>91</td>
+      <td>11.01</td>
+      <td>10.0</td>
+      <td>3</td>
+      <td>2.70</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>107</td>
+      <td>False</td>
+      <td>True</td>
+      <td>26</td>
+      <td>161.6</td>
+      <td>123</td>
+      <td>27.47</td>
+      <td>195.5</td>
+      <td>103</td>
+      <td>16.62</td>
+      <td>254.4</td>
+      <td>103</td>
+      <td>11.45</td>
+      <td>13.7</td>
+      <td>3</td>
+      <td>3.70</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>137</td>
+      <td>False</td>
+      <td>False</td>
+      <td>0</td>
+      <td>243.4</td>
+      <td>114</td>
+      <td>41.38</td>
+      <td>121.2</td>
+      <td>110</td>
+      <td>10.30</td>
+      <td>162.6</td>
+      <td>104</td>
+      <td>7.32</td>
+      <td>12.2</td>
+      <td>5</td>
+      <td>3.29</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>84</td>
+      <td>True</td>
+      <td>False</td>
+      <td>0</td>
+      <td>299.4</td>
+      <td>71</td>
+      <td>50.90</td>
+      <td>61.9</td>
+      <td>88</td>
+      <td>5.26</td>
+      <td>196.9</td>
+      <td>89</td>
+      <td>8.86</td>
+      <td>6.6</td>
+      <td>7</td>
+      <td>1.78</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>75</td>
+      <td>True</td>
+      <td>False</td>
+      <td>0</td>
+      <td>166.7</td>
+      <td>113</td>
+      <td>28.34</td>
+      <td>148.3</td>
+      <td>122</td>
+      <td>12.61</td>
+      <td>186.9</td>
+      <td>121</td>
+      <td>8.41</td>
+      <td>10.1</td>
+      <td>3</td>
+      <td>2.73</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></p>
+
+<h2 id="part-3-model-training-and-result-evaluation">Part 3: Model Training and Result Evaluation</h2>
+
+<h3 id="part-3-1-split-dataset-and-scale-the-data">Part 3.1: Split dataset and scale the data</h3>
+
+<p>training data has 4000 observation with 17 features
+test data has 1000 observation with 17 features
+Scale the data, using standardization</p>
+
+<h3 id="part-3-2-model-training-and-selection">Part 3.2: Model Training and Selection</h3>
+
+<h4 id="3-2-1-build-models">3.2.1 Build models</h4>
+
+<pre><code class="language-python"># Logistic Regression
+# K Nearest Neighbors
+# Random Forest
+</code></pre>
+
+<h4 id="3-2-2-training-and-model-selection">3.2.2 Training and Model selection</h4>
+
+<p><strong>Use 5-fold Cross Validation to get the accuracy for different models</strong><br />
+Logistic Regression:<br />
+{0.86125, 0.86375, 0.855, 0.87125, 0.86625}<br />
+the accuracy is 0.8634999999999999</p>
+
+<p>KNN:<br />
+{0.89125, 0.89125, 0.885, 0.9, 0.8925}<br />
+the accuracy is 0.892</p>
+
+<p>RF:<br />
+{0.9525, 0.94125, 0.94875, 0.93875, 0.9475}<br />
+the accuracy is 0.94575</p>
+
+<h3 id="part-3-3-use-grid-search-to-find-optimal-hyperparameters">Part 3.3: Use Grid Search to Find Optimal Hyperparameters</h3>
+
+<h4 id="part-3-3-1-logisticregression">Part 3.3.1: LogisticRegression</h4>
+
+<ul>
+<li>Possible hyperparamter options for Logistic Regression Regularization</li>
+<li>Penalty is choosed from L1 or L2</li>
+<li>C is the lambda value(weight) for L1 and L2</li>
+</ul>
+
+<pre><code class="language-python"># the best hyperparameter combination
+</code></pre>
+
+<p>Best score: 0.86375<br />
+Best parameters set:<br />
+  C:1<br />
+  penalty:l1</p>
+
+<h4 id="part-3-3-2-knn">Part 3.3.2: KNN</h4>
+
+<pre><code class="language-python"># best k
+</code></pre>
+
+<p>Best score: 0.893<br />
+Best parameters set:<br />
+  n_neighbors: 7</p>
+
+<h4 id="part-3-3-3-random-forest">Part 3.3.3: Random Forest</h4>
+
+<ul>
+<li>Choose the number of trees</li>
+</ul>
+
+<pre><code class="language-python"># best number of tress
+</code></pre>
+
+<p>Best score: 0.955<br />
+Best parameters set:<br />
+  n_estimators: 40</p>
+
+<h3 id="part-3-4-model-evaluation">Part 3.4: Model Evaluation</h3>
+
+<h4 id="part-3-4-1-precision-recall-accuracy">Part 3.4.1 Precision, Recall, Accuracy</h4>
+
+<p>Random Forest<br />
+Accuracy is: 0.969<br />
+precision is: 0.941747572815534<br />
+recall is: 0.7950819672131147</p>
+
+<p><img src="/post_img/churn-prediction/output_50_1.png" alt="png" /></p>
+
+<p>Logistic Regression<br />
+Accuracy is: 0.878<br />
+precision is: 0.5<br />
+recall is: 0.18032786885245902</p>
+
+<p><img src="/post_img/churn-prediction/output_50_3.png" alt="png" /></p>
+
+<h4 id="part-3-4-2-roc-auc">Part 3.4.2: ROC &amp; AUC</h4>
+
+<ul>
+<li>Random Forest
+<img src="/post_img/churn-prediction/output_55_0.png" alt="png" /></li>
+</ul>
+
+<p>Auc score: 0.9339827850181113</p>
+
+<ul>
+<li>LR Model</li>
+</ul>
+
+<p><img src="/post_img/churn-prediction/output_59_0.png" alt="png" /></p>
+
+<p>Auc score: 0.8077878188132492</p>
+
+<h2 id="part-4-deep-into-features">Part 4: Deep into Features</h2>
+
+<h3 id="part-4-1-logistic-regression-model-feature-selection">Part 4.1:  Logistic Regression Model - Feature Selection</h3>
+
+<p>The corelated features that we are interested in: (total_day_minutes, total_day_charge), (total_eve_minutes, total_eve_charge), (total_intl_minutes, total_intl_charge).</p>
+
+<ul>
+<li><p>L1 regularization
+Logistic Regression (L1) Coefficients<br />
+number_customer_service_calls: 0.6379<br />
+intl_plan: 0.5866<br />
+total_day_minutes: 0.4681<br />
+voice_mail_plan: -0.4333<br />
+total_eve_minutes: 0.2242<br />
+total_day_charge: 0.2237<br />
+total_intl_calls: -0.147<br />
+total_night_charge: 0.1125<br />
+total_intl_charge: 0.1075<br />
+total_intl_minutes: 0.1065<br />
+total_eve_charge: 0.0992<br />
+total_night_minutes: 0.061<br />
+account_length: 0.0352<br />
+total_day_calls: 0.0301<br />
+total_night_calls: -0.011<br />
+total_eve_calls: -0.0091<br />
+number_vmail_messages: 0.0</p></li>
+
+<li><p>L2 regularization
+Logistic Regression (L2) Coefficients<br />
+number_customer_service_calls: 0.6404<br />
+voice_mail_plan: -0.5974<br />
+intl_plan: 0.5895<br />
+total_day_minutes: 0.3502<br />
+total_day_charge: 0.3495<br />
+total_eve_charge: 0.1701<br />
+total_eve_minutes: 0.1699<br />
+total_intl_calls: -0.1653<br />
+number_vmail_messages: 0.1619<br />
+total_intl_charge: 0.1161<br />
+total_intl_minutes: 0.1156<br />
+total_night_minutes: 0.0962<br />
+total_night_charge: 0.0956<br />
+account_length: 0.0533<br />
+total_day_calls: 0.0483<br />
+total_night_calls: -0.0302<br />
+total_eve_calls: -0.0289</p></li>
+</ul>
+
+<h3 id="part-4-2-random-forest-model-feature-importance">Part 4.2:  Random Forest Model - Feature Importance</h3>
+
+<ul>
+<li>Feature importance ranking by Random Forest Model:<br />
+total_day_charge: 0.1424<br />
+total_day_minutes: 0.1298<br />
+number_customer_service_calls: 0.1144<br />
+intl_plan: 0.0877<br />
+total_eve_minutes: 0.078<br />
+total_intl_calls: 0.0713<br />
+total_eve_charge: 0.0574<br />
+total_intl_charge: 0.0542<br />
+total_night_minutes: 0.0436<br />
+total_night_charge: 0.0421<br />
+number_vmail_messages: 0.037<br />
+account_length: 0.0288<br />
+total_intl_minutes: 0.0287<br />
+total_day_calls: 0.0257<br />
+total_night_calls: 0.0244<br />
+total_eve_calls: 0.0174<br />
+voice_mail_plan: 0.017<br /></li>
+</ul>
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://shichushi.com"><img src="/img/favicon.png" />Chace&#39;s Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/06/01/hello-world/" data-toggle="tooltip" data-placement="top" title="Welcome to Chace&#39;s Blog">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-ts/" data-toggle="tooltip" data-placement="top" title="Urban Vibrancy and Safety Analysis in Philadelphia-TimeSeries">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/spark" title="Spark">
+                            Spark
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Chace&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:cshi46@wisc.edu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Chauncey315">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/chushishi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://stackoverflow.com/users/yourstackoverflowid">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+            
+                    
+                    
+                    
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Chace&#39;s Blog 2020. All rights reserved.
+                    <br>
+                    采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处
+                    <br>
+                    Powered by <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+    </script>
+    
+
+</body>
+</html>
