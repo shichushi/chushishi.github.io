@@ -28,6 +28,11 @@
   </url>
   
   <url>
+    <loc>https://shichushi.com/2019/01/10/transaction-fraud-detection/</loc>
+    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://shichushi.com/2018/10/07/churn-prediction/</loc>
     <lastmod>2018-10-07T00:00:00+00:00</lastmod>
   </url>
@@ -80,13 +85,31 @@
   
   <url>
     <loc>https://shichushi.com/tags/data-analysis/</loc>
-    <lastmod>2018-10-07T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/e-commerce/</loc>
+    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/fraud-detection/</loc>
+    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://shichushi.com/tags/machine-learning/</loc>
     <lastmod>2018-10-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/machine-learning/</loc>
+    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

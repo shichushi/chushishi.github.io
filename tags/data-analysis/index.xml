@@ -6,10 +6,19 @@
     <description>Recent content in Data Analysis on Chace&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://shichushi.com/tags/data-analysis/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Transaction Fraud Detection in E-commerce</title>
+      <link>https://shichushi.com/2019/01/10/transaction-fraud-detection/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/2019/01/10/transaction-fraud-detection/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Customer Churn Prediction in Telecommunications Industry</title>
