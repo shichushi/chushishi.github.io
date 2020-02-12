@@ -276,7 +276,8 @@
 
 <h3 id="popularity-computation">Popularity Computation</h3>
 
-<p>PageRank$^{[1]}$ is a very classic and accurate rank algorithm used by Larry Page to rank web pages and it works by counting the number and quality of links to a page to determine a rough estimate of how important the website is$^{[2]}$. Here is a key formula below: $$P R\left(p<em>{i}\right)=\frac{1-d}{N}+d \sum</em>{p<em>{j} \in M\left(p</em>{i}\right)} \frac{P R\left(p<em>{j}\right)}{L\left(p</em>{j}\right)}$$
+<p>PageRank$^{[1]}$ is a very classic and accurate rank algorithm used by Larry Page to rank web pages and it works by counting the number and quality of links to a page to determine a rough estimate of how important the website is$^{[2]}$. Here is a key formula below:
+$$P R\left(p<em>{i}\right)=\frac{1-d}{N}+d \sum</em>{p<em>{j} \in M\left(p</em>{i}\right)} \frac{P R\left(p<em>{j}\right)}{L\left(p</em>{j}\right)}$$
 where $p_1,~p_2,~&hellip;,~p_N$ are the pages under consideration, $M(p_i)$ is the set of pages that link to $p_i$, $L(p_j)$ is the number of outbound links on page $p_j$, and $N$ is the total number of pages.<br />
 In our situation, we treat each user and business as a &ldquo;web page&rdquo; to calculate the $P R$ and rank them. And the followed $Table 1$ and $Table 2$ show results.</p>
 
@@ -313,7 +314,8 @@ In our situation, we treat each user and business as a &ldquo;web page&rdquo; to
 
 <h3 id="calculating-the-weights-of-each-word">Calculating the weights of each word</h3>
 
-<p>We used bag of words approach to tokenize our review texts. It simply calculated the number of apperance of each word in the review texts. Since each word was treated as an individual feature, our feature matrix would be a high dimensional sparse matrix. By using Linear SVM, it will calculate the weights of each word in the review text in affecting the positivity/negativity of each review. The formula is as below: $$min<em>{w\in r^{N}}\frac{\lambda}{2}|w|^{2}+\frac{1}{m}\sum</em>{i=1}^{m}max{0,1-y<em>{i}w^{T}x</em>{i}}$$
+<p>We used bag of words approach to tokenize our review texts. It simply calculated the number of apperance of each word in the review texts. Since each word was treated as an individual feature, our feature matrix would be a high dimensional sparse matrix. By using Linear SVM, it will calculate the weights of each word in the review text in affecting the positivity/negativity of each review. The formula is as below:
+$$min<em>{w\in r^{N}}\frac{\lambda}{2}|w|^{2}+\frac{1}{m}\sum</em>{i=1}^{m}max{0,1-y<em>{i}w^{T}x</em>{i}}$$
 $w$ represents the weight of each words, and $x<em>{i}$ are feature, $y</em>{i}$ is the labeled class.</p>
 
 <h3 id="calculating-the-polarity-of-each-word">Calculating the polarity of each word</h3>
@@ -468,6 +470,12 @@ where t refers to word, and c refers to category. Total Frequency(t,c) means the
                         
                         
                         
+                        <a href="/tags/machine-learning" title="Machine Learning">
+                            Machine Learning
+                        </a>
+                        
+                        
+                        
                         
                         
                         
@@ -489,6 +497,10 @@ where t refers to word, and c refers to category. Total Frequency(t,c) means the
                         <a href="/tags/spark" title="Spark">
                             Spark
                         </a>
+                        
+                        
+                        
+                        
                         
                         
                         

@@ -41,9 +41,18 @@
     <item>
       <title>Data Analysis</title>
       <link>https://shichushi.com/tags/data-analysis/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 01 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/tags/data-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Demand Prediction</title>
+      <link>https://shichushi.com/tags/demand-prediction/</link>
+      <pubDate>Fri, 01 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/demand-prediction/</guid>
       <description></description>
     </item>
     
@@ -66,9 +75,18 @@
     </item>
     
     <item>
+      <title>Lightgbm</title>
+      <link>https://shichushi.com/tags/lightgbm/</link>
+      <pubDate>Fri, 01 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/lightgbm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Machine Learning</title>
       <link>https://shichushi.com/tags/machine-learning/</link>
-      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 01 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/tags/machine-learning/</guid>
       <description></description>
@@ -152,6 +170,15 @@
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/tags/statistics-inference/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Supply Chain</title>
+      <link>https://shichushi.com/tags/supply-chain/</link>
+      <pubDate>Fri, 01 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/supply-chain/</guid>
       <description></description>
     </item>
     

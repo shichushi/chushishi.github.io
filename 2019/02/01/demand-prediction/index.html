@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Chace&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://shichushi.com/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://shichushi.com/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Supply Chain Demand Forecasting and Data Management" />
+    <meta property="og:title" content="Supply Chain Demand Forecasting and Data Management" />
+    <meta property="twitter:title" content="Supply Chain Demand Forecasting and Data Management" />
+    
+
+    
+    <meta name="description" content="Developed ML models to predict future demand of different nutrition product for a pharmacy chain store">
+    <meta property="og:description" content="Developed ML models to predict future demand of different nutrition product for a pharmacy chain store" />
+    <meta property="twitter:description" content="Developed ML models to predict future demand of different nutrition product for a pharmacy chain store" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="史楚石, Chushi Shi, ShiChuShi, Chace Shi, 史楚石的网络日志, 史楚石的博客, shichushi Blog, chushi shi blog, 博客, 个人网站">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Supply Chain Demand Forecasting and Data Management-Chushi | Chushi Shi</title>
+
+    <link rel="canonical" href="/2019/02/01/demand-prediction/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Chace&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/project">Project</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">Tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-02-03-authentication-and-authorization-of-microservice/AuthenticationTrack.jpeg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/supply-chain" title="Supply Chain">
+                            Supply Chain
+                        </a>
+                        
+                        <a class="tag" href="/tags/machine-learning" title="Machine Learning">
+                            Machine Learning
+                        </a>
+                        
+                        <a class="tag" href="/tags/data-analysis" title="Data Analysis">
+                            Data Analysis
+                        </a>
+                        
+                        <a class="tag" href="/tags/demand-prediction" title="Demand Prediction">
+                            Demand Prediction
+                        </a>
+                        
+                        <a class="tag" href="/tags/lightgbm" title="lightgbm">
+                            lightgbm
+                        </a>
+                        
+                    </div>
+                    <h1>Supply Chain Demand Forecasting and Data Management</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                                Chushi Shi
+                         
+                        on 
+                        Friday, February 1, 2019
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#0-introduction">0. Introduction</a>
+<ul>
+<li><a href="#noticing-points">Noticing points</a></li>
+</ul></li>
+<li><a href="#1-exploratory-data-analyses-eda">1. Exploratory data analyses (EDA)</a>
+<ul>
+<li><a href="#1-1-load-and-overview-of-data">1.1 Load and overview of data</a></li>
+<li><a href="#1-2-carry-over-product-vs-new-product">1.2 Carry_over product vs. new product</a></li>
+<li><a href="#1-3-join-tables">1.3 Join tables</a></li>
+<li><a href="#1-4-correlation-analyses">1.4. Correlation analyses</a>
+<ul>
+<li><a href="#1-4-1-pearson-coefficient-in-numerical-features">1.4.1 Pearson coefficient in numerical features</a></li>
+<li><a href="#1-4-2-cramer-v-statistics-in-categorical-features">1.4.2 Cramer V statistics in categorical features</a></li>
+</ul></li>
+<li><a href="#1-5-glance-at-columns">1.5. Glance at columns</a>
+<ul>
+<li><a href="#1-5-1-numerical-data">1.5.1 Numerical data</a></li>
+<li><a href="#1-5-2-categorical-data">1.5.2 Categorical data</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#2-feature-processing">2. Feature processing</a>
+<ul>
+<li><a href="#2-1-extra-features">2.1 Extra features</a></li>
+<li><a href="#2-2-bucktize-and-scaling">2.2 Bucktize and scaling</a></li>
+</ul></li>
+<li><a href="#3-modeling">3. Modeling</a>
+<ul>
+<li><a href="#3-1-carry-over-product-model">3.1. Carry-over product model</a>
+<ul>
+<li><a href="#3-1-1-dummy-features-and-train-test-split">3.1.1 Dummy features and train/test split</a></li>
+<li><a href="#3-1-2-quick-linear-model-for-baseline">3.1.2  Quick linear model for baseline</a></li>
+<li><a href="#3-1-3-random-forest-model">3.1.3 Random forest model</a></li>
+</ul></li>
+<li><a href="#3-2-new-product-model">3.2 New product model</a>
+<ul>
+<li><a href="#3-2-1-similar-product-search">3.2.1 Similar product search¶</a></li>
+<li><a href="#3-2-2-training-testing-data-for-new-product">3.2.2 Training/testing data for new product</a></li>
+<li><a href="#3-2-3-random-forest-model">3.2.3 Random forest model</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#4-prediction">4.Prediction</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                <p></p>
+
+<h2 id="0-introduction">0. Introduction</h2>
+
+<p>In this project, I will use historical data and external signals to develop a model to help a pharmacy store chain with the future demand on different nutrition related products. The model should provide forecast for Summer 2016 at the sku-quarter-global level.</p>
+
+<p>In order to clean showing, I delete some routine and define function code, and just show the result.</p>
+
+<h3 id="noticing-points">Noticing points</h3>
+
+<ul>
+<li><p>processing of old product with historical data and new product without historical data</p></li>
+
+<li><p>feature engineer(e.g. bining&hellip;)</p></li>
+
+<li><p>use similar prodcut to predict new products(cosine similarity)</p></li>
+
+<li><p>model selection and visualization</p></li>
+
+<li><p>pretrain and retrain model</p></li>
+</ul>
+
+<h2 id="1-exploratory-data-analyses-eda">1. Exploratory data analyses (EDA)</h2>
+
+<ul>
+<li>Historical_sales is the weekly historical sales data for each product</li>
+<li>Products contains the product information</li>
+<li>To_predict has the products that need demand forecasting at quarterly level</li>
+</ul>
+
+<h3 id="1-1-load-and-overview-of-data">1.1 Load and overview of data</h3>
+
+<pre><code class="language-python"># 1. Load data as dataframe
+</code></pre>
+
+<pre><code class="language-python">print sales_df.shape, product_df.shape, predict_df.shape
+</code></pre>
+
+<pre><code>(186836, 6) (407, 7) (407, 2)
+</code></pre>
+
+<pre><code class="language-python"># check for format
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>transaction_date</th>
+      <th>sku</th>
+      <th>location</th>
+      <th>quarter</th>
+      <th>sales_amt</th>
+      <th>shelf_amt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1/18/14</td>
+      <td>3660</td>
+      <td>GERMANY</td>
+      <td>SP2014</td>
+      <td>51</td>
+      <td>578</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9/12/15</td>
+      <td>6159</td>
+      <td>GERMANY</td>
+      <td>FA2015</td>
+      <td>1</td>
+      <td>89</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sku</th>
+      <th>brand</th>
+      <th>age</th>
+      <th>formation</th>
+      <th>family</th>
+      <th>sales_price</th>
+      <th>specs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>6336</td>
+      <td>L273</td>
+      <td>ADULT</td>
+      <td>capsule</td>
+      <td>Omega3FattyAcid</td>
+      <td>138</td>
+      <td>PATENT 5726</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8821</td>
+      <td>G633</td>
+      <td>GRADE SCHOOL</td>
+      <td>liquid</td>
+      <td>VitaminC</td>
+      <td>42</td>
+      <td>PATENT 6776|PATENT 4090|PATENT 5726</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sku</th>
+      <th>quarter</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8852</td>
+      <td>SU2016</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3403</td>
+      <td>SU2016</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># check Null value and duplicates
+</code></pre>
+
+<pre><code>transaction_date    0
+sku                 0
+location            0
+quarter             0
+sales_amt           0
+shelf_amt           0
+dtype: int64
+1808
+sku            0
+brand          0
+age            0
+formation      0
+family         0
+sales_price    0
+specs          0
+dtype: int64
+0
+sku        0
+quarter    0
+dtype: int64
+0
+</code></pre>
+
+<h3 id="1-2-carry-over-product-vs-new-product">1.2 Carry_over product vs. new product</h3>
+
+<p>Note: product is defined by <em>sku</em> as instructed</p>
+
+<ul>
+<li>carry_over product: products having a historical data (320)</li>
+<li>new product: products not having historical data (87)</li>
+</ul>
+
+<h3 id="1-3-join-tables">1.3 Join tables</h3>
+
+<ul>
+<li>Join sales_df with reserve_df, and product_df. <strong>left join: only carry-over products</strong></li>
+<li><em>new_product</em> contains the product information of only new products</li>
+</ul>
+
+<pre><code class="language-python"># aggregate pos from weekly to quarterly
+function1 = {'sales_amt':'sum', 'shelf_amt':'sum'}
+sales_quarterly = sales_df.groupby(['sku','location','quarter'], as_index = False).agg(function1)
+</code></pre>
+
+<pre><code class="language-python"># merge pos, booking, and style into one table for carry-over
+co_combine = sales_quarterly.merge(product_df,on=['sku'],how='left')
+print co_combine.isnull().sum()
+
+# get product info of new product (sales data not available)
+new_product = product_df[~predict_df['sku'].isin(sales_df['sku'])]
+</code></pre>
+
+<pre><code>sku            0
+location       0
+quarter        0
+shelf_amt      0
+sales_amt      0
+brand          0
+age            0
+formation      0
+family         0
+sales_price    0
+specs          0
+dtype: int64
+</code></pre>
+
+<pre><code class="language-python">co_combine.head(2)
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sku</th>
+      <th>location</th>
+      <th>quarter</th>
+      <th>shelf_amt</th>
+      <th>sales_amt</th>
+      <th>brand</th>
+      <th>age</th>
+      <th>formation</th>
+      <th>family</th>
+      <th>sales_price</th>
+      <th>specs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12</td>
+      <td>GERMANY</td>
+      <td>SP2016</td>
+      <td>14</td>
+      <td>0</td>
+      <td>G906</td>
+      <td>ADULT</td>
+      <td>powder</td>
+      <td>Echinacea</td>
+      <td>204</td>
+      <td>PATENT 1030</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12</td>
+      <td>RUSSIA</td>
+      <td>SP2016</td>
+      <td>66</td>
+      <td>11</td>
+      <td>G906</td>
+      <td>ADULT</td>
+      <td>powder</td>
+      <td>Echinacea</td>
+      <td>204</td>
+      <td>PATENT 1030</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 id="1-4-correlation-analyses">1.4. Correlation analyses</h3>
+
+<ul>
+<li>plot linear correlation among the features</li>
+<li><em>sales_amt</em> is the target metric and not included</li>
+</ul>
+
+<h4 id="1-4-1-pearson-coefficient-in-numerical-features">1.4.1 Pearson coefficient in numerical features</h4>
+
+<pre><code class="language-python"># numerical correlation('shelf_amt','sales_price')
+sns.heatmap(num_corr, cmap=&quot;BuGn&quot;, linewidths=0.5)
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1a24a83a50&gt;
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_16_1.png" alt="png" /></p>
+
+<h4 id="1-4-2-cramer-v-statistics-in-categorical-features">1.4.2 Cramer V statistics in categorical features</h4>
+
+<pre><code class="language-python"># categorical list without specs
+tmp_1 = ['location','quarter','brand','age','formation','family']
+# correlation of the categorical features 
+df_1 = co_combine[tmp_1]
+chi_square = pd.DataFrame(abs(np.random.randn(len(tmp_1),len(tmp_1))), columns= tmp_1, index = tmp_1)
+
+# cramer V statistics for correlation between categorical features
+def cramers_corrected_stat(confusion_matrix):
+    chi2 = ss.chi2_contingency(confusion_matrix)[0]
+    n = confusion_matrix.sum().sum()
+    phi2 = chi2/n
+    r,k = confusion_matrix.shape
+    phi2corr = max(0, phi2 - ((k-1)*(r-1))/(n-1))    
+    rcorr = r - ((r-1)**2)/(n-1)
+    kcorr = k - ((k-1)**2)/(n-1)
+    return np.sqrt(phi2corr / min( (kcorr-1), (rcorr-1)))
+
+# chi square dataframe of categorical features
+for i in tmp_1:
+    temp_list = [k for k in tmp_1 if k!=i]
+    for j in temp_list:
+        confusion_matrix = pd.crosstab(df_1[i],df_1[j])
+        val = cramers_corrected_stat(confusion_matrix)
+        chi_square[i][j] = float(val) # column, row
+        chi_square[i][i] = 1
+        
+# heatmap of categorical features (exclude the complex string)
+sns.heatmap(chi_square, cmap='YlOrRd', linewidths=0.5)
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x1a24f081d0&gt;
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_17_1.png" alt="png" /></p>
+
+<h3 id="1-5-glance-at-columns">1.5. Glance at columns</h3>
+
+<h4 id="1-5-1-numerical-data">1.5.1 Numerical data</h4>
+
+<pre><code class="language-python"># percentile showing
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sales_amt</th>
+      <th>shelf_amt</th>
+      <th>sales_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>6942.000000</td>
+      <td>6.942000e+03</td>
+      <td>6942.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>6281.764477</td>
+      <td>1.022155e+05</td>
+      <td>88.376693</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>23467.389865</td>
+      <td>3.478001e+05</td>
+      <td>49.898150</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>0.000000e+00</td>
+      <td>13.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>14.000000</td>
+      <td>1.705000e+02</td>
+      <td>53.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>247.000000</td>
+      <td>3.794500e+03</td>
+      <td>77.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2714.250000</td>
+      <td>4.453200e+04</td>
+      <td>111.000000</td>
+    </tr>
+    <tr>
+      <th>95%</th>
+      <td>28323.800000</td>
+      <td>4.943733e+05</td>
+      <td>175.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>394983.000000</td>
+      <td>5.513126e+06</td>
+      <td>306.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">plot_hist_cum(co_combine, 'sales_amt', 'Histogram of sales_amt',2000,'firebrick', True)
+plot_hist_cum(co_combine, 'shelf_amt', 'Histogram of shelf_amt',20000,'blue', True)
+plot_hist_cum(co_combine, 'sales_price', 'Histogram of sales_price',350,'green', False)
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_21_0.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_21_1.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_21_2.png" alt="png" /></p>
+
+<pre><code class="language-python"># plot linear dependency between the numberical and target 
+for i in ['shelf_amt','sales_price']:
+    sns.regplot(i,'sales_amt', data=co_combine,
+               line_kws = {'color':'red'}, label = i)
+    plt.show()
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_22_1.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_22_2.png" alt="png" /></p>
+
+<h4 id="1-5-2-categorical-data">1.5.2 Categorical data</h4>
+
+<ul>
+<li>count of each category</li>
+<li>correlation between categorical feature with sales</li>
+</ul>
+
+<pre><code class="language-python">for i in ['location','quarter','brand','age','formation','family']:
+    sns.countplot(x=i, data=co_combine)
+    plt.xticks(rotation=90)
+    plt.title('Count of {}'.format(i))
+    plt.show()
+    sns.stripplot(x=i, y='sales_amt', data=co_combine, jitter=True)
+    plt.xticks(rotation=90)
+    plt.title('{} vs. Sales'.format(i))
+    plt.show()
+
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_24_0.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_1.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_2.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_3.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_4.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_5.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_6.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_7.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_8.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_9.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_10.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_24_11.png" alt="png" /></p>
+
+<h2 id="2-feature-processing">2. Feature processing</h2>
+
+<h3 id="2-1-extra-features">2.1 Extra features</h3>
+
+<ul>
+<li>Extra Season and Year out of quarter</li>
+<li>Count # patents in a product</li>
+</ul>
+
+<pre><code class="language-python"># extract season
+co_combine_1 = co_combine.copy(deep =True)
+co_combine_1['season'] = co_combine_1['quarter'].astype(str).str[0:2]
+co_combine_1['year'] = co_combine_1['quarter'].astype(str).str[2:7]
+
+num_specs = co_combine_1['specs'].str.split('|').str.len()
+co_combine_1['num_specs'] = num_specs
+
+
+# treat 'specs' in new products as well
+new_product_1 = new_product.copy(deep =True)
+num_specs_new = new_product_1['specs'].str.split('|').str.len()
+new_product_1['num_specs'] = num_specs_new
+</code></pre>
+
+<h3 id="2-2-bucktize-and-scaling">2.2 Bucktize and scaling</h3>
+
+<ul>
+<li>bucktize <em>sales_price</em></li>
+<li>scale numerical features</li>
+</ul>
+
+<pre><code class="language-python"># bin MSRP_Amt and convert into dummies
+# robust scaling in ['shelf_amt','num_specs']
+</code></pre>
+
+<h2 id="3-modeling">3. Modeling</h2>
+
+<ul>
+<li>Two models will be developed: one for carry-over products; one for new products</li>
+<li>The carry over model will be training on only its own historical data</li>
+<li>The new model will be training on the data based on similarity with the new products</li>
+</ul>
+
+<h3 id="3-1-carry-over-product-model">3.1. Carry-over product model</h3>
+
+<ul>
+<li>Use data of each product to build numerous models is not ideal, the average data point of each product/sku is 22, it is too little to build a good model</li>
+<li>Traditional method such as ARIMA could be used, but it lacks the &lsquo;insight&rsquo; of products inner corrleation</li>
+<li>Build a complicated model using more products is a better option</li>
+<li>Target metric y = <em>sales_amt</em></li>
+<li>SP2016 data is used to evaluate the model</li>
+</ul>
+
+<h4 id="3-1-1-dummy-features-and-train-test-split">3.1.1 Dummy features and train/test split</h4>
+
+<pre><code class="language-python"># pd.get_dummies in cate_list = ['location','brand','age','formation','family','specs','season','year']
+# select ~20% latest data for test purpose
+# prepare training and test data
+</code></pre>
+
+<h4 id="3-1-2-quick-linear-model-for-baseline">3.1.2  Quick linear model for baseline</h4>
+
+<ul>
+<li>Use Lasso regression for quick baseline</li>
+<li>Mean absolute percentage error (MAPE), mean absolute error (MAE), and the ratio Mean absolute deviation (MAD) are used as evaluation metric</li>
+</ul>
+
+<pre><code class="language-python"># Lasso model
+alphas = np.logspace (-0.3, 1.7, num=50)
+scores = np.empty_like(alphas)
+opt_a = float('-inf')
+max_score = float('-inf')
+for i, a in enumerate(alphas):
+    lasso = Lasso()
+    lasso.set_params(alpha = a)
+    lasso.fit(co_combine_2_train_X, co_combine_2_train_y)
+    scores[i] = lasso.score(co_combine_2_test_X, co_combine_2_test_y)
+    if scores[i] &gt; max_score: # lasso.score is r2 
+        max_score = scores[i]
+        opt_a = a
+        lasso_save = lasso
+plt.plot(alphas, scores, color='b', linestyle='dashed', marker='o',markerfacecolor='blue', markersize=6)
+plt.xlabel('alpha')
+plt.ylabel('score')
+plt.grid(True)
+plt.title('score vs. alpha')
+plt.show()
+print 'The optimaized alpha and score of Lasso linear is: ', opt_a, max_score
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_37_1.png" alt="png" /></p>
+
+<pre><code>The optimaized alpha and score of Lasso linear is:  9.232219520747307 0.6545664092620482
+</code></pre>
+
+<pre><code class="language-python"># use  optimal alpha, re-train the model
+lasso_f = Lasso(alpha = opt_a)
+lasso_f.fit(co_combine_2_train_X, co_combine_2_train_y)
+lasso_pred = lasso_f.predict(co_combine_2_test_X)
+</code></pre>
+
+<pre><code class="language-python">co_combine_2_test.head(2)
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sku</th>
+      <th>quarter</th>
+      <th>shelf_amt</th>
+      <th>sales_amt</th>
+      <th>num_specs</th>
+      <th>&lt;=$30</th>
+      <th>$30-60</th>
+      <th>$60-80</th>
+      <th>$80-100</th>
+      <th>$100-180</th>
+      <th>...</th>
+      <th>specs_PATENT 8895|PATENT 4533|PATENT 8998|PATENT 2461</th>
+      <th>specs_PATENT 8924|PATENT 2876</th>
+      <th>specs_PATENT 9404</th>
+      <th>specs_PATENT 9404|PATENT 4533</th>
+      <th>specs_PATENT 9545</th>
+      <th>season_SP</th>
+      <th>season_SU</th>
+      <th>season_WI</th>
+      <th>year_2015</th>
+      <th>year_2016</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>12</td>
+      <td>SP2016</td>
+      <td>-0.085220</td>
+      <td>0</td>
+      <td>-0.5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>12</td>
+      <td>SP2016</td>
+      <td>-0.084048</td>
+      <td>11</td>
+      <td>-0.5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 252 columns</p>
+</div>
+
+<pre><code class="language-python"># compare the aggreated prediction with actual sales
+co_test_lasso = co_combine_2_test.copy(deep=True)
+co_test_lasso['pred'] = np.round(lasso_pred)
+co_test_lasso['pred'] = co_test_lasso['pred'].clip(lower=0)
+
+function_2 = {'sales_amt':'sum', 'pred':'sum'}
+co_test_lasso_agg = co_test_lasso.groupby(['sku','quarter'],
+                                    as_index = False).agg(function_2)
+</code></pre>
+
+<pre><code class="language-python"># define MAPE and MAD_ratio, and evalution result
+</code></pre>
+
+<pre><code class="language-python">evaluate(co_test_lasso_agg)
+</code></pre>
+
+<pre><code>MAPE of prediction in SP2016 is 1537.60257519
+MAE of prediction in SP2016 is 10404.3134796
+MAD ratio of prediction in SP2016 is 1.02210171633
+</code></pre>
+
+<pre><code class="language-python">plot_diff(co_test_lasso_agg, 'Pred vs. Actual in Lasso', 'Difference between pred and acutal')
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_43_0.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_43_1.png" alt="png" /></p>
+
+<h4 id="3-1-3-random-forest-model">3.1.3 Random forest model</h4>
+
+<pre><code class="language-python"># plot the hyper-parameter tuning
+# get the raw features importance (aggregate all dummies)
+</code></pre>
+
+<pre><code class="language-python">grid_1 = {'n_estimators': [5,10,15,20,30,40,50],
+          'max_depth': [30,40,45,50,55,60,70]}
+
+rf_1 = RandomForestRegressor(random_state=2019, verbose=1,n_jobs =6)
+grid_rf_1 = GridSearchCV(rf_1, grid_1, cv=3)
+grid_rf_1.fit(co_combine_2_train_X, co_combine_2_train_y)
+</code></pre>
+
+<pre><code>GridSearchCV(cv=3, error_score='raise-deprecating',
+       estimator=RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features='auto', max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators='warn', n_jobs=6,
+           oob_score=False, random_state=2019, verbose=1, warm_start=False),
+       fit_params=None, iid='warn', n_jobs=None,
+       param_grid={'n_estimators': [5, 10, 15, 20, 30, 40, 50], 'max_depth': [30, 40, 45, 50, 55, 60, 70]},
+       pre_dispatch='2*n_jobs', refit=True, return_train_score='warn',
+       scoring=None, verbose=0)
+</code></pre>
+
+<pre><code class="language-python">class_plot(grid_rf_1, grid_1, 'RF_CV_search')
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/
+output_47_0.png" alt="png" /></p>
+
+<pre><code class="language-python">print grid_rf_1.best_params_
+print grid_rf_1.best_score_
+</code></pre>
+
+<pre><code>{'n_estimators': 20, 'max_depth': 30}
+0.8834138377995384
+</code></pre>
+
+<pre><code class="language-python"># re-train the model with full training set
+rf_best = grid_rf_1.best_estimator_
+rf_best.fit(co_combine_2_train_X, co_combine_2_train_y)
+pred_rf_test = rf_best.predict(co_combine_2_test_X)
+</code></pre>
+
+<pre><code>[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
+[Parallel(n_jobs=6)]: Done  20 out of  20 | elapsed:    0.3s finished
+[Parallel(n_jobs=6)]: Using backend ThreadingBackend with 6 concurrent workers.
+[Parallel(n_jobs=6)]: Done  20 out of  20 | elapsed:    0.0s finished
+</code></pre>
+
+<pre><code class="language-python">importance_rf_best = rf_best.feature_importances_
+names_rf_best = co_combine_2_train_X.columns.tolist()
+df_importantce_rf_best = pd.DataFrame({'Feature':names_rf_best, 'Importance':importance_rf_best})
+# plot feature importance
+rank_importance_rf_best = df_importantce_rf_best.sort_values('Importance', ascending=False)
+
+plot_feature_importance(rank_importance_rf_best,15, 'steelblue', 0.8, 18, 4, 'Feature importance')
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_50_0.png" alt="png" /></p>
+
+<pre><code class="language-python"># plot feature importance ranking of original feature (before dummies)
+raw_feature_importances_rf_best = raw_feature_importance(df_importantce_rf_best,2,cate_list)
+
+plot_feature_importance(raw_feature_importances_rf_best, 21, 'orange', 0.8, 10, 4, 
+                        'Importance rank of carry-over product')
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_51_0.png" alt="png" /></p>
+
+<pre><code class="language-python"># compare the aggreated prediction with actual sales
+co_test_rf = co_combine_2_test.copy(deep=True)
+co_test_rf['pred'] = np.round(pred_rf_test)
+co_test_rf['pred'] = co_test_rf['pred'].clip(lower=0)
+
+function_2 = {'sales_amt':'sum', 'pred':'sum'}
+co_test_rf_agg = co_test_rf.groupby(['sku','quarter'],
+                                    as_index = False).agg(function_2)
+</code></pre>
+
+<pre><code class="language-python">evaluate(co_test_rf_agg)
+</code></pre>
+
+<pre><code>MAPE of prediction in SP2016 is 94.8393491506
+MAE of prediction in SP2016 is 8538.34796238
+MAD ratio of prediction in SP2016 is 0.965502512095
+</code></pre>
+
+<pre><code class="language-python">plot_diff(co_test_rf_agg, 'Pred vs. Actual in RF', 'Difference between pred and acutal')
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_54_0.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_54_1.png" alt="png" /></p>
+
+<pre><code class="language-python"># re-train with training+test data, save model for future prediction
+co_combine_3 = co_combine_2.copy(deep =True)
+co_combine_3 = shuffle(co_combine_3)
+co_combine_3_X = co_combine_3.drop(['sku','quarter','sales_amt'],axis = 1)
+co_combine_3_y = co_combine_3['sales_amt'] 
+
+rf_best.fit(co_combine_3_X,co_combine_3_y)
+
+# save model
+joblib.dump(rf_best, 'rf_best_co.sav', compress=3)
+</code></pre>
+
+<pre><code>['rf_best_co.sav']
+</code></pre>
+
+<h3 id="3-2-new-product-model">3.2 New product model</h3>
+
+<ul>
+<li>The product is new and has not been sold before.</li>
+<li>Find a group of old products similiar to the new product, train a model on them, and use this model for prediction</li>
+<li>Clustering could be another method, number of clusters can be a hyper-parameter</li>
+</ul>
+
+<h4 id="3-2-1-similar-product-search">3.2.1 Similar product search¶</h4>
+
+<ul>
+<li>Analyze the cosine similarity bewteen 87 new products in <em>new_product_1</em> and 320 products in <em>co_combine_1</em> with full historical data</li>
+<li>For each new product, the top 3 most similar old products are chosen</li>
+<li>Then use the data of these chosen carry-over products to train a model, which can predict demand of new products</li>
+</ul>
+
+<pre><code class="language-python">similarity_prod = co_combine_1[['sku','brand','age','formation','family',
+                                'specs','num_specs','&lt;=$30','$30-60',
+                                '$60-80','$80-100','$100-180','&gt;$180']]
+
+cate_similarity = ['brand','age','formation','family','specs']
+                   
+similarity_prod_dummy = pd.get_dummies(similarity_prod,columns=cate_similarity,
+                                       drop_first=True) 
+
+# get unique rows for cosine similarity compare
+similarity_prod_dummy.drop_duplicates(inplace = True)
+
+# this is is later ID mapping
+prod_ID = similarity_prod_dummy['sku']
+
+s_list = similarity_prod_dummy.drop(['sku'],axis=1).values.tolist()
+# to operate cosine similarity
+
+
+</code></pre>
+
+<pre><code class="language-python">new_prod_dummy = pd.get_dummies(new_product_1,columns=cate_similarity,
+                                       drop_first=True) 
+</code></pre>
+
+<pre><code class="language-python"># make the same column in whole data and new product data
+diff_sim = list((set(new_prod_dummy.columns) -set(similarity_prod_dummy.columns)))
+if len(diff_sim)!=0:
+    new_prod_dummy.drop(diff_sim, axis = 1, inplace =True)
+
+missing_cols_sim = set(similarity_prod_dummy.columns) - set(new_prod_dummy.columns)
+# Add a missing column in test set with default value equal to 0
+for m in missing_cols_sim:
+    new_prod_dummy[m] = 0
+    
+new_prod_dummy = new_prod_dummy[similarity_prod_dummy.columns]
+
+# get unique rows for cosine similarity compare
+new_prod_dummy.drop_duplicates(inplace = True)
+new_prod_ID = new_prod_dummy['sku']
+
+s_new = new_prod_dummy.drop(['sku'], axis=1)
+s_new_list = s_new.values.tolist()
+</code></pre>
+
+<pre><code class="language-python"># a special dict to have list as key, to keep order
+# get the similarity between 87 new products and 320 carry-over products
+d_sim = defaultdict(list)
+
+for i in range(len(new_prod_ID)):
+    for j in range(len(prod_ID)):
+        s_new_list[i] = np.array(s_new_list[i]).reshape(1,-1)
+        s_list[j] = np.array(s_list[j]).reshape(1,-1)
+        tmp_sim = float(cosine_similarity(s_new_list[i],s_list[j]))
+        d_sim[i].append(tmp_sim)
+</code></pre>
+
+<pre><code class="language-python">len(d_sim)
+</code></pre>
+
+<pre><code>87
+</code></pre>
+
+<pre><code class="language-python"># get the top 3 most similar products list with each new product
+high_sim_prod_index = set()
+for ID in range(87):
+    tmp_3 = sorted(range(320), key=lambda i: d_sim[ID][i])[-3:]
+    for p in tmp_3:
+        high_sim_prod_index.add(p)
+        
+high_sim_prod_ID = prod_ID.iloc[list(high_sim_prod_index)]
+# high_sim_prod_ID.tolist()
+</code></pre>
+
+<h4 id="3-2-2-training-testing-data-for-new-product">3.2.2 Training/testing data for new product</h4>
+
+<pre><code class="language-python">similar_new_1 = co_combine_1[co_combine_1['sku'].isin(high_sim_prod_ID)]
+print similar_new_1.shape
+similar_new_2 = pd.get_dummies(similar_new_1,columns=cate_list,drop_first=True) 
+</code></pre>
+
+<pre><code>(4141, 19)
+</code></pre>
+
+<pre><code class="language-python"># select ~20% latest data for test purpose
+# prepare training and test data
+</code></pre>
+
+<h4 id="3-2-3-random-forest-model">3.2.3 Random forest model</h4>
+
+<pre><code class="language-python">grid_2 = {'n_estimators': [15,20,30,40,50,60,70,80],
+          'max_depth': [5,10,20,30,40,50]}
+
+rf_2 = RandomForestRegressor(random_state=2019, verbose=1,n_jobs =6)
+grid_rf_2 = GridSearchCV(rf_2, grid_2, cv=3)
+grid_rf_2.fit(similar_new_2_train_X, similar_new_2_train_y)
+</code></pre>
+
+<pre><code>GridSearchCV(cv=3, error_score='raise-deprecating',
+       estimator=RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features='auto', max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators='warn', n_jobs=6,
+           oob_score=False, random_state=2019, verbose=1, warm_start=False),
+       fit_params=None, iid='warn', n_jobs=None,
+       param_grid={'n_estimators': [15, 20, 30, 40, 50, 60, 70, 80], 'max_depth': [5, 10, 20, 30, 40, 50]},
+       pre_dispatch='2*n_jobs', refit=True, return_train_score='warn',
+       scoring=None, verbose=0)
+</code></pre>
+
+<pre><code class="language-python">class_plot(grid_rf_2, grid_2, 'RF_new_CV_search')
+print grid_rf_2.best_params_
+print grid_rf_2.best_score_
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_69_0.png" alt="png" /></p>
+
+<pre><code>{'n_estimators': 50, 'max_depth': 40}
+0.8740823235216577
+</code></pre>
+
+<pre><code class="language-python"># re-train the model with full training set
+rf_best_new = grid_rf_2.best_estimator_
+rf_best_new.fit(similar_new_2_train_X, similar_new_2_train_y)
+# save model
+joblib.dump(rf_best_new, 'rf_best_new.sav', compress=3)
+
+pred_rf_test_new = rf_best_new.predict(similar_new_2_test_X)
+
+# compare the aggreated prediction with actual sales
+new_test_rf = similar_new_2_test.copy(deep=True)
+new_test_rf['pred'] = np.round(pred_rf_test_new)
+new_test_rf['pred'] = new_test_rf['pred'].clip(lower=0)
+
+function_2 = {'sales_amt':'sum', 'pred':'sum'}
+new_test_rf_agg = new_test_rf.groupby(['sku','quarter'],
+                                    as_index = False).agg(function_2)
+</code></pre>
+
+<pre><code class="language-python">evaluate(new_test_rf_agg)
+</code></pre>
+
+<pre><code>MAPE of prediction in SP2016 is 84.239533378
+MAE of prediction in SP2016 is 10030.2971429
+MAD ratio of prediction in SP2016 is 0.936399625086
+</code></pre>
+
+<pre><code class="language-python">plot_diff(new_test_rf_agg, 'Pred vs. Actual in RF_new', 'Difference between pred and acutal')
+</code></pre>
+
+<p><img src="/post_img/demand-prediction/output_72_0.png" alt="png" /></p>
+
+<p><img src="/post_img/demand-prediction/output_72_1.png" alt="png" /></p>
+
+<h2 id="4-prediction">4.Prediction</h2>
+
+<ul>
+<li>Use carry-over model and new-product model for carry-over and new products respectively</li>
+<li>Pre-process the input data so that they have the same columns as the data used to train the model</li>
+</ul>
+
+<pre><code class="language-python"># This part written in file.py
+</code></pre>
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://shichushi.com"><img src="/img/favicon.png" />Chace&#39;s Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/01/10/transaction-fraud-detection/" data-toggle="tooltip" data-placement="top" title="Transaction Fraud Detection in E-commerce">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-ts/" data-toggle="tooltip" data-placement="top" title="Urban Vibrancy and Safety Analysis in Philadelphia-TimeSeries">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/data-analysis" title="Data Analysis">
+                            Data Analysis
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/machine-learning" title="Machine Learning">
+                            Machine Learning
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/spark" title="Spark">
+                            Spark
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Chace&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:cshi46@wisc.edu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Chauncey315">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/chushishi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Chace&#39;s Blog 2020. All rights reserved.
+                    <br>
+                    采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处
+                    <br>
+                    Powered by <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+    </script>
+    
+
+</body>
+</html>
