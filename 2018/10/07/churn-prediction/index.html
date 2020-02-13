@@ -233,38 +233,34 @@
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#part-1-data-exploration">Part 1: Data Exploration</a>
 <ul>
-<li><a href="#part-1-1-load-data">Part 1.1: Load data</a></li>
+<li><a href="#part-1-1-load-data">Part 1.1: Load Data</a></li>
 <li><a href="#part-1-2-data-cleaning">Part 1.2: Data cleaning</a></li>
-<li><a href="#part-1-3-features-exploration">Part 1.3: Features Exploration</a></li>
+<li><a href="#part-1-3-understand-the-features">Part 1.3:  Understand the features</a></li>
 </ul></li>
-<li><a href="#part-2-feature-preprocessing">Part 2: Feature Preprocessing</a>
-<ul>
-<li><a href="#part-2-1-processing-categorical-features">Part 2.1 Processing categorical features</a></li>
-</ul></li>
+<li><a href="#part-2-feature-preprocessing">Part 2: Feature Preprocessing</a></li>
 <li><a href="#part-3-model-training-and-result-evaluation">Part 3: Model Training and Result Evaluation</a>
 <ul>
-<li><a href="#part-3-1-split-dataset-and-scale-the-data">Part 3.1: Split dataset and scale the data</a></li>
-<li><a href="#part-3-2-model-training-and-selection">Part 3.2: Model Training and Selection</a>
-<ul>
-<li><a href="#3-2-1-build-models">3.2.1 Build models</a></li>
-<li><a href="#3-2-2-training-and-model-selection">3.2.2 Training and Model selection</a></li>
-</ul></li>
+<li><a href="#part-3-1-split-dataset">Part 3.1: Split dataset</a></li>
+<li><a href="#part-3-2-model-training-and-selection">Part 3.2: Model Training and Selection</a></li>
 <li><a href="#part-3-3-use-grid-search-to-find-optimal-hyperparameters">Part 3.3: Use Grid Search to Find Optimal Hyperparameters</a>
 <ul>
-<li><a href="#part-3-3-1-logisticregression">Part 3.3.1: LogisticRegression</a></li>
-<li><a href="#part-3-3-2-knn">Part 3.3.2: KNN</a></li>
-<li><a href="#part-3-3-3-random-forest">Part 3.3.3: Random Forest</a></li>
+<li><a href="#part-3-3-1-find-optimal-hyperparameters-logisticregression">Part 3.3.1: Find Optimal Hyperparameters - LogisticRegression</a></li>
+<li><a href="#part-3-3-2-find-optimal-hyperparameters-knn">Part 3.3.2: Find Optimal Hyperparameters: KNN</a></li>
+<li><a href="#part-3-3-3-find-optimal-hyperparameters-random-forest">Part 3.3.3: Find Optimal Hyperparameters: Random Forest</a></li>
 </ul></li>
-<li><a href="#part-3-4-model-evaluation">Part 3.4: Model Evaluation</a>
+<li><a href="#part-3-4-model-evaluation-roc-auc">Part 3.4: Model Evaluation - ROC &amp; AUC</a>
 <ul>
-<li><a href="#part-3-4-1-precision-recall-accuracy">Part 3.4.1 Precision, Recall, Accuracy</a></li>
-<li><a href="#part-3-4-2-roc-auc">Part 3.4.2: ROC &amp; AUC</a></li>
+<li><a href="#part-3-4-1-roc-of-rf-model">Part 3.4.1: ROC of RF Model</a></li>
+<li><a href="#part-3-4-1-roc-of-lr-model">Part 3.4.1: ROC of LR Model</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#part-4-deep-into-features">Part 4: Deep into Features</a>
+</ul></li>
+<li><a href="#part-4-feature-selection">Part 4: Feature Selection</a>
 <ul>
-<li><a href="#part-4-1-logistic-regression-model-feature-selection">Part 4.1:  Logistic Regression Model - Feature Selection</a></li>
-<li><a href="#part-4-2-random-forest-model-feature-importance">Part 4.2:  Random Forest Model - Feature Importance</a></li>
+<li>
+<ul>
+<li><a href="#part-4-1-logistic-regression-model-feature-selection-discussion">Part 4.1:  Logistic Regression Model - Feature Selection Discussion</a></li>
+<li><a href="#part-4-2-random-forest-model-feature-importance-discussion">Part 4.2:  Random Forest Model - Feature Importance Discussion</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -276,12 +272,38 @@
 
 <p>In this project, I will use machine learning models to help telecommunication service vendors to identify customers who are likely to stop using service in the future. Furthermore, I will analyze top factors that influence user retention.</p>
 
+<p>In order to clean showing, I delete some routine and define function code, and just show the result.</p>
+
 <h2 id="part-1-data-exploration">Part 1: Data Exploration</h2>
 
-<h3 id="part-1-1-load-data">Part 1.1: Load data</h3>
+<h3 id="part-1-1-load-data">Part 1.1: Load Data</h3>
 
-<table><thead style='background-color: white'>
-    <tr>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+
+churn_df = pd.read_csv('churn.csv')
+</code></pre>
+
+<pre><code class="language-python">churn_df.head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
       <th></th>
       <th>state</th>
       <th>account_length</th>
@@ -429,38 +451,59 @@
     </tr>
   </tbody>
 </table>
-  
+</div>
 
-<ul>
-<li>Dimension of Data<br />
-Num of rows: 5000<br />
-Num of columns: 21</li>
-</ul>
+<pre><code class="language-python">print (&quot;Num of rows: &quot; + str(churn_df.shape[0])) # row count
+print (&quot;Num of columns: &quot; + str(churn_df.shape[1])) # col count
+</code></pre>
+
+<pre><code>Num of rows: 5000
+Num of columns: 21
+</code></pre>
 
 <h3 id="part-1-2-data-cleaning">Part 1.2: Data cleaning</h3>
 
-<ul>
-<li>remove the heading and trailing whitespaces for categorical features</li>
-</ul>
+<p>Remove Extra Whitespace</p>
 
-<h3 id="part-1-3-features-exploration">Part 1.3: Features Exploration</h3>
+<pre><code class="language-python"># check categorical feature before manipulation
+# remove the heading and trailing whitespaces
+# check the categorical feature after manipulation
+</code></pre>
 
-<ol>
-<li>Feature Distribution</li>
-</ol>
+<h3 id="part-1-3-understand-the-features">Part 1.3:  Understand the features</h3>
 
-<p><img src="/post_img/churn-prediction/output_13_1.png" alt="png" /></p>
+<pre><code class="language-python"># check the feature distribution
+%matplotlib inline
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-<ol>
-<li>correlations between all the features</li>
-</ol>
+sns.distplot(churn_df['total_intl_charge'])
+</code></pre>
 
-<ul>
-<li><p>Heatmap
-<img src="/post_img/churn-prediction/output_14_1.png" alt="png" /></p></li>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f2b858bc208&gt;
+</code></pre>
 
-<li><p>Actual value</p></li>
-</ul>
+<p><img src="/post_img/churn-prediction/output_22_1.png" alt="png" /></p>
+
+<pre><code class="language-python"># correlations between all the features
+corr = churn_df[[&quot;account_length&quot;, &quot;number_vmail_messages&quot;, &quot;total_day_minutes&quot;,
+                    &quot;total_day_calls&quot;, &quot;total_day_charge&quot;, &quot;total_eve_minutes&quot;,
+                    &quot;total_eve_calls&quot;, &quot;total_eve_charge&quot;, &quot;total_night_minutes&quot;,
+                    &quot;total_night_calls&quot;, &quot;total_intl_minutes&quot;, &quot;total_intl_calls&quot;,
+                    &quot;total_intl_charge&quot;]].corr()
+
+# show heapmap of correlations
+sns.heatmap(corr)
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f2b8566d630&gt;
+</code></pre>
+
+<p><img src="/post_img/churn-prediction/output_23_1.png" alt="png" /></p>
+
+<pre><code class="language-python"># check the actual values of correlations
+corr
+</code></pre>
 
 <div>
 <style scoped>
@@ -708,32 +751,215 @@ Num of columns: 21</li>
 </table>
 </div>
 
-<h2 id="part-2-feature-preprocessing">Part 2: Feature Preprocessing</h2>
-
-<h3 id="part-2-1-processing-categorical-features">Part 2.1 Processing categorical features</h3>
-
-<ol>
-<li>drop some useless columns</li>
-<li>process categorical features, like state into one-hot encoding and &lsquo;yes&rsquo; or &lsquo;no&rsquo; to boolean values</li>
-</ol>
-
-<p><style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }</p>
-
-<pre><code>.dataframe tbody tr th {
-    vertical-align: top;
-}
-
-.dataframe thead th {
-    text-align: right;
-}
+<pre><code class="language-python"># calculate two features correlation
+from scipy.stats import pearsonr
+print (pearsonr(churn_df['total_day_minutes'], churn_df['number_vmail_messages'])[0])
 </code></pre>
 
-<p></style>
-<div class ="scoped">
-<table class="dataframe">
+<pre><code>0.00538137596065452
+</code></pre>
+
+<h2 id="part-2-feature-preprocessing">Part 2: Feature Preprocessing</h2>
+
+<pre><code class="language-python">churn_df.head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+      <th>account_length</th>
+      <th>area_code</th>
+      <th>phone_number</th>
+      <th>intl_plan</th>
+      <th>voice_mail_plan</th>
+      <th>number_vmail_messages</th>
+      <th>total_day_minutes</th>
+      <th>total_day_calls</th>
+      <th>total_day_charge</th>
+      <th>total_eve_minutes</th>
+      <th>total_eve_calls</th>
+      <th>total_eve_charge</th>
+      <th>total_night_minutes</th>
+      <th>total_night_calls</th>
+      <th>total_night_charge</th>
+      <th>total_intl_minutes</th>
+      <th>total_intl_calls</th>
+      <th>total_intl_charge</th>
+      <th>number_customer_service_calls</th>
+      <th>churned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>KS</td>
+      <td>128</td>
+      <td>415</td>
+      <td>382-4657</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>25</td>
+      <td>265.1</td>
+      <td>110</td>
+      <td>45.07</td>
+      <td>197.4</td>
+      <td>99</td>
+      <td>16.78</td>
+      <td>244.7</td>
+      <td>91</td>
+      <td>11.01</td>
+      <td>10.0</td>
+      <td>3</td>
+      <td>2.70</td>
+      <td>1</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>OH</td>
+      <td>107</td>
+      <td>415</td>
+      <td>371-7191</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>26</td>
+      <td>161.6</td>
+      <td>123</td>
+      <td>27.47</td>
+      <td>195.5</td>
+      <td>103</td>
+      <td>16.62</td>
+      <td>254.4</td>
+      <td>103</td>
+      <td>11.45</td>
+      <td>13.7</td>
+      <td>3</td>
+      <td>3.70</td>
+      <td>1</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NJ</td>
+      <td>137</td>
+      <td>415</td>
+      <td>358-1921</td>
+      <td>no</td>
+      <td>no</td>
+      <td>0</td>
+      <td>243.4</td>
+      <td>114</td>
+      <td>41.38</td>
+      <td>121.2</td>
+      <td>110</td>
+      <td>10.30</td>
+      <td>162.6</td>
+      <td>104</td>
+      <td>7.32</td>
+      <td>12.2</td>
+      <td>5</td>
+      <td>3.29</td>
+      <td>0</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>OH</td>
+      <td>84</td>
+      <td>408</td>
+      <td>375-9999</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>0</td>
+      <td>299.4</td>
+      <td>71</td>
+      <td>50.90</td>
+      <td>61.9</td>
+      <td>88</td>
+      <td>5.26</td>
+      <td>196.9</td>
+      <td>89</td>
+      <td>8.86</td>
+      <td>6.6</td>
+      <td>7</td>
+      <td>1.78</td>
+      <td>2</td>
+      <td>False.</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>OK</td>
+      <td>75</td>
+      <td>415</td>
+      <td>330-6626</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>0</td>
+      <td>166.7</td>
+      <td>113</td>
+      <td>28.34</td>
+      <td>148.3</td>
+      <td>122</td>
+      <td>12.61</td>
+      <td>186.9</td>
+      <td>121</td>
+      <td>8.41</td>
+      <td>10.1</td>
+      <td>3</td>
+      <td>2.73</td>
+      <td>3</td>
+      <td>False.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python"># Get ground truth data(TRUE -&gt; 1, False -&gt;0)
+# Drop some useless columns
+# yes and no have to be converted to boolean values
+# check the propotion of y = 1
+</code></pre>
+
+<pre><code>[14.14]
+</code></pre>
+
+<p>process categorical features, like state into one-hot encoding and ‘yes’ or ‘no’ to boolean values</p>
+
+<pre><code class="language-python"># yes and no have to be converted to boolean values
+# sklearn.preprocessing.OneHotEncoder
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -1165,185 +1391,419 @@ Num of columns: 21</li>
     </tr>
   </tbody>
 </table>
-</div></p>
+</div>
 
 <h2 id="part-3-model-training-and-result-evaluation">Part 3: Model Training and Result Evaluation</h2>
 
-<h3 id="part-3-1-split-dataset-and-scale-the-data">Part 3.1: Split dataset and scale the data</h3>
+<h3 id="part-3-1-split-dataset">Part 3.1: Split dataset</h3>
 
-<p>training data has 4000 observation with 17 features
+<pre><code class="language-python"># Splite data into training and testing
+# Reserve 20% for testing
+</code></pre>
+
+<pre><code>training data has 4000 observation with 17 features
 test data has 1000 observation with 17 features
-Scale the data, using standardization</p>
+</code></pre>
+
+<pre><code class="language-python"># Scale the data, using standardization
+</code></pre>
 
 <h3 id="part-3-2-model-training-and-selection">Part 3.2: Model Training and Selection</h3>
 
-<h4 id="3-2-1-build-models">3.2.1 Build models</h4>
+<pre><code class="language-python">#@title build models
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.linear_model import LogisticRegression
 
-<pre><code class="language-python"># Logistic Regression
+# Logistic Regression
+classifier_logistic = LogisticRegression()
+
 # K Nearest Neighbors
+classifier_KNN = KNeighborsClassifier()
+
 # Random Forest
+classifier_RF = RandomForestClassifier()
 </code></pre>
 
-<h4 id="3-2-2-training-and-model-selection">3.2.2 Training and Model selection</h4>
+<pre><code class="language-python"># Train the model
+classifier_logistic.fit(X_train, y_train)
+</code></pre>
 
-<p><strong>Use 5-fold Cross Validation to get the accuracy for different models</strong><br />
-Logistic Regression:<br />
-{0.86125, 0.86375, 0.855, 0.87125, 0.86625}<br />
-the accuracy is 0.8634999999999999</p>
+<pre><code>LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=100,
+                   multi_class='warn', n_jobs=None, penalty='l2',
+                   random_state=None, solver='warn', tol=0.0001, verbose=0,
+                   warm_start=False)
+</code></pre>
 
-<p>KNN:<br />
-{0.89125, 0.89125, 0.885, 0.9, 0.8925}<br />
-the accuracy is 0.892</p>
+<pre><code class="language-python"># Prediction of test data
+classifier_logistic.predict(X_test)
+</code></pre>
 
-<p>RF:<br />
-{0.9525, 0.94125, 0.94875, 0.93875, 0.9475}<br />
-the accuracy is 0.94575</p>
+<pre><code>array([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+       0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,...,])
+</code></pre>
+
+<pre><code class="language-python"># Accuracy of test data
+classifier_logistic.score(X_test, y_test)
+</code></pre>
+
+<pre><code>0.878
+</code></pre>
+
+<pre><code class="language-python"># Use 5-fold Cross Validation to get the accuracy for different models
+model_names = ['Logistic Regression','KNN','Random Forest']
+model_list = [classifier_logistic, classifier_KNN, classifier_RF]
+count = 0
+
+for classifier in model_list:
+    cv_score = model_selection.cross_val_score(classifier, X_train, y_train, cv=5)
+    print(cv_score)
+    print('Model accuracy of ' + model_names[count] + ' is ' + str(cv_score.mean()))
+    count += 1
+</code></pre>
+
+<pre><code>[0.86125 0.86375 0.855   0.87125 0.86625]
+Model accuracy of Logistic Regression is 0.8634999999999999
+[0.89125 0.89125 0.885   0.9     0.8925 ]
+Model accuracy of KNN is 0.892
+[0.9525  0.94125 0.94875 0.93875 0.9475 ]
+Model accuracy of Random Forest is 0.94575
+</code></pre>
+
+<p>Try SVM model</p>
+
+<pre><code class="language-python"># SVC
+from sklearn.svm import SVC 
+
+classifier_SVC = SVC()
+
+cv_score = model_selection.cross_val_score(classifier_SVC, X_train, y_train, cv=5)
+print('Model accuracy of SVM is: ' + str(cv_score.mean()))
+
+</code></pre>
+
+<pre><code>Model accuracy of SVM is: 0.9177500000000001
+</code></pre>
 
 <h3 id="part-3-3-use-grid-search-to-find-optimal-hyperparameters">Part 3.3: Use Grid Search to Find Optimal Hyperparameters</h3>
 
-<h4 id="part-3-3-1-logisticregression">Part 3.3.1: LogisticRegression</h4>
+<pre><code class="language-python">from sklearn.model_selection import GridSearchCV
 
-<ul>
-<li>Possible hyperparamter options for Logistic Regression Regularization</li>
-<li>Penalty is choosed from L1 or L2</li>
-<li>C is the lambda value(weight) for L1 and L2</li>
-</ul>
+# helper function(def print_grid_search_metrics) for printing out grid search results 
+</code></pre>
+
+<h4 id="part-3-3-1-find-optimal-hyperparameters-logisticregression">Part 3.3.1: Find Optimal Hyperparameters - LogisticRegression</h4>
+
+<pre><code class="language-python"># Possible hyperparamter options for Logistic Regression Regularization
+# Penalty is choosed from L1 or L2
+# C is the lambda value(weight) for L1 and L2
+
+# ('l1', 1) ('l1', 5) ('l1', 10) ('l2', 1) ('l2', 5) ('l2', 10)
+parameters = {
+    'penalty':('l1', 'l2'), 
+    'C':(1, 5, 10)
+}
+Grid_LR = GridSearchCV(LogisticRegression(),parameters, cv=5)
+Grid_LR.fit(X_train, y_train)
+</code></pre>
+
+<pre><code>GridSearchCV(cv=5, error_score='raise-deprecating',
+             estimator=LogisticRegression(C=1.0, class_weight=None, dual=False,
+                                          fit_intercept=True,
+                                          intercept_scaling=1, l1_ratio=None,
+                                          max_iter=100, multi_class='warn',
+                                          n_jobs=None, penalty='l2',
+                                          random_state=None, solver='warn',
+                                          tol=0.0001, verbose=0,
+                                          warm_start=False),
+             iid='warn', n_jobs=None,
+             param_grid={'C': (1, 5, 10), 'penalty': ('l1', 'l2')},
+             pre_dispatch='2*n_jobs', refit=True, return_train_score=False,
+             scoring=None, verbose=0)
+</code></pre>
 
 <pre><code class="language-python"># the best hyperparameter combination
+print_grid_search_metrics(Grid_LR)
 </code></pre>
 
-<p>Best score: 0.86375<br />
-Best parameters set:<br />
-  C:1<br />
-  penalty:l1</p>
+<pre><code>Best score: 0.86375
+Best parameters set:
+C:1
+penalty:l1
+</code></pre>
 
-<h4 id="part-3-3-2-knn">Part 3.3.2: KNN</h4>
+<pre><code class="language-python"># best model
+</code></pre>
+
+<h4 id="part-3-3-2-find-optimal-hyperparameters-knn">Part 3.3.2: Find Optimal Hyperparameters: KNN</h4>
+
+<pre><code class="language-python"># Possible hyperparamter options for KNN
+# Choose k
+parameters = {
+    'n_neighbors':[3,5,7,10] 
+}
+Grid_KNN = GridSearchCV(KNeighborsClassifier(),parameters, cv=5)
+Grid_KNN.fit(X_train, y_train)
+</code></pre>
+
+<pre><code>GridSearchCV(cv=5, error_score='raise-deprecating',
+             estimator=KNeighborsClassifier(algorithm='auto', leaf_size=30,
+                                            metric='minkowski',
+                                            metric_params=None, n_jobs=None,
+                                            n_neighbors=5, p=2,
+                                            weights='uniform'),
+             iid='warn', n_jobs=None, param_grid={'n_neighbors': [3, 5, 7, 10]},
+             pre_dispatch='2*n_jobs', refit=True, return_train_score=False,
+             scoring=None, verbose=0)
+</code></pre>
 
 <pre><code class="language-python"># best k
+print_grid_search_metrics(Grid_KNN)
 </code></pre>
 
-<p>Best score: 0.893<br />
-Best parameters set:<br />
-  n_neighbors: 7</p>
+<pre><code>Best score: 0.893
+Best parameters set:
+    n_neighbors: 7
+</code></pre>
 
-<h4 id="part-3-3-3-random-forest">Part 3.3.3: Random Forest</h4>
+<h4 id="part-3-3-3-find-optimal-hyperparameters-random-forest">Part 3.3.3: Find Optimal Hyperparameters: Random Forest</h4>
 
-<ul>
-<li>Choose the number of trees</li>
-</ul>
+<pre><code class="language-python"># Possible hyperparamter options for Random Forest
+# Choose the number of trees
+parameters = {
+    'n_estimators' : [40,60,80]
+}
+Grid_RF = GridSearchCV(RandomForestClassifier(),parameters, cv=5)
+Grid_RF.fit(X_train, y_train)
+</code></pre>
+
+<pre><code>GridSearchCV(cv=5, error_score='raise-deprecating',
+             estimator=RandomForestClassifier(bootstrap=True, class_weight=None,
+                                              criterion='gini', max_depth=None,
+                                              max_features='auto',
+                                              max_leaf_nodes=None,
+                                              min_impurity_decrease=0.0,
+                                              min_impurity_split=None,
+                                              min_samples_leaf=1,
+                                              min_samples_split=2,
+                                              min_weight_fraction_leaf=0.0,
+                                              n_estimators='warn', n_jobs=None,
+                                              oob_score=False,
+                                              random_state=None, verbose=0,
+                                              warm_start=False),
+             iid='warn', n_jobs=None, param_grid={'n_estimators': [40, 60, 80]},
+             pre_dispatch='2*n_jobs', refit=True, return_train_score=False,
+             scoring=None, verbose=0)
+</code></pre>
 
 <pre><code class="language-python"># best number of tress
+print_grid_search_metrics(Grid_RF)
 </code></pre>
 
-<p>Best score: 0.955<br />
-Best parameters set:<br />
-  n_estimators: 40</p>
+<pre><code>Best score: 0.955
+Best parameters set:
+    n_estimators: 40
+</code></pre>
 
-<h3 id="part-3-4-model-evaluation">Part 3.4: Model Evaluation</h3>
+<pre><code class="language-python"># best random forest
+</code></pre>
 
-<h4 id="part-3-4-1-precision-recall-accuracy">Part 3.4.1 Precision, Recall, Accuracy</h4>
+<p>Part 3.4: Model Evaluation - Confusion Matrix</p>
 
-<p>Random Forest<br />
-Accuracy is: 0.969<br />
-precision is: 0.941747572815534<br />
-recall is: 0.7950819672131147</p>
+<pre><code class="language-python">from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 
-<p><img src="/post_img/churn-prediction/output_50_1.png" alt="png" /></p>
+# calculate accuracy, precision and recall, [[tn, fp],[]]
+# def cal_evaluation(classifier, cm):
 
-<p>Logistic Regression<br />
-Accuracy is: 0.878<br />
-precision is: 0.5<br />
-recall is: 0.18032786885245902</p>
+# print out confusion matrices
+# def draw_confusion_matrices(confusion_matricies):
+</code></pre>
 
-<p><img src="/post_img/churn-prediction/output_50_3.png" alt="png" /></p>
+<pre><code class="language-python">%matplotlib inline
 
-<h4 id="part-3-4-2-roc-auc">Part 3.4.2: ROC &amp; AUC</h4>
+# Confusion matrix, accuracy, precison and recall for random forest and logistic regression
+confusion_matrices = [
+    (&quot;Random Forest&quot;, confusion_matrix(y_test,best_RF_model.predict(X_test))),
+    (&quot;Logistic Regression&quot;, confusion_matrix(y_test,best_LR_model.predict(X_test))),
+]
 
-<ul>
-<li>Random Forest
-<img src="/post_img/churn-prediction/output_55_0.png" alt="png" /></li>
-</ul>
+draw_confusion_matrices(confusion_matrices)
+</code></pre>
 
-<p>Auc score: 0.9339827850181113</p>
+<pre><code>Random Forest
+Accuracy is: 0.969
+precision is: 0.941747572815534
+recall is: 0.7950819672131147
+</code></pre>
 
-<ul>
-<li>LR Model</li>
-</ul>
+<p><img src="/post_img/churn-prediction/output_60_1.png" alt="png" /></p>
 
-<p><img src="/post_img/churn-prediction/output_59_0.png" alt="png" /></p>
+<pre><code>Logistic Regression
+Accuracy is: 0.878
+precision is: 0.5
+recall is: 0.18032786885245902
+</code></pre>
 
-<p>Auc score: 0.8077878188132492</p>
+<p><img src="/post_img/churn-prediction/output_60_3.png" alt="png" /></p>
 
-<h2 id="part-4-deep-into-features">Part 4: Deep into Features</h2>
+<h3 id="part-3-4-model-evaluation-roc-auc">Part 3.4: Model Evaluation - ROC &amp; AUC</h3>
 
-<h3 id="part-4-1-logistic-regression-model-feature-selection">Part 4.1:  Logistic Regression Model - Feature Selection</h3>
+<p>RandomForestClassifier, KNeighborsClassifier and LogisticRegression have predict_prob() function</p>
+
+<h4 id="part-3-4-1-roc-of-rf-model">Part 3.4.1: ROC of RF Model</h4>
+
+<pre><code class="language-python">from sklearn.metrics import roc_curve
+from sklearn import metrics
+
+# Use predict_proba to get the probability results of Random Forest
+# ROC curve of Random Forest result
+</code></pre>
+
+<p><img src="/post_img/churn-prediction/output_65_0.png" alt="png" /></p>
+
+<pre><code class="language-python">from sklearn import metrics
+
+# AUC score
+metrics.auc(fpr_rf,tpr_rf)
+</code></pre>
+
+<pre><code>0.9339827850181113
+</code></pre>
+
+<h4 id="part-3-4-1-roc-of-lr-model">Part 3.4.1: ROC of LR Model</h4>
+
+<pre><code class="language-python"># Use predict_proba to get the probability results of Logistic Regression
+
+# ROC Curve
+
+</code></pre>
+
+<p><img src="/post_img/churn-prediction/output_69_0.png" alt="png" /></p>
+
+<pre><code class="language-python"># AUC score
+metrics.auc(fpr_lr,tpr_lr)
+</code></pre>
+
+<pre><code>0.8077878188132492
+</code></pre>
+
+<h1 id="part-4-feature-selection">Part 4: Feature Selection</h1>
+
+<h3 id="part-4-1-logistic-regression-model-feature-selection-discussion">Part 4.1:  Logistic Regression Model - Feature Selection Discussion</h3>
 
 <p>The corelated features that we are interested in: (total_day_minutes, total_day_charge), (total_eve_minutes, total_eve_charge), (total_intl_minutes, total_intl_charge).</p>
 
-<ul>
-<li><p>L1 regularization
-Logistic Regression (L1) Coefficients<br />
-number_customer_service_calls: 0.6379<br />
-intl_plan: 0.5866<br />
-total_day_minutes: 0.4681<br />
-voice_mail_plan: -0.4333<br />
-total_eve_minutes: 0.2242<br />
-total_day_charge: 0.2237<br />
-total_intl_calls: -0.147<br />
-total_night_charge: 0.1125<br />
-total_intl_charge: 0.1075<br />
-total_intl_minutes: 0.1065<br />
-total_eve_charge: 0.0992<br />
-total_night_minutes: 0.061<br />
-account_length: 0.0352<br />
-total_day_calls: 0.0301<br />
-total_night_calls: -0.011<br />
-total_eve_calls: -0.0091<br />
-number_vmail_messages: 0.0</p></li>
+<pre><code class="language-python"># add L1 regularization to logistic regression
+# check the coef for feature selection
+# scaler on test dataset
+# def helper function to print result
+for k,v in sorted(zip(map(lambda x: round(x, 4), LRmodel_l1.coef_[0]), \
+                      churn_feat_space.columns), key=lambda k_v:(-abs(k_v[0]),k_v[1])):
+    print (v + &quot;: &quot; + str(k))
+</code></pre>
 
-<li><p>L2 regularization
-Logistic Regression (L2) Coefficients<br />
-number_customer_service_calls: 0.6404<br />
-voice_mail_plan: -0.5974<br />
-intl_plan: 0.5895<br />
-total_day_minutes: 0.3502<br />
-total_day_charge: 0.3495<br />
-total_eve_charge: 0.1701<br />
-total_eve_minutes: 0.1699<br />
-total_intl_calls: -0.1653<br />
-number_vmail_messages: 0.1619<br />
-total_intl_charge: 0.1161<br />
-total_intl_minutes: 0.1156<br />
-total_night_minutes: 0.0962<br />
-total_night_charge: 0.0956<br />
-account_length: 0.0533<br />
-total_day_calls: 0.0483<br />
-total_night_calls: -0.0302<br />
-total_eve_calls: -0.0289</p></li>
-</ul>
+<pre><code>Logistic Regression (L1) Coefficients
+number_customer_service_calls: 0.6379
+intl_plan: 0.5866
+total_day_minutes: 0.4681
+voice_mail_plan: -0.4333
+total_eve_minutes: 0.2242
+total_day_charge: 0.2237
+total_intl_calls: -0.147
+total_night_charge: 0.1125
+total_intl_charge: 0.1075
+total_intl_minutes: 0.1065
+total_eve_charge: 0.0992
+total_night_minutes: 0.061
+account_length: 0.0352
+total_day_calls: 0.0301
+total_night_calls: -0.011
+total_eve_calls: -0.0091
+number_vmail_messages: 0.0
+</code></pre>
 
-<h3 id="part-4-2-random-forest-model-feature-importance">Part 4.2:  Random Forest Model - Feature Importance</h3>
+<pre><code class="language-python"># add L2 regularization to logistic regression
+# check the coef for feature selection
+# scaler on test dataset
+# def helper function to print result 
+</code></pre>
 
-<ul>
-<li>Feature importance ranking by Random Forest Model:<br />
-total_day_charge: 0.1424<br />
-total_day_minutes: 0.1298<br />
-number_customer_service_calls: 0.1144<br />
-intl_plan: 0.0877<br />
-total_eve_minutes: 0.078<br />
-total_intl_calls: 0.0713<br />
-total_eve_charge: 0.0574<br />
-total_intl_charge: 0.0542<br />
-total_night_minutes: 0.0436<br />
-total_night_charge: 0.0421<br />
-number_vmail_messages: 0.037<br />
-account_length: 0.0288<br />
-total_intl_minutes: 0.0287<br />
-total_day_calls: 0.0257<br />
-total_night_calls: 0.0244<br />
-total_eve_calls: 0.0174<br />
-voice_mail_plan: 0.017<br /></li>
-</ul>
+<pre><code>Logistic Regression (L2) Coefficients
+number_customer_service_calls: 0.6404
+voice_mail_plan: -0.5974
+intl_plan: 0.5895
+total_day_minutes: 0.3502
+total_day_charge: 0.3495
+total_eve_charge: 0.1701
+total_eve_minutes: 0.1699
+total_intl_calls: -0.1653
+number_vmail_messages: 0.1619
+total_intl_charge: 0.1161
+total_intl_minutes: 0.1156
+total_night_minutes: 0.0962
+total_night_charge: 0.0956
+account_length: 0.0533
+total_day_calls: 0.0483
+total_night_calls: -0.0302
+total_eve_calls: -0.0289
+</code></pre>
+
+<h3 id="part-4-2-random-forest-model-feature-importance-discussion">Part 4.2:  Random Forest Model - Feature Importance Discussion</h3>
+
+<pre><code class="language-python"># check feature importance of random forest for feature selection
+# scaler on test dataset
+# def helper function to print result 
+# Print the feature ranking
+print(&quot;Feature importance ranking by Random Forest Model:&quot;)
+for k,v in sorted(zip(map(lambda x: round(x, 4), importances), churn_feat_space.columns), reverse=True):
+    print (v + &quot;: &quot; + str(k))
+</code></pre>
+
+<pre><code>Feature importance ranking by Random Forest Model:
+total_day_charge: 0.1424
+total_day_minutes: 0.1298
+number_customer_service_calls: 0.1144
+intl_plan: 0.0877
+total_eve_minutes: 0.078
+total_intl_calls: 0.0713
+total_eve_charge: 0.0574
+total_intl_charge: 0.0542
+total_night_minutes: 0.0436
+total_night_charge: 0.0421
+number_vmail_messages: 0.037
+account_length: 0.0288
+total_intl_minutes: 0.0287
+total_day_calls: 0.0257
+total_night_calls: 0.0244
+total_eve_calls: 0.0174
+voice_mail_plan: 0.017
+</code></pre>
 
                 
                 
