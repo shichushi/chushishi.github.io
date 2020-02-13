@@ -93,15 +93,6 @@
     </item>
     
     <item>
-      <title>Machine learning</title>
-      <link>https://shichushi.com/tags/machine-learning/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://shichushi.com/tags/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Model Selection</title>
       <link>https://shichushi.com/tags/model-selection/</link>
       <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
@@ -143,6 +134,15 @@
       <pubDate>Sun, 20 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/tags/recommender-system/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Smote</title>
+      <link>https://shichushi.com/tags/smote/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/tags/smote/</guid>
       <description></description>
     </item>
     

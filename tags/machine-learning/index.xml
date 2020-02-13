@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Machine learning on Chace&#39;s Blog</title>
+    <title>Machine Learning on Chace&#39;s Blog</title>
     <link>https://shichushi.com/tags/machine-learning/</link>
-    <description>Recent content in Machine learning on Chace&#39;s Blog</description>
+    <description>Recent content in Machine Learning on Chace&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 01 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://shichushi.com/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Supply Chain Demand Forecasting and Data Management</title>
+      <link>https://shichushi.com/2019/02/01/demand-prediction/</link>
+      <pubDate>Fri, 01 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/2019/02/01/demand-prediction/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Transaction Fraud Detection in E-commerce</title>
@@ -17,6 +26,15 @@
       <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://shichushi.com/2019/01/10/transaction-fraud-detection/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Customer Churn Prediction in Telecommunications Industry</title>
+      <link>https://shichushi.com/2018/10/07/churn-prediction/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/2018/10/07/churn-prediction/</guid>
       <description>&lt;p&gt;&lt;/p&gt;</description>
     </item>
     

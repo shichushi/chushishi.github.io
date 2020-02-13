@@ -167,7 +167,7 @@
 
 <style type="text/css">
     header.intro-header {
-        background-image: url('https://img.zhaohuabing.com/in-post/istio-traffic-shifting/crossroads.png')
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-05-22-user_authentication_authorization/background.jpg')
     }
 </style>
 <header class="intro-header">
@@ -181,8 +181,8 @@
                             Fraud Detection
                         </a>
                         
-                        <a class="tag" href="/tags/machine-learning" title="Machine learning">
-                            Machine learning
+                        <a class="tag" href="/tags/machine-learning" title="Machine Learning">
+                            Machine Learning
                         </a>
                         
                         <a class="tag" href="/tags/data-analysis" title="Data Analysis">
@@ -193,13 +193,17 @@
                             E-commerce
                         </a>
                         
+                        <a class="tag" href="/tags/smote" title="Smote">
+                            Smote
+                        </a>
+                        
                     </div>
                     <h1>Transaction Fraud Detection in E-commerce</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by 
                         
-                                Chushi Shi
+                                &#34;Chushi Shi&#34;
                          
                         on 
                         Thursday, January 10, 2019
@@ -236,31 +240,40 @@
 <ul>
 <li><a href="#introduction">Introduction</a>
 <ul>
-<li><a href="#important-features-of-the-project">Important features of the project</a></li>
+<li><a href="#noticing-points">Noticing Points</a></li>
 </ul></li>
 <li><a href="#data-exploration">Data Exploration</a>
 <ul>
-<li><a href="#distribution-of-the-label-column">Distribution of the label column</a></li>
-<li><a href="#missing-values">Missing values</a></li>
-<li><a href="#identify-country-info-based-on-ip-address">Identify country info based on ip_address</a>
+<li><a href="#load-data">Load Data</a></li>
+<li><a href="#data-processing">Data Processing</a></li>
+<li><a href="#understand-features">Understand Features</a>
 <ul>
-<li><a href="#check-if-column-user-id-is-unique-no-dup-for-time-related-aggregates">check if column user_id is unique(no dup) for time related aggregates</a></li>
-</ul></li>
-<li><a href="#after-procressing">After procressing</a>
+<li><a href="#ip-address-country">IP address &amp; Country</a>
 <ul>
-<li><a href="#convert-categorical-features-with-high-cadinality-to-numericals">Convert categorical features with high cadinality to numericals</a></li>
+<li><a href="#a-lookup-tool">a Lookup Tool</a></li>
 </ul></li>
+<li><a href="#trasaction-time">Trasaction &amp; Time</a></li>
 </ul></li>
-<li><a href="#model-training-and-selection">Model Training and Selection</a></li>
-<li><a href="#parameter-tuning-by-gridsearchcv">Parameter tuning by GridSearchCV</a></li>
-<li><a href="#feature-important-by-rf">Feature Important by RF</a></li>
-<li><a href="#other-attempts">Other Attempts</a>
+<li><a href="#split-data">Split Data</a></li>
+<li><a href="#standarization">Standarization</a></li>
+</ul></li>
+<li><a href="#simple-models-training-selection">Simple Models Training &amp; Selection</a>
 <ul>
-<li><a href="#optimizing-recall-score-on-rf-by-grid-search">Optimizing recall_score on RF by Grid Search</a></li>
+<li><a href="#simple-logisticregression-model">Simple LogisticRegression model</a></li>
+<li><a href="#simple-rf-model">Simple RF model</a></li>
 </ul></li>
-<li><a href="#prediction">Prediction</a>
+<li><a href="#smote-sampling">SMOTE sampling</a>
 <ul>
-<li><a href="#final-result">Final Result</a></li>
+<li><a href="#parameter-tuning-by-gridsearchcv">Parameter tuning by GridSearchCV</a>
+<ul>
+<li><a href="#optimizing-on-f1-score-on-lr">Optimizing on f1_score on LR</a></li>
+<li><a href="#optimizing-on-f1-score-on-rf">Optimizing on f1_score on RF</a></li>
+<li><a href="#optimizing-recall-score-on-rf">Optimizing recall_score on RF</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#feature-importance">Feature Importance</a>
+<ul>
+<li><a href="#final-result-and-application">Final Result and Application</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -276,7 +289,7 @@
 
 <p>The goal of this project is to build a machine learning model that predicts the probability that the first transaction of a new user is fraudulent. More specifically, this company is an e-commerce site that sells electronic products. I will build a model that predicts whether a user has a high probability of using the site to perform some illegal activity or not.</p>
 
-<h3 id="important-features-of-the-project">Important features of the project</h3>
+<h3 id="noticing-points">Noticing Points</h3>
 
 <ul>
 <li>Data is highly imbalanced</li>
@@ -285,6 +298,15 @@
 </ul>
 
 <h2 id="data-exploration">Data Exploration</h2>
+
+<h3 id="load-data">Load Data</h3>
+
+<pre><code class="language-python">ipToCountry = pd.read_csv('fraudDetection/IpAddress_to_Country.csv')
+fraud_data = pd.read_csv('fraudDetection/imbalancedFraudDF.csv')
+
+fraud_data.head()
+
+</code></pre>
 
 <div>
 <style scoped>
@@ -392,13 +414,23 @@
 </table>
 </div>
 
-<h3 id="distribution-of-the-label-column">Distribution of the label column</h3>
-
-<pre><code>0: 136961  
-1: 1415  
+<pre><code class="language-python">#Distribution of the label column
+fraud_data['class'].value_counts()
 </code></pre>
 
-<h3 id="missing-values">Missing values</h3>
+<pre><code>0    136961
+1      1415
+Name: class, dtype: int64
+</code></pre>
+
+<h3 id="data-processing">Data Processing</h3>
+
+<p>Missing values &amp; outlier</p>
+
+<pre><code class="language-python"># count of NaN in each column
+# fraud_data.isnull().sum(axis = 0)
+# check count of fraud that is outliers
+</code></pre>
 
 <pre><code>user_id           0
 signup_time       0
@@ -411,9 +443,17 @@ sex               0
 age               0
 ip_address        0
 class             0
+dtype: int64
 </code></pre>
 
-<h3 id="identify-country-info-based-on-ip-address">Identify country info based on ip_address</h3>
+<h3 id="understand-features">Understand Features</h3>
+
+<h4 id="ip-address-country">IP address &amp; Country</h4>
+
+<pre><code class="language-python">#Task 1: Identify country info based on ip_address
+
+ipToCountry.head()
+</code></pre>
 
 <div>
 <style scoped>
@@ -473,7 +513,44 @@ class             0
 </table>
 </div>
 
-<h4 id="check-if-column-user-id-is-unique-no-dup-for-time-related-aggregates">check if column user_id is unique(no dup) for time related aggregates</h4>
+<h5 id="a-lookup-tool">a Lookup Tool</h5>
+
+<pre><code class="language-python">
+start = time.time()
+
+countries = []
+for i in range(len(fraud_data)):
+    ip_address = fraud_data.loc[i, 'ip_address']#number
+    #below [] is list of T/F, tmp is a df of shape n * 3, where n is 1 if found a match or 0 if no match
+    tmp = ipToCountry[(ipToCountry['lower_bound_ip_address'] &lt;= ip_address) &amp;
+                    (ipToCountry['upper_bound_ip_address'] &gt;= ip_address)]
+    if len(tmp) == 1:#found match
+        countries.append(tmp['country'].values[0])
+    else:#no match
+        countries.append('NA')
+        
+fraud_data['country'] = countries
+runtime = time.time() - start 
+
+print(&quot;Lookup took&quot;, runtime, &quot;seconds.&quot;)
+
+
+</code></pre>
+
+<pre><code>Lookup took 258.7920651435852 seconds.
+</code></pre>
+
+<pre><code class="language-python">ip_address = fraud_data.loc[6, 'ip_address']
+tmp = ipToCountry[(ipToCountry['lower_bound_ip_address'] &lt;= ip_address) &amp;
+                    (ipToCountry['upper_bound_ip_address'] &gt;= ip_address)]
+print(tmp)
+</code></pre>
+
+<pre><code>       lower_bound_ip_address  upper_bound_ip_address        country
+28203            1.686110e+09              1694498815  United States
+</code></pre>
+
+<h4 id="trasaction-time">Trasaction &amp; Time</h4>
 
 <pre><code class="language-python">print(fraud_data.user_id.nunique())#138376
 print(len(fraud_data.index))#138376
@@ -481,11 +558,30 @@ print(len(fraud_data.index))#138376
 #e.g. amount/counts in past 1 day for this user
 </code></pre>
 
-<pre><code>138376  
-138376  
+<pre><code>138376
+138376
 </code></pre>
 
-<h3 id="after-procressing">After procressing</h3>
+<pre><code class="language-python">#time related features: can be done before split, as they has no interaction between other rows, solely based on other columns of the same row
+fraud_data['interval_after_signup'] = (pd.to_datetime(fraud_data['purchase_time']) - pd.to_datetime(
+        fraud_data['signup_time'])).dt.total_seconds()
+
+fraud_data['signup_days_of_year'] = pd.DatetimeIndex(fraud_data['signup_time']).dayofyear
+
+#bed time operation
+fraud_data['signup_seconds_of_day'] = pd.DatetimeIndex(fraud_data['signup_time']).second + 60 * pd.DatetimeIndex(
+    fraud_data['signup_time']).minute + 3600 * pd.DatetimeIndex(fraud_data['signup_time']).hour
+
+fraud_data['purchase_days_of_year'] = pd.DatetimeIndex(fraud_data['purchase_time']).dayofyear
+fraud_data['purchase_seconds_of_day'] = pd.DatetimeIndex(fraud_data['purchase_time']).second + 60 * pd.DatetimeIndex(
+    fraud_data['purchase_time']).minute + 3600 * pd.DatetimeIndex(fraud_data['purchase_time']).hour
+
+fraud_data = fraud_data.drop(['user_id','signup_time','purchase_time'], axis=1)
+</code></pre>
+
+<pre><code class="language-python">fraud_data.head()
+#note there are NAs in country
+</code></pre>
 
 <div>
 <style scoped>
@@ -614,9 +710,22 @@ print(len(fraud_data.index))#138376
 <pre><code class="language-python">print(fraud_data.source.value_counts())
 </code></pre>
 
-<pre><code>SEO: 55766  
-Ads: 54913  
-Direct: 27697  
+<pre><code>SEO       55766
+Ads       54913
+Direct    27697
+Name: source, dtype: int64
+</code></pre>
+
+<h3 id="split-data">Split Data</h3>
+
+<pre><code class="language-python">#split into train/test (0.8, 0.2)
+</code></pre>
+
+<pre><code>X_train.shape: (110700, 13)
+y_train.shape: (110700,)
+</code></pre>
+
+<pre><code class="language-python">X_train.head()
 </code></pre>
 
 <div>
@@ -737,7 +846,32 @@ Direct: 27697
 </table>
 </div>
 
-<h4 id="convert-categorical-features-with-high-cadinality-to-numericals">Convert categorical features with high cadinality to numericals</h4>
+<p>Convert categorical features with high cadinality to numericals</p>
+
+<pre><code class="language-python">#converting needs to be done after split
+X_train = pd.get_dummies(X_train, columns=['source', 'browser'])#need to drop ['source', 'browser']? no, auto dropped by get_dummies 
+X_train['sex'] = (X_train.sex == 'M').astype(int)
+
+# the more a device is shared, the more suspicious
+X_train_device_id_mapping = X_train.device_id.value_counts(dropna=False)
+X_train['n_dev_shared'] = X_train.device_id.map(X_train_device_id_mapping)# number of times device_id occurred in train data
+
+# the more a ip is shared, the more suspicious
+X_train_ip_address_mapping = X_train.ip_address.value_counts(dropna=False)
+X_train['n_ip_shared'] = X_train.ip_address.map(X_train_ip_address_mapping)
+
+# the less visit from a country, the more suspicious
+X_train_country_mapping = X_train.country.value_counts(dropna=False)
+X_train['n_country_shared'] = X_train.country.map(X_train_country_mapping)#lots of NAs in country column, #without dropna=False will produce nan in this col
+
+</code></pre>
+
+<pre><code class="language-python">##########################
+# do same thing on test dataset
+</code></pre>
+
+<pre><code class="language-python">X_train.head()
+</code></pre>
 
 <div>
 <style scoped>
@@ -893,7 +1027,10 @@ Direct: 27697
 </table>
 </div>
 
-<h2 id="model-training-and-selection">Model Training and Selection</h2>
+<h3 id="standarization">Standarization</h3>
+
+<pre><code class="language-python"># Here use (min-max) normalization to [0,1]
+</code></pre>
 
 <pre><code class="language-python">X_train.n_dev_shared.value_counts(dropna=False)
 </code></pre>
@@ -904,6 +1041,7 @@ Direct: 27697
 0.6       124
 0.8        45
 1.0         6
+Name: n_dev_shared, dtype: int64
 </code></pre>
 
 <pre><code class="language-python">X_test.n_dev_shared.value_counts(dropna=False)
@@ -915,153 +1053,278 @@ Direct: 27697
 Name: n_dev_shared, dtype: int64
 </code></pre>
 
-<ol>
-<li><p>Simple LogisticRegression model<br />
-        pred_0  pred_1<br />
-true_0   27389       0<br />
-true_1     287       0</p></li>
+<h2 id="simple-models-training-selection">Simple Models Training &amp; Selection</h2>
 
-<li><p>Simple RF model</p>
+<h3 id="simple-logisticregression-model">Simple LogisticRegression model</h3>
 
-<p>accuracy_score is: : 0.9948692007515537<br />
-roc_auc_score is: : 0.7548596215347777<br />
-f1_score is: : 0.6712962962962962<br />
-confusion_matrix is:<br />
-        pred_0  pred_1<br />
-true_0   27389       0<br />
-true_1     142     145<br />
-recall = 0.5052264808362369<br />
-precision = 1.0</p></li>
-</ol>
+<pre><code class="language-python"># instantiate the model (using the default parameters)
+logreg = LogisticRegression()
 
-<h2 id="parameter-tuning-by-gridsearchcv">Parameter tuning by GridSearchCV</h2>
+# fit the model with data
+# predict on test
 
-<ul>
-<li><p>Optimizing on f1_score on LR</p>
+cm = metrics.confusion_matrix(y_test, y_pred)
+# print cmDF by pd.dataframe
+print(cmDF)
+</code></pre>
 
-<p>Best params for f1_score<br />
-{&lsquo;C&rsquo;: 0.1, &lsquo;penalty&rsquo;: &lsquo;l1&rsquo;}</p>
+<pre><code>        pred_0  pred_1
+true_0   27389       0
+true_1     287       0
+</code></pre>
 
-<p>Confusion matrix of Random Forest optimized for f1_score on the test data:<br />
-pred_0 pred_1<br />
-true_0 27386 3<br />
-true_1   278    9<br />
-    roc_auc_score is: : 0.7597098608854265<br />
-    f1_score is: : 0.06020066889632108<br />
-recall =  0.0313588850174216<br />
-precision =  0.75</p></li>
+<h3 id="simple-rf-model">Simple RF model</h3>
 
-<li><p>Optimizing on f1_score on RF</p>
+<pre><code class="language-python">classifier_RF = RandomForestClassifier(random_state=0)
+classifier_RF.fit(X_train, y_train)
+# predict class labels 0/1 for the test set
+# generate class probabilities
+# generate evaluation metrics
+# print confusion
+</code></pre>
 
-<p>Best params for f1_score<br />
-{&lsquo;class_weight&rsquo;: {0: 1, 1: 0.2}, &lsquo;max_depth&rsquo;: None, &lsquo;n_estimators&rsquo;: 150}</p>
+<pre><code>accuracy_score is: : 0.9948692007515537
+roc_auc_score is: : 0.7548596215347777
+f1_score is: : 0.6712962962962962
+confusion_matrix is: 
+        pred_0  pred_1
+true_0   27389       0
+true_1     142     145
+recall = 0.5052264808362369
+precision = 1.0
+</code></pre>
 
-<p>Confusion matrix of Random Forest optimized for f1_score on the test data:<br />
-        pred_0  pred_1<br />
-true_0   27389       0<br />
-true_1     142     145<br />
-    roc_auc_score is: : 0.7627425008361275<br />
-    f1_score is: : 0.6712962962962962<br />
-recall =  0.5052264808362369<br />
-precision =  1.0</p></li>
+<h2 id="smote-sampling">SMOTE sampling</h2>
 
-<li><p>Best model
+<pre><code class="language-python">smote = SMOTE(random_state=12)
+x_train_sm, y_train_sm = smote.fit_sample(X_train, y_train)
+unique, counts = np.unique(y_train_sm, return_counts=True)
+print(np.asarray((unique, counts)).T)
+</code></pre>
+
+<pre><code>[[     0 109572]
+ [     1 109572]]
+</code></pre>
+
+<pre><code class="language-python">#RF on smoted training data
+classifier_RF_sm = RandomForestClassifier(random_state=0)
+
+classifier_RF_sm.fit(x_train_sm, y_train_sm)
+
+# predict class labels for the test set
+predicted_sm = classifier_RF_sm.predict(X_test)
+
+# generate class probabilities
+probs_sm = classifier_RF_sm.predict_proba(X_test)
+# generate evaluation metrics
+# print confusion matrix and parameter
+</code></pre>
+
+<pre><code>/usr/local/lib/python3.6/dist-packages/sklearn/ensemble/forest.py:245: FutureWarning: The default value of n_estimators will change from 10 in version 0.20 to 100 in 0.22.
+  &quot;10 in version 0.20 to 100 in 0.22.&quot;, FutureWarning)
+
+
+accuracy_score_sm is: : 0.9945440092498916
+roc_auc_score_sm is: : 0.7533518568391924
+f1_score_sm is: : 0.6544622425629291
+confusion_matrix_sm is: 
+        pred_0  pred_1
+true_0   27382       7
+true_1     144     143
+recall or sens_sm = 0.49825783972125437
+precision_sm = 0.9533333333333334
+</code></pre>
+
+<h3 id="parameter-tuning-by-gridsearchcv">Parameter tuning by GridSearchCV</h3>
+
+<p>Evaluate metrics for GridSearchCV over all fits upon combination of parameters and cv</p>
+
+<pre><code class="language-python"># Eval metrics to be calculated for each combination of parameters and cv, they are all calculated(by scoring), but not necessarily used to pick the optimal(by refit)
+scorers = {
+    'precision_score': make_scorer(precision_score),
+    'recall_score': make_scorer(recall_score),
+    'f1_score': make_scorer(f1_score, pos_label=1)
+    
+}
+</code></pre>
+
+<pre><code class="language-python"># def grid_search_wrapper(model, parameters, refit_score='f1_score'):
+    &quot;&quot;&quot;
+    fits a GridSearchCV classifier using refit_score for optimization(refit on the best model according to refit_score)
+    prints classifier performance metrics
+    &quot;&quot;&quot;
+    # return grid_search
+</code></pre>
+
+<h4 id="optimizing-on-f1-score-on-lr">Optimizing on f1_score on LR</h4>
+
+<pre><code class="language-python"># C: inverse of regularization strength, smaller values specify stronger regularization
+LRGrid = {&quot;C&quot; : np.logspace(-2,2,5), &quot;penalty&quot;:[&quot;l1&quot;,&quot;l2&quot;]}# l1 lasso l2 ridge
+#param_grid = {'C': [0.01, 0.1, 1, 10, 100], 'penalty': ['l1', 'l2']}
+logRegModel = LogisticRegression(random_state=0)
+
+grid_search_LR_f1 = grid_search_wrapper(logRegModel, LRGrid, refit_score='f1_score')
+</code></pre>
+
+<pre><code>Best params for f1_score
+{'C': 0.1, 'penalty': 'l1'}
+
+Confusion matrix of Random Forest optimized for f1_score on the test data:
+        pred_0  pred_1
+true_0   27386       3
+true_1     278       9
+    roc_auc_score is: : 0.7597098608854265
+    f1_score is: : 0.06020066889632108
+recall =  0.0313588850174216
+precision =  0.75
+</code></pre>
+
+<h4 id="optimizing-on-f1-score-on-rf">Optimizing on f1_score on RF</h4>
+
+<pre><code class="language-python">parameters = {        
+'max_depth': [None, 5, 15],
+'n_estimators' :  [10,150],
+'class_weight' : [{0: 1, 1: w} for w in [0.2, 1, 100]]
+}
+
+clf = RandomForestClassifier(random_state=0)
+</code></pre>
+
+<pre><code class="language-python">grid_search_rf_f1 = grid_search_wrapper(clf, parameters, refit_score='f1_score')
+</code></pre>
+
+<pre><code>Best params for f1_score
+{'class_weight': {0: 1, 1: 0.2}, 'max_depth': None, 'n_estimators': 150}
+
+Confusion matrix of Random Forest optimized for f1_score on the test data:
+        pred_0  pred_1
+true_0   27389       0
+true_1     142     145
+    roc_auc_score is: : 0.7627425008361275
+    f1_score is: : 0.6712962962962962
+recall =  0.5052264808362369
+precision =  1.0
+</code></pre>
+
+<pre><code class="language-python">best_rf_model_f1 = grid_search_rf_f1.best_estimator_
+best_rf_model_f1
+</code></pre>
+
+<pre><code>RandomForestClassifier(bootstrap=True, class_weight={0: 1, 1: 0.2},
+                       criterion='gini', max_depth=None, max_features='auto',
+                       max_leaf_nodes=None, min_impurity_decrease=0.0,
+                       min_impurity_split=None, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       n_estimators=150, n_jobs=None, oob_score=False,
+                       random_state=0, verbose=0, warm_start=False)
+</code></pre>
+
+<pre><code class="language-python">results_f1 = pd.DataFrame(grid_search_rf_f1.cv_results_)
+results_sortf1 = results_f1.sort_values(by='mean_test_f1_score', ascending=False)
+results_sortf1[['mean_test_precision_score', 'mean_test_recall_score', 'mean_test_f1_score', 'mean_train_precision_score', 'mean_train_recall_score', 'mean_train_f1_score','param_max_depth', 'param_class_weight', 'param_n_estimators']].round(3).head()
+
+
+
+</code></pre>
+
 <div>
 <style scoped>
-.dataframe tbody tr th:only-of-type {
-    vertical-align: middle;
-}</p>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<p>.dataframe tbody tr th {
-    vertical-align: top;
-}</p>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<p>.dataframe thead th {
-    text-align: right;
-}
+    .dataframe thead th {
+        text-align: right;
+    }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-  <th></th>
-  <th>mean_test_precision_score</th>
-  <th>mean_test_recall_score</th>
-  <th>mean_test_f1_score</th>
-  <th>mean_train_precision_score</th>
-  <th>mean_train_recall_score</th>
-  <th>mean_train_f1_score</th>
-  <th>param_max_depth</th>
-  <th>param_class_weight</th>
-  <th>param_n_estimators</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <th>9</th>
-  <td>1.0</td>
-  <td>0.527</td>
-  <td>0.69</td>
-  <td>1.0</td>
-  <td>0.527</td>
-  <td>0.690</td>
-  <td>5</td>
-  <td>{0: 1, 1: 1}</td>
-  <td>150</td>
-</tr>
-<tr>
-  <th>7</th>
-  <td>1.0</td>
-  <td>0.527</td>
-  <td>0.69</td>
-  <td>1.0</td>
-  <td>1.000</td>
-  <td>1.000</td>
-  <td>None</td>
-  <td>{0: 1, 1: 1}</td>
-  <td>150</td>
-</tr>
-<tr>
-  <th>13</th>
-  <td>1.0</td>
-  <td>0.527</td>
-  <td>0.69</td>
-  <td>1.0</td>
-  <td>1.000</td>
-  <td>1.000</td>
-  <td>None</td>
-  <td>{0: 1, 1: 100}</td>
-  <td>150</td>
-</tr>
-<tr>
-  <th>3</th>
-  <td>1.0</td>
-  <td>0.527</td>
-  <td>0.69</td>
-  <td>1.0</td>
-  <td>0.527</td>
-  <td>0.690</td>
-  <td>5</td>
-  <td>{0: 1, 1: 0.2}</td>
-  <td>150</td>
-</tr>
-<tr>
-  <th>11</th>
-  <td>1.0</td>
-  <td>0.527</td>
-  <td>0.69</td>
-  <td>1.0</td>
-  <td>0.584</td>
-  <td>0.737</td>
-  <td>15</td>
-  <td>{0: 1, 1: 1}</td>
-  <td>150</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean_test_precision_score</th>
+      <th>mean_test_recall_score</th>
+      <th>mean_test_f1_score</th>
+      <th>mean_train_precision_score</th>
+      <th>mean_train_recall_score</th>
+      <th>mean_train_f1_score</th>
+      <th>param_max_depth</th>
+      <th>param_class_weight</th>
+      <th>param_n_estimators</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9</th>
+      <td>1.0</td>
+      <td>0.527</td>
+      <td>0.69</td>
+      <td>1.0</td>
+      <td>0.527</td>
+      <td>0.690</td>
+      <td>5</td>
+      <td>{0: 1, 1: 1}</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1.0</td>
+      <td>0.527</td>
+      <td>0.69</td>
+      <td>1.0</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>None</td>
+      <td>{0: 1, 1: 1}</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1.0</td>
+      <td>0.527</td>
+      <td>0.69</td>
+      <td>1.0</td>
+      <td>1.000</td>
+      <td>1.000</td>
+      <td>None</td>
+      <td>{0: 1, 1: 100}</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>0.527</td>
+      <td>0.69</td>
+      <td>1.0</td>
+      <td>0.527</td>
+      <td>0.690</td>
+      <td>5</td>
+      <td>{0: 1, 1: 0.2}</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1.0</td>
+      <td>0.527</td>
+      <td>0.69</td>
+      <td>1.0</td>
+      <td>0.584</td>
+      <td>0.737</td>
+      <td>15</td>
+      <td>{0: 1, 1: 1}</td>
+      <td>150</td>
+    </tr>
+  </tbody>
 </table>
-</div></p></li>
-</ul>
+</div>
 
-<h2 id="feature-important-by-rf">Feature Important by RF</h2>
+<pre><code class="language-python">#Var Importance
+pd.DataFrame(best_rf_model_f1.feature_importances_, index = X_train.columns, columns=['importance']).sort_values('importance', ascending=False)
+
+</code></pre>
 
 <div>
 <style scoped>
@@ -1165,9 +1428,10 @@ precision =  1.0</p></li>
 </table>
 </div>
 
-<h2 id="other-attempts">Other Attempts</h2>
+<h4 id="optimizing-recall-score-on-rf">Optimizing recall_score on RF</h4>
 
-<h3 id="optimizing-recall-score-on-rf-by-grid-search">Optimizing recall_score on RF by Grid Search</h3>
+<pre><code class="language-python">grid_search_rf_recall = grid_search_wrapper(clf, parameters, refit_score='recall_score')
+</code></pre>
 
 <pre><code>Best params for recall_score
 {'class_weight': {0: 1, 1: 100}, 'max_depth': 5, 'n_estimators': 150}
@@ -1180,6 +1444,31 @@ true_1     132     155
     f1_score is: : 0.4525547445255475
 recall =  0.5400696864111498
 precision =  0.38944723618090454
+</code></pre>
+
+<pre><code class="language-python">best_RF_model_recall = grid_search_rf_recall.best_estimator_
+best_RF_model_recall
+</code></pre>
+
+<pre><code>RandomForestClassifier(bootstrap=True, class_weight={0: 1, 1: 100},
+                       criterion='gini', max_depth=5, max_features='auto',
+                       max_leaf_nodes=None, min_impurity_decrease=0.0,
+                       min_impurity_split=None, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       n_estimators=150, n_jobs=None, oob_score=False,
+                       random_state=0, verbose=0, warm_start=False)
+</code></pre>
+
+<pre><code class="language-python"># predict class labels for the test set
+predictedBest_recall = best_RF_model_recall.predict(X_test)
+
+# generate class probabilities
+probsBest_recall = best_RF_model_recall.predict_proba(X_test)
+
+results_recall = pd.DataFrame(grid_search_rf_recall.cv_results_)# recall score is different from above, as above is metric on test data, this is performance on cv data
+results_sortrecall = results_recall.sort_values(by='mean_test_recall_score', ascending=False)
+results_sortrecall[['mean_test_precision_score', 'mean_test_recall_score', 'mean_test_f1_score', 'mean_train_precision_score', 'mean_train_recall_score', 'mean_train_f1_score','param_max_depth', 'param_class_weight', 'param_n_estimators']].round(3).head()
+#recall is worse than default rf?? no this is on test, but train recall is better
 </code></pre>
 
 <div>
@@ -1276,9 +1565,10 @@ precision =  0.38944723618090454
 </table>
 </div>
 
-<h2 id="prediction">Prediction</h2>
+<h2 id="feature-importance">Feature Importance</h2>
 
-<pre><code class="language-python">trainDF = pd.concat([X_train, y_train], axis=1)
+<pre><code class="language-python"># based on the above var importance
+trainDF = pd.concat([X_train, y_train], axis=1)
 pd.crosstab(trainDF[&quot;n_dev_shared&quot;],trainDF[&quot;class&quot;])
 #the larger n_dev_shared, the higher rate of fraud
 </code></pre>
@@ -1994,538 +2284,35 @@ pd.crosstab(trainDF[&quot;n_dev_shared&quot;],trainDF[&quot;class&quot;])
       <td>...</td>
       <td>...</td>
     </tr>
-    <tr>
-      <th>137031</th>
-      <td>30</td>
-      <td>AIWIXWKDTFQVX</td>
-      <td>Ads</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>48</td>
-      <td>1.725179e+08</td>
-      <td>1</td>
-      <td>NA</td>
-      <td>5046794.0</td>
-      <td>195</td>
-      <td>61591</td>
-      <td>254</td>
-      <td>10785</td>
-    </tr>
-    <tr>
-      <th>137032</th>
-      <td>23</td>
-      <td>RPLWHSIFJLCKX</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>22</td>
-      <td>9.928317e+07</td>
-      <td>1</td>
-      <td>Iran (ISLAMIC Republic Of)</td>
-      <td>4510660.0</td>
-      <td>92</td>
-      <td>64014</td>
-      <td>144</td>
-      <td>81874</td>
-    </tr>
-    <tr>
-      <th>137033</th>
-      <td>20</td>
-      <td>LJUKQHFBFOFPF</td>
-      <td>SEO</td>
-      <td>Chrome</td>
-      <td>F</td>
-      <td>22</td>
-      <td>2.608608e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>12</td>
-      <td>62578</td>
-      <td>12</td>
-      <td>62579</td>
-    </tr>
-    <tr>
-      <th>137034</th>
-      <td>40</td>
-      <td>QKYBDKNISUYVP</td>
-      <td>SEO</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>35</td>
-      <td>1.547484e+09</td>
-      <td>1</td>
-      <td>Ukraine</td>
-      <td>1.0</td>
-      <td>9</td>
-      <td>1964</td>
-      <td>9</td>
-      <td>1965</td>
-    </tr>
-    <tr>
-      <th>137035</th>
-      <td>39</td>
-      <td>HXTMZVLUKOFAD</td>
-      <td>SEO</td>
-      <td>IE</td>
-      <td>M</td>
-      <td>33</td>
-      <td>4.589109e+08</td>
-      <td>1</td>
-      <td>Japan</td>
-      <td>1.0</td>
-      <td>11</td>
-      <td>33979</td>
-      <td>11</td>
-      <td>33980</td>
-    </tr>
-    <tr>
-      <th>137036</th>
-      <td>9</td>
-      <td>MPMBZBEATLCTJ</td>
-      <td>Ads</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>35</td>
-      <td>3.468521e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>10266556.0</td>
-      <td>162</td>
-      <td>36908</td>
-      <td>281</td>
-      <td>21864</td>
-    </tr>
-    <tr>
-      <th>137037</th>
-      <td>55</td>
-      <td>AXOTAPGOHGRNH</td>
-      <td>SEO</td>
-      <td>IE</td>
-      <td>M</td>
-      <td>32</td>
-      <td>4.072713e+09</td>
-      <td>1</td>
-      <td>NA</td>
-      <td>749361.0</td>
-      <td>98</td>
-      <td>4766</td>
-      <td>106</td>
-      <td>62927</td>
-    </tr>
-    <tr>
-      <th>137038</th>
-      <td>18</td>
-      <td>XFIBIOCOQTQRK</td>
-      <td>SEO</td>
-      <td>IE</td>
-      <td>M</td>
-      <td>25</td>
-      <td>2.521950e+09</td>
-      <td>1</td>
-      <td>Japan</td>
-      <td>1.0</td>
-      <td>3</td>
-      <td>83734</td>
-      <td>3</td>
-      <td>83735</td>
-    </tr>
-    <tr>
-      <th>137039</th>
-      <td>63</td>
-      <td>QGSXIVXDKZLJV</td>
-      <td>Ads</td>
-      <td>Safari</td>
-      <td>M</td>
-      <td>28</td>
-      <td>2.660181e+09</td>
-      <td>1</td>
-      <td>United Kingdom</td>
-      <td>6553579.0</td>
-      <td>64</td>
-      <td>64075</td>
-      <td>140</td>
-      <td>51254</td>
-    </tr>
-    <tr>
-      <th>137040</th>
-      <td>91</td>
-      <td>XPSSLODFBMYCV</td>
-      <td>SEO</td>
-      <td>IE</td>
-      <td>F</td>
-      <td>36</td>
-      <td>3.956890e+09</td>
-      <td>1</td>
-      <td>NA</td>
-      <td>1.0</td>
-      <td>4</td>
-      <td>30606</td>
-      <td>4</td>
-      <td>30607</td>
-    </tr>
-    <tr>
-      <th>137041</th>
-      <td>24</td>
-      <td>VGQHYSVZKFFLT</td>
-      <td>SEO</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>26</td>
-      <td>1.596802e+09</td>
-      <td>1</td>
-      <td>Ireland</td>
-      <td>1.0</td>
-      <td>12</td>
-      <td>61875</td>
-      <td>12</td>
-      <td>61876</td>
-    </tr>
-    <tr>
-      <th>137042</th>
-      <td>34</td>
-      <td>NLQHWNMQFDMPP</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>31</td>
-      <td>3.231719e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>3763980.0</td>
-      <td>159</td>
-      <td>18483</td>
-      <td>202</td>
-      <td>67263</td>
-    </tr>
-    <tr>
-      <th>137043</th>
-      <td>63</td>
-      <td>TRNITRGCBTVJT</td>
-      <td>Ads</td>
-      <td>IE</td>
-      <td>M</td>
-      <td>54</td>
-      <td>3.694361e+09</td>
-      <td>1</td>
-      <td>Japan</td>
-      <td>1.0</td>
-      <td>2</td>
-      <td>50272</td>
-      <td>2</td>
-      <td>50273</td>
-    </tr>
-    <tr>
-      <th>137044</th>
-      <td>61</td>
-      <td>NDHGQNDQQXCCQ</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>F</td>
-      <td>23</td>
-      <td>6.807264e+08</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>9</td>
-      <td>85102</td>
-      <td>9</td>
-      <td>85103</td>
-    </tr>
-    <tr>
-      <th>137045</th>
-      <td>62</td>
-      <td>VIQTECHERERRU</td>
-      <td>SEO</td>
-      <td>IE</td>
-      <td>M</td>
-      <td>29</td>
-      <td>1.551734e+09</td>
-      <td>1</td>
-      <td>Russian Federation</td>
-      <td>6862456.0</td>
-      <td>226</td>
-      <td>5827</td>
-      <td>305</td>
-      <td>42683</td>
-    </tr>
-    <tr>
-      <th>137046</th>
-      <td>52</td>
-      <td>ZAFLHFPXNLZAT</td>
-      <td>SEO</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>24</td>
-      <td>2.879986e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>2</td>
-      <td>2207</td>
-      <td>2</td>
-      <td>2208</td>
-    </tr>
-    <tr>
-      <th>137047</th>
-      <td>75</td>
-      <td>ZQHJZQQFQKGII</td>
-      <td>Ads</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>18</td>
-      <td>2.378426e+08</td>
-      <td>1</td>
-      <td>Korea Republic of</td>
-      <td>1.0</td>
-      <td>10</td>
-      <td>6164</td>
-      <td>10</td>
-      <td>6165</td>
-    </tr>
-    <tr>
-      <th>137048</th>
-      <td>69</td>
-      <td>UWEPEOUQYEPZF</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>36</td>
-      <td>2.534293e+09</td>
-      <td>1</td>
-      <td>Italy</td>
-      <td>1.0</td>
-      <td>8</td>
-      <td>41847</td>
-      <td>8</td>
-      <td>41848</td>
-    </tr>
-    <tr>
-      <th>137049</th>
-      <td>31</td>
-      <td>GVROQHGFQEPJP</td>
-      <td>SEO</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>40</td>
-      <td>2.613576e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>4</td>
-      <td>77464</td>
-      <td>4</td>
-      <td>77465</td>
-    </tr>
-    <tr>
-      <th>137050</th>
-      <td>52</td>
-      <td>JFRURZMOKVSXG</td>
-      <td>SEO</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>31</td>
-      <td>3.280105e+09</td>
-      <td>1</td>
-      <td>Greece</td>
-      <td>4423533.0</td>
-      <td>185</td>
-      <td>13836</td>
-      <td>236</td>
-      <td>30969</td>
-    </tr>
-    <tr>
-      <th>137051</th>
-      <td>24</td>
-      <td>SHRFXSTLQFBDB</td>
-      <td>Ads</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>46</td>
-      <td>3.808984e+09</td>
-      <td>1</td>
-      <td>NA</td>
-      <td>1470753.0</td>
-      <td>97</td>
-      <td>39902</td>
-      <td>114</td>
-      <td>41855</td>
-    </tr>
-    <tr>
-      <th>137052</th>
-      <td>39</td>
-      <td>UFUWUODDBTPCY</td>
-      <td>Direct</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>32</td>
-      <td>3.376669e+08</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>10</td>
-      <td>24909</td>
-      <td>10</td>
-      <td>24910</td>
-    </tr>
-    <tr>
-      <th>137053</th>
-      <td>22</td>
-      <td>AVLHWBLLHTDNN</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>F</td>
-      <td>41</td>
-      <td>8.578302e+08</td>
-      <td>1</td>
-      <td>United Kingdom</td>
-      <td>2077805.0</td>
-      <td>42</td>
-      <td>52720</td>
-      <td>66</td>
-      <td>56925</td>
-    </tr>
-    <tr>
-      <th>137054</th>
-      <td>26</td>
-      <td>FBHIRVGVKKWAI</td>
-      <td>Ads</td>
-      <td>IE</td>
-      <td>F</td>
-      <td>36</td>
-      <td>2.278096e+06</td>
-      <td>1</td>
-      <td>NA</td>
-      <td>1.0</td>
-      <td>7</td>
-      <td>75219</td>
-      <td>7</td>
-      <td>75220</td>
-    </tr>
-    <tr>
-      <th>137055</th>
-      <td>17</td>
-      <td>KEQVDINWCZMWA</td>
-      <td>Ads</td>
-      <td>FireFox</td>
-      <td>M</td>
-      <td>25</td>
-      <td>3.343852e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>9</td>
-      <td>13729</td>
-      <td>9</td>
-      <td>13730</td>
-    </tr>
-    <tr>
-      <th>137056</th>
-      <td>21</td>
-      <td>AIGPGDVRDKOKT</td>
-      <td>SEO</td>
-      <td>FireFox</td>
-      <td>F</td>
-      <td>45</td>
-      <td>3.058136e+09</td>
-      <td>1</td>
-      <td>India</td>
-      <td>1.0</td>
-      <td>2</td>
-      <td>69762</td>
-      <td>2</td>
-      <td>69763</td>
-    </tr>
-    <tr>
-      <th>137057</th>
-      <td>52</td>
-      <td>PQGKGQACIARBV</td>
-      <td>Ads</td>
-      <td>Chrome</td>
-      <td>F</td>
-      <td>36</td>
-      <td>7.203338e+08</td>
-      <td>1</td>
-      <td>China</td>
-      <td>1.0</td>
-      <td>9</td>
-      <td>77018</td>
-      <td>9</td>
-      <td>77019</td>
-    </tr>
-    <tr>
-      <th>137058</th>
-      <td>54</td>
-      <td>XHZBVWFWHSGTQ</td>
-      <td>SEO</td>
-      <td>FireFox</td>
-      <td>M</td>
-      <td>50</td>
-      <td>2.249217e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>1</td>
-      <td>32483</td>
-      <td>1</td>
-      <td>32484</td>
-    </tr>
-    <tr>
-      <th>137059</th>
-      <td>10</td>
-      <td>WETYPHOQVLWMK</td>
-      <td>Ads</td>
-      <td>FireFox</td>
-      <td>M</td>
-      <td>36</td>
-      <td>2.293333e+09</td>
-      <td>1</td>
-      <td>United States</td>
-      <td>1.0</td>
-      <td>7</td>
-      <td>63914</td>
-      <td>7</td>
-      <td>63915</td>
-    </tr>
-    <tr>
-      <th>137060</th>
-      <td>69</td>
-      <td>UWEPEOUQYEPZF</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>36</td>
-      <td>2.534293e+09</td>
-      <td>1</td>
-      <td>Italy</td>
-      <td>1.0</td>
-      <td>8</td>
-      <td>41850</td>
-      <td>8</td>
-      <td>41851</td>
-    </tr>
   </tbody>
 </table>
 <p>100 rows × 14 columns</p>
 </div>
 
-<h3 id="final-result">Final Result</h3>
+<h3 id="final-result-and-application">Final Result and Application</h3>
 
-<ul>
-<li>recommended:
-green: 1 - 3 pass<br />
-grey: 4-7 need manual investigation<br />
-red: 8,9 decline<br />
-1:     1<br />
-2: 24555<br />
-3:  2623<br />
-4:    99<br />
-5:   177<br />
-6:    76<br />
-7:     1<br />
-8:    20<br />
-9:   124<br /></li>
-</ul>
+<pre><code class="language-python">t = (10 * probsBest_recall[:, 1]).astype(int)
+unique, counts = np.unique(t, return_counts=True)
+
+print(np.asarray((unique, counts)).T)
+
+
+#recommended:
+#green: 1 - 3 pass
+#grey: 4-7 need manual investigation
+#red: 8,9 decline
+</code></pre>
+
+<pre><code>[[    1     1]
+ [    2 24555]
+ [    3  2623]
+ [    4    99]
+ [    5   177]
+ [    6    76]
+ [    7     1]
+ [    8    20]
+ [    9   124]]
+</code></pre>
 
                 
                 
@@ -2640,11 +2427,11 @@ red: 8,9 decline<br />
                         
                         
                         
-                        
-                        
                         <a href="/tags/r-shiny" title="R-shiny">
                             R-shiny
                         </a>
+                        
+                        
                         
                         
                         
