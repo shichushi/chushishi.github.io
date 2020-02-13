@@ -28,6 +28,11 @@
   </url>
   
   <url>
+    <loc>https://shichushi.com/2019/03/02/fraud-risk-of-credit-card-detection/</loc>
+    <lastmod>2019-03-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://shichushi.com/2019/02/01/demand-prediction/</loc>
     <lastmod>2019-02-01T00:00:00+00:00</lastmod>
   </url>
@@ -90,7 +95,7 @@
   
   <url>
     <loc>https://shichushi.com/tags/data-analysis/</loc>
-    <lastmod>2019-02-01T00:00:00+00:00</lastmod>
+    <lastmod>2019-03-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -108,7 +113,13 @@
   
   <url>
     <loc>https://shichushi.com/tags/fraud-detection/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-03-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/gaussian-distribution/</loc>
+    <lastmod>2019-03-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -120,7 +131,7 @@
   
   <url>
     <loc>https://shichushi.com/tags/machine-learning/</loc>
-    <lastmod>2019-02-01T00:00:00+00:00</lastmod>
+    <lastmod>2019-03-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -139,6 +150,12 @@
   <url>
     <loc>https://shichushi.com/tags/networkx/</loc>
     <lastmod>2019-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://shichushi.com/tags/outlier-detection/</loc>
+    <lastmod>2019-03-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

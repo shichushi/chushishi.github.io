@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Chace&#39;s Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://shichushi.com/img/home-bg-jeep.jpg">
+    <meta property="twitter:image" content="https://shichushi.com/img/home-bg-jeep.jpg" />
+    
+
+    
+    <meta name="title" content="Fraud Risk of Credit Card Detection" />
+    <meta property="og:title" content="Fraud Risk of Credit Card Detection" />
+    <meta property="twitter:title" content="Fraud Risk of Credit Card Detection" />
+    
+
+    
+    <meta name="description" content="A statistical method to detect the fraud on credit cards information">
+    <meta property="og:description" content="A statistical method to detect the fraud on credit cards information" />
+    <meta property="twitter:description" content="A statistical method to detect the fraud on credit cards information" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="史楚石, Chushi Shi, ShiChuShi, Chace Shi, 史楚石的网络日志, 史楚石的博客, shichushi Blog, chushi shi blog, 博客, 个人网站">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Fraud Risk of Credit Card Detection-Chushi | Chushi Shi</title>
+
+    <link rel="canonical" href="/2019/03/02/fraud-risk-of-credit-card-detection/">
+
+    <link rel="stylesheet" href="/css/iDisqus.min.css"/>
+	
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    
+    <link rel="stylesheet" href="/css/syntax.css">
+    
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+    
+    
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    
+    <script src="/js/jquery.min.js"></script>
+    
+    
+    <script src="/js/bootstrap.min.js"></script>
+    
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/docco.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+</head>
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Chace&#39;s Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/project">Project</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/categories/tech">Tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/top/books/">BOOKS</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+		    <li>
+                        <a href="/search">SEARCH <img src="/img/search.png" height="15" style="cursor: pointer;" alt="Search"></a>
+		    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('https://img.zhaohuabing.com/in-post/2018-05-06-cryptocurrency_week1/bitcoin_header.jpg')
+    }
+</style>
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/fraud-detection" title="Fraud Detection">
+                            Fraud Detection
+                        </a>
+                        
+                        <a class="tag" href="/tags/outlier-detection" title="Outlier Detection">
+                            Outlier Detection
+                        </a>
+                        
+                        <a class="tag" href="/tags/machine-learning" title="Machine Learning">
+                            Machine Learning
+                        </a>
+                        
+                        <a class="tag" href="/tags/data-analysis" title="Data Analysis">
+                            Data Analysis
+                        </a>
+                        
+                        <a class="tag" href="/tags/gaussian-distribution" title="Gaussian Distribution">
+                            Gaussian Distribution
+                        </a>
+                        
+                    </div>
+                    <h1>Fraud Risk of Credit Card Detection</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by 
+                        
+                                Chushi Shi
+                         
+                        on 
+                        Saturday, March 2, 2019
+                        
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <header>
+                    <h2>TOC</h2>
+                </header>
+                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#load-data">Load Data</a></li>
+<li><a href="#data-exploration">Data Exploration</a></li>
+<li><a href="#data-processing">Data Processing</a></li>
+<li><a href="#model-training-and-selection">Model Training and Selection</a>
+<ul>
+<li><a href="#model-training">Model Training</a></li>
+<li><a href="#cv-on-parameter-selection">CV on Parameter Selection</a></li>
+<li><a href="#validation-on-test-data">Validation on Test data</a></li>
+</ul></li>
+<li><a href="#notices">Notices</a></li>
+</ul></li>
+</ul>
+</nav>
+                
+                <p></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>In this project, I will use a statistical method to help bank to detect the fraud on credit cards. Specifically, I will assume the features of credit cards have a Gaussian distribution.</p>
+
+<p>In order to clean showing, I delete some routine and define function code, and just show the result.</p>
+
+<h2 id="load-data">Load Data</h2>
+
+<pre><code class="language-python">creditcardDF = pd.read_csv('drive/My Drive/fraudData/creditcard.csv') 
+creditcardDF.head()#all numerical
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Time</th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>V11</th>
+      <th>V12</th>
+      <th>V13</th>
+      <th>V14</th>
+      <th>V15</th>
+      <th>V16</th>
+      <th>V17</th>
+      <th>V18</th>
+      <th>V19</th>
+      <th>V20</th>
+      <th>V21</th>
+      <th>V22</th>
+      <th>V23</th>
+      <th>V24</th>
+      <th>V25</th>
+      <th>V26</th>
+      <th>V27</th>
+      <th>V28</th>
+      <th>Amount</th>
+      <th>Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>-1.359807</td>
+      <td>-0.072781</td>
+      <td>2.536347</td>
+      <td>1.378155</td>
+      <td>-0.338321</td>
+      <td>0.462388</td>
+      <td>0.239599</td>
+      <td>0.098698</td>
+      <td>0.363787</td>
+      <td>0.090794</td>
+      <td>-0.551600</td>
+      <td>-0.617801</td>
+      <td>-0.991390</td>
+      <td>-0.311169</td>
+      <td>1.468177</td>
+      <td>-0.470401</td>
+      <td>0.207971</td>
+      <td>0.025791</td>
+      <td>0.403993</td>
+      <td>0.251412</td>
+      <td>-0.018307</td>
+      <td>0.277838</td>
+      <td>-0.110474</td>
+      <td>0.066928</td>
+      <td>0.128539</td>
+      <td>-0.189115</td>
+      <td>0.133558</td>
+      <td>-0.021053</td>
+      <td>149.62</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>1.191857</td>
+      <td>0.266151</td>
+      <td>0.166480</td>
+      <td>0.448154</td>
+      <td>0.060018</td>
+      <td>-0.082361</td>
+      <td>-0.078803</td>
+      <td>0.085102</td>
+      <td>-0.255425</td>
+      <td>-0.166974</td>
+      <td>1.612727</td>
+      <td>1.065235</td>
+      <td>0.489095</td>
+      <td>-0.143772</td>
+      <td>0.635558</td>
+      <td>0.463917</td>
+      <td>-0.114805</td>
+      <td>-0.183361</td>
+      <td>-0.145783</td>
+      <td>-0.069083</td>
+      <td>-0.225775</td>
+      <td>-0.638672</td>
+      <td>0.101288</td>
+      <td>-0.339846</td>
+      <td>0.167170</td>
+      <td>0.125895</td>
+      <td>-0.008983</td>
+      <td>0.014724</td>
+      <td>2.69</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>-1.358354</td>
+      <td>-1.340163</td>
+      <td>1.773209</td>
+      <td>0.379780</td>
+      <td>-0.503198</td>
+      <td>1.800499</td>
+      <td>0.791461</td>
+      <td>0.247676</td>
+      <td>-1.514654</td>
+      <td>0.207643</td>
+      <td>0.624501</td>
+      <td>0.066084</td>
+      <td>0.717293</td>
+      <td>-0.165946</td>
+      <td>2.345865</td>
+      <td>-2.890083</td>
+      <td>1.109969</td>
+      <td>-0.121359</td>
+      <td>-2.261857</td>
+      <td>0.524980</td>
+      <td>0.247998</td>
+      <td>0.771679</td>
+      <td>0.909412</td>
+      <td>-0.689281</td>
+      <td>-0.327642</td>
+      <td>-0.139097</td>
+      <td>-0.055353</td>
+      <td>-0.059752</td>
+      <td>378.66</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>-0.966272</td>
+      <td>-0.185226</td>
+      <td>1.792993</td>
+      <td>-0.863291</td>
+      <td>-0.010309</td>
+      <td>1.247203</td>
+      <td>0.237609</td>
+      <td>0.377436</td>
+      <td>-1.387024</td>
+      <td>-0.054952</td>
+      <td>-0.226487</td>
+      <td>0.178228</td>
+      <td>0.507757</td>
+      <td>-0.287924</td>
+      <td>-0.631418</td>
+      <td>-1.059647</td>
+      <td>-0.684093</td>
+      <td>1.965775</td>
+      <td>-1.232622</td>
+      <td>-0.208038</td>
+      <td>-0.108300</td>
+      <td>0.005274</td>
+      <td>-0.190321</td>
+      <td>-1.175575</td>
+      <td>0.647376</td>
+      <td>-0.221929</td>
+      <td>0.062723</td>
+      <td>0.061458</td>
+      <td>123.50</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>-1.158233</td>
+      <td>0.877737</td>
+      <td>1.548718</td>
+      <td>0.403034</td>
+      <td>-0.407193</td>
+      <td>0.095921</td>
+      <td>0.592941</td>
+      <td>-0.270533</td>
+      <td>0.817739</td>
+      <td>0.753074</td>
+      <td>-0.822843</td>
+      <td>0.538196</td>
+      <td>1.345852</td>
+      <td>-1.119670</td>
+      <td>0.175121</td>
+      <td>-0.451449</td>
+      <td>-0.237033</td>
+      <td>-0.038195</td>
+      <td>0.803487</td>
+      <td>0.408542</td>
+      <td>-0.009431</td>
+      <td>0.798278</td>
+      <td>-0.137458</td>
+      <td>0.141267</td>
+      <td>-0.206010</td>
+      <td>0.502292</td>
+      <td>0.219422</td>
+      <td>0.215153</td>
+      <td>69.99</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="data-exploration">Data Exploration</h2>
+
+<pre><code class="language-python">#Distribution of the label column
+creditcardDF['Class'].value_counts()
+</code></pre>
+
+<pre><code>0    284315
+1       492
+Name: Class, dtype: int64
+</code></pre>
+
+<pre><code class="language-python">492 / (284315  + 492) #&lt;0.2 percent
+</code></pre>
+
+<pre><code>0.001727485630620034
+</code></pre>
+
+<pre><code class="language-python">creditcardDF.shape
+</code></pre>
+
+<pre><code>(284807, 31)
+</code></pre>
+
+<pre><code class="language-python">creditcardDF.isna().sum()#null checking
+</code></pre>
+
+<pre><code>Time      0
+V1        0
+V2        0
+V3        0
+V4        0
+V5        0
+V6        0
+V7        0
+V8        0
+V9        0
+V10       0
+V11       0
+V12       0
+V13       0
+V14       0
+V15       0
+V16       0
+V17       0
+V18       0
+V19       0
+V20       0
+V21       0
+V22       0
+V23       0
+V24       0
+V25       0
+V26       0
+V27       0
+V28       0
+Amount    0
+Class     0
+dtype: int64
+</code></pre>
+
+<pre><code class="language-python">
+
+sns.distplot(creditcardDF['Time'])
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f4f248509b0&gt;
+</code></pre>
+
+<p><img src="/post_img/fraud-risk-of-credit-card-detection/output_13_1.png" alt="png" /></p>
+
+<pre><code class="language-python">
+sns.distplot(creditcardDF['Amount'])
+</code></pre>
+
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f4f24066a90&gt;
+</code></pre>
+
+<p><img src="/post_img/fraud-risk-of-credit-card-detection/output_14_1.png" alt="png" /></p>
+
+<h2 id="data-processing">Data Processing</h2>
+
+<pre><code class="language-python">creditcardDF['Amount'] = np.log(creditcardDF['Amount'] + 1) # log transformation
+
+creditcardDF['Time'] = np.log(creditcardDF['Time'] + 1)
+
+normal = creditcardDF[creditcardDF['Class'] == 0]
+anomaly = creditcardDF[creditcardDF['Class'] == 1]
+
+train, test = train_test_split(normal, test_size=0.2, random_state=0)
+normal_valid, normal_test = train_test_split(test, test_size=0.5, random_state=0)#all normal/good
+anomaly_valid, anomaly_test = train_test_split(anomaly, test_size=0.5, random_state=0)#all anomaly/bad
+
+validation = pd.concat([normal_valid, anomaly_valid])#include both good and bad
+test = pd.concat([normal_test, anomaly_test])#include both good and bad
+
+
+print(validation.shape)
+print(test.shape)
+
+train = train.drop(columns = ['Class']).reset_index(drop= True)
+print(train.shape)
+</code></pre>
+
+<pre><code>(28677, 31)
+(28678, 31)
+(227452, 30)
+</code></pre>
+
+<pre><code class="language-python">featureNames = list(train.columns.values)#feature names only, no label
+valFeatures = validation[featureNames].reset_index(drop= True)#feature df only, no label
+testFeatures = test[featureNames].reset_index(drop= True)#feature df only, no label
+
+valLabel = validation['Class']#label df only
+testLabel = test['Class']#label df only
+
+
+</code></pre>
+
+<pre><code class="language-python">valFeatures.head()
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Time</th>
+      <th>V1</th>
+      <th>V2</th>
+      <th>V3</th>
+      <th>V4</th>
+      <th>V5</th>
+      <th>V6</th>
+      <th>V7</th>
+      <th>V8</th>
+      <th>V9</th>
+      <th>V10</th>
+      <th>V11</th>
+      <th>V12</th>
+      <th>V13</th>
+      <th>V14</th>
+      <th>V15</th>
+      <th>V16</th>
+      <th>V17</th>
+      <th>V18</th>
+      <th>V19</th>
+      <th>V20</th>
+      <th>V21</th>
+      <th>V22</th>
+      <th>V23</th>
+      <th>V24</th>
+      <th>V25</th>
+      <th>V26</th>
+      <th>V27</th>
+      <th>V28</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11.827043</td>
+      <td>-0.248023</td>
+      <td>1.259502</td>
+      <td>-0.993999</td>
+      <td>-1.587788</td>
+      <td>1.913462</td>
+      <td>-0.630270</td>
+      <td>1.958852</td>
+      <td>-0.659274</td>
+      <td>0.002373</td>
+      <td>0.718353</td>
+      <td>0.474332</td>
+      <td>0.297023</td>
+      <td>-0.025971</td>
+      <td>0.256813</td>
+      <td>-0.730278</td>
+      <td>-0.479395</td>
+      <td>-1.145347</td>
+      <td>0.234891</td>
+      <td>0.351396</td>
+      <td>0.396605</td>
+      <td>0.089915</td>
+      <td>0.896611</td>
+      <td>-0.367547</td>
+      <td>0.143515</td>
+      <td>-0.177558</td>
+      <td>0.025269</td>
+      <td>0.271419</td>
+      <td>-0.066416</td>
+      <td>0.920283</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10.809566</td>
+      <td>-1.614505</td>
+      <td>-0.970137</td>
+      <td>1.730517</td>
+      <td>-1.715497</td>
+      <td>-0.869271</td>
+      <td>-0.171355</td>
+      <td>1.216768</td>
+      <td>-0.031314</td>
+      <td>0.992762</td>
+      <td>-2.191051</td>
+      <td>-1.019348</td>
+      <td>0.600947</td>
+      <td>0.821185</td>
+      <td>-0.477250</td>
+      <td>0.612733</td>
+      <td>-0.092783</td>
+      <td>-0.664174</td>
+      <td>0.643702</td>
+      <td>-0.047904</td>
+      <td>0.831753</td>
+      <td>0.408654</td>
+      <td>0.630537</td>
+      <td>0.382848</td>
+      <td>-0.110627</td>
+      <td>0.906539</td>
+      <td>-0.618206</td>
+      <td>-0.026364</td>
+      <td>0.104561</td>
+      <td>5.874931</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>11.340380</td>
+      <td>1.106176</td>
+      <td>0.148096</td>
+      <td>0.424489</td>
+      <td>1.282916</td>
+      <td>-0.080275</td>
+      <td>0.146526</td>
+      <td>-0.007108</td>
+      <td>0.114953</td>
+      <td>-0.004731</td>
+      <td>0.033642</td>
+      <td>1.200830</td>
+      <td>1.342878</td>
+      <td>0.018898</td>
+      <td>0.217944</td>
+      <td>-0.819673</td>
+      <td>-0.536572</td>
+      <td>-0.000444</td>
+      <td>-0.509860</td>
+      <td>-0.081917</td>
+      <td>-0.148073</td>
+      <td>-0.042488</td>
+      <td>0.071593</td>
+      <td>-0.085294</td>
+      <td>0.032780</td>
+      <td>0.637894</td>
+      <td>-0.331179</td>
+      <td>0.036130</td>
+      <td>0.007639</td>
+      <td>2.866193</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>11.321208</td>
+      <td>-1.791995</td>
+      <td>1.102738</td>
+      <td>0.324217</td>
+      <td>1.082267</td>
+      <td>-0.303348</td>
+      <td>-1.050303</td>
+      <td>0.066270</td>
+      <td>0.613586</td>
+      <td>-0.720545</td>
+      <td>-0.232754</td>
+      <td>-0.741686</td>
+      <td>0.317251</td>
+      <td>0.404740</td>
+      <td>0.810007</td>
+      <td>0.990986</td>
+      <td>-0.069383</td>
+      <td>0.096501</td>
+      <td>0.143086</td>
+      <td>0.447363</td>
+      <td>-0.285331</td>
+      <td>0.151935</td>
+      <td>0.514245</td>
+      <td>0.290932</td>
+      <td>0.403345</td>
+      <td>-0.064118</td>
+      <td>-0.318054</td>
+      <td>0.021940</td>
+      <td>0.013401</td>
+      <td>3.432373</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>11.956784</td>
+      <td>1.924286</td>
+      <td>0.324362</td>
+      <td>-0.734639</td>
+      <td>3.370481</td>
+      <td>0.783552</td>
+      <td>1.224944</td>
+      <td>-0.298881</td>
+      <td>0.291717</td>
+      <td>-0.790152</td>
+      <td>1.592072</td>
+      <td>-0.561561</td>
+      <td>-0.101690</td>
+      <td>-0.249445</td>
+      <td>0.233490</td>
+      <td>-1.160360</td>
+      <td>1.566431</td>
+      <td>-1.480919</td>
+      <td>0.594003</td>
+      <td>-0.903739</td>
+      <td>-0.227395</td>
+      <td>-0.022543</td>
+      <td>-0.115448</td>
+      <td>0.143200</td>
+      <td>-0.357497</td>
+      <td>-0.109288</td>
+      <td>-0.105516</td>
+      <td>-0.025440</td>
+      <td>-0.050761</td>
+      <td>2.572612</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-python">validation['Class'].value_counts()
+</code></pre>
+
+<pre><code>0    28431
+1      246
+Name: Class, dtype: int64
+</code></pre>
+
+<pre><code class="language-python">test['Class'].value_counts()
+
+
+
+</code></pre>
+
+<pre><code>0    28432
+1      246
+Name: Class, dtype: int64
+</code></pre>
+
+<pre><code class="language-python">plt.figure()
+plt.title(&quot;train data of V1 and V2&quot;)#may contain outliers
+plt.xlabel(&quot;V1&quot;)
+plt.ylabel(&quot;V2&quot;)
+plt.plot(train.iloc[:, 1],train.iloc[:,2],&quot;bx&quot;)
+plt.show()
+
+
+
+</code></pre>
+
+<p><img src="/post_img/fraud-risk-of-credit-card-detection/output_20_0.png" alt="png" /></p>
+
+<pre><code class="language-python">plt.figure()
+plt.title(&quot;validation data of V1 and V2&quot;)
+plt.xlabel(&quot;V1&quot;)
+plt.ylabel(&quot;V2&quot;)
+plt.plot(validation.iloc[:, 1],validation.iloc[:,2],&quot;bx&quot;)
+plt.show()
+</code></pre>
+
+<p><img src="/post_img/fraud-risk-of-credit-card-detection/output_21_0.png" alt="png" /></p>
+
+<pre><code class="language-python">plt.figure()
+plt.title(&quot;test data of V1 and V2&quot;)
+plt.xlabel(&quot;V1&quot;)
+plt.ylabel(&quot;V2&quot;)
+plt.plot(test.iloc[:, 1],test.iloc[:,2],&quot;bx&quot;)
+plt.show()
+</code></pre>
+
+<p><img src="/post_img/fraud-risk-of-credit-card-detection/output_22_0.png" alt="png" /></p>
+
+<pre><code class="language-python">np.arange(1, 20, 2)
+</code></pre>
+
+<pre><code>array([ 1,  3,  5,  7,  9, 11, 13, 15, 17, 19])
+</code></pre>
+
+<pre><code class="language-python">#find parameter for each col in df for the Gaussian distribution
+# def estimateGaussian(dataset):
+    # return mu, sigma
+#Return evenly spaced numbers over a specified interval.
+np.linspace(1, 21,10, endpoint = False)
+</code></pre>
+
+<pre><code>array([ 1.,  3.,  5.,  7.,  9., 11., 13., 15., 17., 19.])
+</code></pre>
+
+<h2 id="model-training-and-selection">Model Training and Selection</h2>
+
+<h3 id="model-training">Model Training</h3>
+
+<p>Outlier detection based on Gaussian Distribution</p>
+
+<pre><code class="language-python">#step 1: training
+mu, sigma = estimateGaussian(train)
+
+#generate The probability density function/curve/surface/model for multivariate_normal given mean and cov 
+model = multivariate_normal(mean=mu, cov=sigma, allow_singular = True)#surface hat
+
+</code></pre>
+
+<pre><code class="language-python">
+pdfVal = model.pdf(valFeatures)
+print(max(pdfVal))#too small
+print(min(pdfVal))
+
+p_val = model.logpdf(valFeatures)#Log of the pdf first, then apply to features
+print(max(p_val))#
+print(min(p_val))
+</code></pre>
+
+<pre><code>3.936022689247968e-12
+0.0
+-26.26085037221045
+-7554.270217704667
+</code></pre>
+
+<pre><code class="language-python">p = model.logpdf(train)
+print(p.shape)
+print((p_val.shape))
+
+# print(p)
+
+</code></pre>
+
+<pre><code>(227452,)
+(28677,)
+</code></pre>
+
+<pre><code class="language-python">print(p_val)
+print(p_val &lt; -500)
+</code></pre>
+
+<pre><code>[  -31.28574735   -34.94205051   -27.79402451 ... -5175.93656039
+ -4545.5057626    -29.7152192 ]
+[False False False ...  True  True False]
+</code></pre>
+
+<h3 id="cv-on-parameter-selection">CV on Parameter Selection</h3>
+
+<pre><code class="language-python">
+
+scores = []
+p_val = model.logpdf(valFeatures)#Log of the pdf
+
+# thresholds = np.linspace(-1000, -10,150)
+thresholds = np.linspace(min(p_val), max(p_val),200)
+
+#step 2: CV to find optimal threshold bestThreshold
+for threshold in thresholds:
+  y_pred = (p_val &lt; threshold).astype(int)# list of 0 and 1
+  #calculate recall, precision and f1 for each (truth, pred) pair to be used
+  scores.append([recall_score(valLabel, y_pred),
+                 precision_score(valLabel, y_pred),
+                 f1_score(valLabel, y_pred, average = &quot;binary&quot;)])
+
+scores = np.array(scores)
+maxIndex = scores[...,2].ravel().argmax()#maxIndex of the column 2(f1_score) #111
+bestThreshold = thresholds[maxIndex]
+print(scores.shape)
+</code></pre>
+
+<pre><code>(200, 3)
+</code></pre>
+
+<pre><code class="language-python">print(scores)
+</code></pre>
+
+<pre><code>[[0.         0.         0.        ]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.00406504 1.         0.00809717]
+ [0.01626016 1.         0.032     ]
+ [0.01626016 1.         0.032     ]
+ [0.01626016 1.         0.032     ]
+ [0.01626016 1.         0.032     ]
+ [0.01626016 1.         0.032     ]
+ [0.01626016 1.         0.032     ]
+ [0.01626016 1.         0.032     ]
+ [0.0203252  1.         0.03984064]
+ [0.0203252  1.         0.03984064]
+ [0.0203252  1.         0.03984064]
+ [0.0203252  1.         0.03984064]
+ [0.0203252  1.         0.03984064]
+ [0.0203252  1.         0.03984064]
+ [0.02439024 1.         0.04761905]
+ [0.02845528 1.         0.05533597]
+ [0.03658537 1.         0.07058824]
+ [0.04471545 1.         0.08560311]
+ [0.04471545 1.         0.08560311]
+ [0.04471545 1.         0.08560311]
+ [0.05284553 1.         0.1003861 ]
+ [0.09756098 1.         0.17777778]
+ [0.12601626 1.         0.22382671]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.1300813  1.         0.23021583]
+ [0.13414634 1.         0.23655914]
+ [0.15853659 1.         0.27368421]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.17479675 1.         0.29757785]
+ [0.22764228 1.         0.37086093]
+ [0.22764228 1.         0.37086093]
+ [... ...         ...]]
+</code></pre>
+
+<pre><code class="language-python">print(maxIndex)
+print(bestThreshold)
+</code></pre>
+
+<pre><code>193
+-253.2360071762041
+</code></pre>
+
+<pre><code class="language-python">np.mean(train.iloc[:,1])
+</code></pre>
+
+<pre><code>0.005246755420062154
+</code></pre>
+
+<pre><code class="language-python">mu[1]
+</code></pre>
+
+<pre><code>0.005246755420062154
+</code></pre>
+
+<pre><code class="language-python">print(mu)
+# print(sigma)
+
+
+
+</code></pre>
+
+<pre><code>Time      11.252384
+V1         0.005247
+V2        -0.005416
+V3         0.010293
+V4        -0.008144
+V5         0.004281
+V6         0.001813
+V7         0.010354
+V8        -0.001103
+V9         0.006351
+V10        0.009573
+V11       -0.007736
+V12        0.009943
+V13        0.001084
+V14        0.010816
+V15        0.001082
+V16        0.007216
+V17        0.012364
+V18        0.003412
+V19       -0.001811
+V20       -0.001092
+V21       -0.001302
+V22       -0.000354
+V23        0.000209
+V24        0.000288
+V25        0.000375
+V26        0.000457
+V27       -0.000509
+V28       -0.000119
+Amount     3.152259
+dtype: float64
+</code></pre>
+
+<h3 id="validation-on-test-data">Validation on Test data</h3>
+
+<pre><code class="language-python">#performance on test data
+#step 3: prediction on test data
+y_test_pred_raw = model.logpdf(testFeatures)
+y_pred_test = y_test_pred_raw &lt; bestThreshold
+
+f1_score(testLabel, y_pred_test, average = &quot;binary&quot;)
+</code></pre>
+
+<pre><code>0.7401574803149606
+</code></pre>
+
+<pre><code class="language-python">y_pred_test
+</code></pre>
+
+<pre><code>array([False, False, False, ...,  True, False,  True])
+</code></pre>
+
+<pre><code class="language-python">#index of predicted outliers in test data
+predoutliersTest = np.asarray(np.where(y_pred_test))
+
+len(predoutliersTest[0])
+</code></pre>
+
+<pre><code>262
+</code></pre>
+
+<pre><code class="language-python">predoutliersTest
+</code></pre>
+
+<pre><code>array([[  248,   437,   605,  1007,  1353,  1451,  1462,  1546,  1988,
+         2461,  3674,  3928,  4216,  4928,  5144,  5846,  5975,  6022,
+         6682,  6706,  6858,  7017,  7138,  8267,  8452,  8611,  8677,
+         8936,  8996,  9207,  9443,  9807,  9988, 10263, 10391, 10657,
+        11224, 12205, 13539, 13935, 14050, 14573, 14579, 14802, 14869,
+        15740, 16061, 16888, 17322, 17663, 19352, 19902, 20680, 20800,
+        21748, 22366, 22552, 22859, 23217, 23456, 23742, 24639, 24819,
+        25654, 25678, 26035, 27282, 27293, 27314, 27587, 27723, 28117,
+        28178, 28396, 28432, 28433, 28434, 28435, 28436, 28437, 28438,
+        28440, 28443, 28444, 28445, 28446, 28447, 28449, 28450, 28453,
+        28454, 28455, 28456, 28457, 28458, 28459, 28460, 28461, 28462,
+        28463, 28464, 28465, 28466, 28467, 28468, 28469, 28470, 28471,
+        28472, 28473, 28475, 28479, 28480, 28481, 28482, 28483, 28484,
+        28486, 28487, 28490, 28492, 28493, 28494, 28496, 28497, 28498,
+        28499, 28500, 28501, 28502, 28503, 28505, 28506, 28507, 28508,
+        28510, 28511, 28512, 28513, 28517, 28521, 28523, 28525, 28526,
+        28527, 28528, 28529, 28530, 28531, 28532, 28536, 28538, 28539,
+        28540, 28542, 28543, 28544, 28546, 28547, 28549, 28550, 28551,
+        28552, 28553, 28554, 28555, 28556, 28558, 28559, 28560, 28561,
+        28562, 28564, 28565, 28566, 28567, 28568, 28570, 28572, 28574,
+        28575, 28576, 28577, 28578, 28579, 28580, 28581, 28583, 28584,
+        28585, 28586, 28588, 28589, 28591, 28592, 28594, 28596, 28598,
+        28599, 28600, 28601, 28602, 28603, 28604, 28605, 28606, 28607,
+        28609, 28610, 28612, 28615, 28617, 28618, 28619, 28620, 28621,
+        28622, 28623, 28625, 28626, 28628, 28629, 28630, 28631, 28632,
+        28633, 28636, 28637, 28638, 28639, 28640, 28641, 28642, 28643,
+        28645, 28646, 28647, 28648, 28649, 28650, 28651, 28652, 28653,
+        28654, 28656, 28657, 28658, 28659, 28660, 28661, 28662, 28663,
+        28664, 28666, 28669, 28670, 28671, 28672, 28673, 28674, 28675,
+        28677]])
+</code></pre>
+
+<pre><code class="language-python">#outliers identified on test data feature column V1 V2
+plt.figure()
+plt.title(&quot;test_data with outlier flaged red&quot;)
+plt.xlabel(&quot;V1&quot;)
+plt.ylabel(&quot;V2&quot;)
+plt.plot(testFeatures.iloc[:, 1],testFeatures.iloc[:,2],&quot;bx&quot;)#plot v1 v2 as blue cross
+plt.plot(testFeatures.iloc[predoutliersTest[0],0],testFeatures.iloc[predoutliersTest[0],1],&quot;ro&quot;)#re-plot the outliers as red dots
+plt.show()
+</code></pre>
+
+<p><img src="/post_img/fraud-risk-of-credit-card-detection/output_40_0.png" alt="png" /></p>
+
+<pre><code class="language-python">#outliers identified on test data feature column V2 V3
+plt.figure()
+plt.title(&quot;test_data with outlier flaged red&quot;)
+plt.xlabel(&quot;V2&quot;)
+plt.ylabel(&quot;V3&quot;)
+plt.plot(testFeatures.iloc[:, 2],testFeatures.iloc[:,3],&quot;bx&quot;)
+plt.plot(testFeatures.iloc[predoutliersTest[0],0],testFeatures.iloc[predoutliersTest[0],1],&quot;ro&quot;)
+plt.show()
+</code></pre>
+
+<p><img src="/post_img/fraud-risk-of-credit-card-detection/output_41_0.png" alt="png" /></p>
+
+<pre><code class="language-python"># generate evaluation metrics
+# print helper function
+# def
+</code></pre>
+
+<pre><code>accuracy_score is: : 0.9953971685612665
+roc_auc_score is: : 0.03898289914947546
+f1_score is: : 0.7401574803149606
+confusion_matrix is: 
+        pred_0  pred_1
+true_0   28358      74
+true_1      58     188
+recall = 0.7642276422764228
+precision = 0.7175572519083969
+</code></pre>
+
+<h2 id="notices">Notices</h2>
+
+<p>We can apply supervised learning on this data too, but performance may not be good. Also, we can try use the output prob as an additional input feature of the supervised learning model, and see if it improved the model performance.</p>
+
+                
+                
+<div class="entry-shang text-center">
+    
+	    <p>「真诚赞赏，手留余香」</p>
+	
+	<button class="zs show-zs btn btn-bred">赞赏支持</button>
+</div>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://shichushi.com"><img src="/img/favicon.png" />Chace&#39;s Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/02/01/demand-prediction/" data-toggle="tooltip" data-placement="top" title="Supply Chain Demand Forecasting and Data Management">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/07/01/urban-vibrancy-and-safety-analysis-in-philadelphia-ts/" data-toggle="tooltip" data-placement="top" title="Urban Vibrancy and Safety Analysis in Philadelphia-TimeSeries">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+<div id="disqus-comment"></div>
+
+
+
+            </div>
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/bigdata-analysis" title="Bigdata Analysis">
+                            Bigdata Analysis
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/data-analysis" title="Data Analysis">
+                            Data Analysis
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/fraud-detection" title="Fraud Detection">
+                            Fraud Detection
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/machine-learning" title="Machine Learning">
+                            Machine Learning
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/r-shiny" title="R-shiny">
+                            R-shiny
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="/tags/spark" title="Spark">
+                            Spark
+                        </a>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                   
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Chace&#39;s Blog" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fa fa-circle fa-stack-2x"></i>
+                               <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+                   
+                    
+                    <li>
+                        <a href="mailto:cshi46@wisc.edu">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+
+                    
+
+		    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Chauncey315">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/chushishi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		    
+                    
+                    
+                    
+                    
+                    
+            
+                </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Chace&#39;s Blog 2020. All rights reserved.
+                    <br>
+                    采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处
+                    <br>
+                    Powered by <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        async("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    async("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+    </script>
+    
+
+</body>
+</html>

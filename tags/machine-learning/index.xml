@@ -6,10 +6,19 @@
     <description>Recent content in Machine Learning on Chace&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 02 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://shichushi.com/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fraud Risk of Credit Card Detection</title>
+      <link>https://shichushi.com/2019/03/02/fraud-risk-of-credit-card-detection/</link>
+      <pubDate>Sat, 02 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://shichushi.com/2019/03/02/fraud-risk-of-credit-card-detection/</guid>
+      <description>&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Supply Chain Demand Forecasting and Data Management</title>
